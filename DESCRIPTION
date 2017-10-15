@@ -14,13 +14,15 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
 Depends:
     ggplot2,
-    broom
+    broom,
+    R (>= 2.10)
 Imports: 
     rsample,
     tidyr,
     dplyr,
     rstanarm,
     rlang,
-    utils
+    utils,
+    purrr
 Suggests: 
     knitr
