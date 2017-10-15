@@ -12,6 +12,9 @@ LazyData: true
 ByteCompile: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
+Depends:
+    ggplot2,
+    broom
 Imports: 
     rsample,
     tidyr,
