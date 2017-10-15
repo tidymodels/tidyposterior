@@ -2,7 +2,7 @@
 % Please edit documentation in R/posteriors.R
 \name{summary.posterior}
 \alias{summary.posterior}
-\title{Summarize the Posterior Distirbutions of Model Statistics}
+\title{Summarize the Posterior Distributions of Model Statistics}
 \usage{
 \method{summary}{posterior}(object, prob = 0.9, ...)
 }

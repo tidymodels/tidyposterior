@@ -2,7 +2,7 @@
 % Please edit documentation in R/posteriors.R
 \name{ggplot.posterior}
 \alias{ggplot.posterior}
-\title{Visualize the Posterior Distirbutions of Model Statistics}
+\title{Visualize the Posterior Distributions of Model Statistics}
 \usage{
 \method{ggplot}{posterior}(data, mapping = NULL, ..., environment = NULL,
   reorder = TRUE)
@@ -13,7 +13,7 @@
 \item{mapping, ..., environment}{Not currently used.}
 
 \item{reorder}{A logical; should the \code{model} column be reordered
-by the average of the posterior distirbution?}
+by the average of the posterior distribution?}
 }
 \value{
 A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.

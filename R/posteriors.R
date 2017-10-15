@@ -24,7 +24,7 @@ tidy.Bayes_resample <- function(x, ...) {
   post_dat
 }
 
-#' Summarize the Posterior Distirbutions of Model Statistics
+#' Summarize the Posterior Distributions of Model Statistics
 #' 
 #' Numerical summaries are created for each model including the
 #'  posterior mean and upper and lower credible intervals (aka
@@ -50,14 +50,14 @@ summary.posterior <- function(object, prob = 0.90, ...) {
 }
 
 
-#' Visualize the Posterior Distirbutions of Model Statistics
+#' Visualize the Posterior Distributions of Model Statistics
 #' 
 #' A simple violin plot is created by the function.
 #'
 #' @param data An object produced by [tidy.Bayes_resample()]. 
 #' @param mapping,...,environment Not currently used. 
 #' @param reorder A logical; should the `model` column be reordered
-#'  by the average of the posterior distirbution? 
+#'  by the average of the posterior distribution? 
 #' @return A [ggplot2::ggplot()] object. 
 #' @export
 #' @importFrom ggplot2 ggplot geom_violin xlab ylab
