@@ -67,6 +67,9 @@ Bayes_resample.rset <-
     
     model_names <- unique(as.character(resamples$model))
     
+    ## option to fit common variance or model-specific with (model | id)
+    ## see http://rpubs.com/bbolker/6298
+    
     mod <- stan_glmer(statistic ~  model + (1 | id), data = resamples, ...)
     
     res <- list(Bayes_mod = mod,
