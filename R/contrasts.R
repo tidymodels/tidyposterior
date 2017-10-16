@@ -45,6 +45,14 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL) {
 #' @param ... Not currently used
 #' @return A data frame with interval and ROPE statistics for each
 #'  comparison. 
+#' @details The ROPE estimates included in the results are the
+#'  columns `pract_neg`, `pract_equiv`, and `pract_pos`. `pract_neg`
+#'  integrates the portion of the posterior below `-size` (and
+#'  `pract_pos` is the upper integral starting at `size`). The
+#'  interpretation depends on whether the metric being analyzed is
+#'  better when larger or smaller. `pract_equiv` integrates between
+#'  `[-size, size]`. If this is close to one, the two models are
+#'  unlikely to be practically different relative to `size`.
 #' @export
 #' @importFrom dplyr mutate rename group_by summarise full_join %>%
 summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
@@ -63,16 +71,16 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
     rope_stats <- object %>% 
       dplyr::group_by(contrast) %>% 
       dplyr::summarise(size = size, 
-                       rope_lower = mean(posterior < -size),
-                       rope_interval = mean(posterior >= -size & posterior <= size),
-                       rope_upper = mean(posterior > size))
+                       pract_neg = mean(posterior < -size),
+                       pract_equiv = mean(posterior >= -size & posterior <= size),
+                       pract_pos = mean(posterior > size))
   } else 
     rope_stats <- object %>% 
     dplyr::group_by(contrast) %>% 
     dplyr::summarise(size = size, 
-                     rope_lower = NA,
-                     rope_interval = NA,
-                     rope_upper = NA)
+                     pract_neg = NA,
+                     pract_equiv = NA,
+                     pract_pos = NA)
   dplyr::full_join(post_stats, rope_stats, by = c("contrast")) 
 }
 
@@ -114,7 +122,8 @@ make_diffs <- function(spec, obj, trans) {
   res_2 <- trans$inv(res_2[,1])
   res <- data.frame(difference = res_1 - res_2,
                     model_1 = as.character(spec$model[1]),
-                    model_2 = as.character(spec$model[2]))
+                    model_2 = as.character(spec$model[2]),
+                    stringsAsFactors = FALSE)
   res
 }
 

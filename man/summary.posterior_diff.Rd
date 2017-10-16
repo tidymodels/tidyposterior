@@ -27,3 +27,13 @@ Credible intervals are created for the differences. Also,
 region of practical equivalence (ROPE) statistics are computed
 when the effective size of a difference is given.
 }
+\details{
+The ROPE estimates included in the results are the
+columns \code{pract_neg}, \code{pract_equiv}, and \code{pract_pos}. \code{pract_neg}
+integrates the portion of the posterior below \code{-size} (and
+\code{pract_pos} is the upper integral starting at \code{size}). The
+interpretation depends on whether the metric being analyzed is
+better when larger or smaller. \code{pract_equiv} integrates between
+\code{[-size, size]}. If this is close to one, the two models are
+unlikely to be practically different relative to \code{size}.
+}
