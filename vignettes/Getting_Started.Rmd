@@ -20,17 +20,15 @@ if(!eval_chunks)
 
 ```{r load, include = FALSE, message = FALSE, warning = FALSE, eval = eval_chunks}
 library(tidyposterior)
-library(rsample)
 library(ggplot2)
 library(tidyverse)
-library(sessioninfo)
 theme_set(theme_bw())
 options(width = 100, digits = 3)
 ```
 
 The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clean. For the area under the ROC curve:
 
-```{r roc-data, eval = eval_chunks}
+```{r roc-data, eval = eval_chunks, svg = TRUE}
 library(tidyposterior)
 data("precise_example")
 
@@ -71,7 +69,7 @@ The `stan_glmer` model is contained in the element `roc_model$Bayes_mod`:
 roc_model$Bayes_mod
 ```
 
-To evaluate the validity of this fit, the `shinystan` package can be used to generate an interactive assessment of the model results. One other thing that we can do it to examine the posterior distributions to see if they make sense in terms of the range of values.
+To evaluate the validity of this fit, the [`shinystan`](http://mc-stan.org/users/interfaces/shinystan) package can be used to generate an interactive assessment of the model results. One other thing that we can do it to examine the posterior distributions to see if they make sense in terms of the range of values.
 
 ## Getting the Posterior Distributions
 
@@ -84,7 +82,7 @@ head(roc_post)
 
 There is a basic `ggplot` method for this object and we can overlay the observed statistics for each model:
 
-```{r linear-model-post-plot, eval = eval_chunks}
+```{r linear-model-post-plot, eval = eval_chunks, svg = TRUE}
 ggplot(roc_post) + 
   # Add the observed data to check for consistency 
   geom_point(
@@ -115,7 +113,7 @@ The `probability` column indicates the proportion of the posterior distribution 
 
 Before discussing the ROPE estimates, let's plot the posterior distribution of the differences:
 
-```{r glm-v-nnet-plot, eval = eval_chunks}
+```{r glm-v-nnet-plot, eval = eval_chunks, svg = TRUE}
 ggplot(glm_v_nnet, size = 0.02)
 ```
 

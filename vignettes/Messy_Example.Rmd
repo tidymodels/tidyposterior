@@ -21,19 +21,16 @@ if(!eval_chunks)
 
 ```{r load, include = FALSE, message = FALSE, warning = FALSE, eval = eval_chunks}
 library(tidyposterior)
-library(rsample)
 library(ggplot2)
 library(tidyverse)
-library(sessioninfo)
 theme_set(theme_bw())
 options(width = 100, digits = 3)
 ```
 
-## A More Complex Example
 
 The data set `noisy_example` contains the results for a series of regression models that were created from a small dataset with considerable variability. For resampling, 10 repeats of 10-fold cross-validation were used to estimate performance. We will compare models using the root mean squared error (RMSE) metric.  
 
-```{r rmse-results, eval = eval_chunks}
+```{r rmse-results, eval = eval_chunks, svg = TRUE}
 library(tidyposterior)
 data("noisy_example")
 
@@ -54,9 +51,9 @@ ggplot(stacked_rmse, aes(x = Model, y = RMSE, group = id, col = id)) +
   geom_line(alpha = .75) + 
   theme(legend.position = "none")
 
-ggplot(stacked_rmse, aes(x = Model, y = RMSE)) + 
-  geom_violin(alpha = .75) + 
-  theme(legend.position = "none")
+ggplot(stacked_rmse, aes(col = Model, x = RMSE)) + 
+  geom_line(stat = "density", trim = FALSE) + 
+  theme(legend.position = "top")
 ```
 
 A few observations about these data:
@@ -70,7 +67,7 @@ A few observations about these data:
 
 Based on these observations, a simple Guassian model is unlikely to work. However, we can try to fit this model and assess the fit. 
 
-```{r linear-linear, eval = eval_chunks}
+```{r linear-linear, eval = eval_chunks, svg = TRUE}
 class(rmses) <- c("rset", class(rmses))
 linear_model <- Bayes_resample(rmses, seed = 74)
 
@@ -89,7 +86,7 @@ Here, we see that the posterior distributions do not have a consistent range wit
 Another approach is to transform the RMSE values to something model symmetric and model the data on a different scale. After the posterior distributions are computed, the inverse transformation can be applied to put the results back into the original units. A log transform will be used here using the built-in object `ln_trans`:
 
 
-```{r log-linear, eval = eval_chunks}
+```{r log-linear, eval = eval_chunks, svg = TRUE}
 log_linear_model <- Bayes_resample(rmses, transform = ln_trans, seed = 74)
 
 ggplot(tidy(log_linear_model)) + 
@@ -110,7 +107,7 @@ It might make sense to use a probability model that is consistent with the chara
 
 To fit this model, the `family` argument to `stan_glmer` can be passed in. The default link is the inverse and no extra transformation will be used. 
 
-```{r gamma, eval = eval_chunks}
+```{r gamma, eval = eval_chunks, svg = TRUE}
 gamma_model <- Bayes_resample(rmses, family = Gamma(), seed = 74)
 
 ggplot(tidy(gamma_model)) + 
@@ -125,7 +122,7 @@ Although it takes more time to converge, this seems like a much more reasonable 
 
 We can do all pair-wise combinations to compare models:
 
-```{r gamma-contrast, eval = eval_chunks}
+```{r gamma-contrast, eval = eval_chunks, svg = TRUE}
 combos <- combn(gamma_model$names, 2)
 combos
 all_contrasts <- contrast_models(gamma_model, combos[1,], combos[2,])
