@@ -1,0 +1,33 @@
+template:
+  params:
+    bootswatch: united
+
+reference:
+  - title: Bayessian Analysis of Resampling Results
+    contents:
+      - Bayes_resample
+      - tidy.Bayes_resample
+      - contrast_models
+      - matches("summary")
+      - matches("ggplot")
+      - no_trans
+      - logit_trans
+      - ln_trans
+      - inv_trans
+      - Fisher_trans
+
+  - title: Data
+    contents:
+      - precise_example   
+      - noisy_example
+      - concrete_example 
+
+navbar:
+  left:  
+  - text: Getting Started
+    href: articles/Getting_Started.html    
+  - text: A Messy Example
+    href: articles/Messy_Example.html         
+  - text: Reference
+    href: reference/index.html
+

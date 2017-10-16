@@ -1,0 +1,113 @@
+---
+title: "Getting Started"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Getting Started}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
+
+```{r load, message = FALSE, warning = FALSE}
+library(tidyposterior)
+library(rsample)
+library(ggplot2)
+library(tidyverse)
+library(sessioninfo)
+theme_set(theme_bw())
+options(width = 100, digits = 3)
+```
+
+The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clean. For the area under the ROC curve:
+
+```{r roc-data}
+library(tidyposterior)
+data("precise_example")
+
+library(tidyverse)
+
+rocs <- precise_example %>%
+   select(id, contains("ROC")) %>%
+   setNames(tolower(gsub("_ROC$", "", names(.)))) 
+rocs
+
+library(ggplot2)
+
+rocs_stacked <- rocs %>%
+  gather(key = Model, value = ROC, -id)
+
+ggplot(rocs_stacked, aes(x = Model, y = ROC, group = id, col = id)) + 
+  geom_line(alpha = .75) + 
+  theme(legend.position = "none")
+```
+
+Since the lines are fairly parallel, there is likely to be a strong resample-to-resample effect. Note that the variation is fairly small; the within-model results don't vary a lot and are not near the ceiling of performance (i.e. an AUC of one). It also seems pretty clear that the models are producing different levels of performance, but we'll use this package to clarify this. Finally, there seems to be roughly equal variation for each model despite the difference in performance. 
+
+If `rocs` were produced by the `rsample` package it is ready to use with `tidyposterior`, which has a method for `rset` objects. 
+
+## A Basic Linear Model
+
+We will try a simple linear model with Gaussian errors that has a random effect for the resamples so that the within-resample correlation can be estimated. Although the outcome is bounded in the interval [0,1], the variability of these estimates might be precise enough to achieve a well-fitting model. 
+
+To fit the model, `Bayes_resample` will be used to fit a model using the `stan_glmer` function in the `rstanarm` package: 
+
+```{r linear-model}
+roc_model <- Bayes_resample(rocs, seed = 2824)
+```
+
+The `stan_glmer` model is contained in the element `roc_model$Bayes_mod`:
+
+```{r linear-model-results}
+roc_model$Bayes_mod
+```
+
+To evaluate the validity of this fit, the `shinystan` package can be used to generate an interactive assessment of the model results. One other thing that we can do it to examine the posterior distributions to see if they make sense in terms of the range of values.
+
+## Getting the Posterior Distributions
+
+The `tidy` function can be used to extract the distributions into a simple data frame: 
+
+```{r linear-model-post}
+roc_post <- tidy(roc_model)
+head(roc_post)
+```
+
+There is a basic `ggplot` method for this object and we can overlay the observed statistics for each model:
+
+```{r linear-model-post-plot}
+ggplot(roc_post) + 
+  # Add the observed data to check for consistency 
+  geom_point(
+    data = rocs_stacked, 
+    aes(x = Model, y = ROC), 
+    alpha = .5
+  )
+```
+
+These results look fairly reasonable given that we estimated a constance variance for each of the models. 
+
+## Comparing Models
+
+We'll compare the generalized linear model with the neural network. Before doing so, it helps to specify what a real difference between models would be. Suppose that a 2% increase in accuracy was considered to be a substantive results. We can add this into the analysis. 
+
+First, we can compute the posterior for the difference in RMSE for the two models (parameterized as `nnet`-`glm`):
+
+```{r glm-v-nnet}
+glm_v_nnet <- contrast_models(roc_model, "nnet", "glm")
+head(glm_v_nnet)
+```
+The `summary` function can be used to quantify this difference. It has an argument called `size` where we can add our belief about the size of a true difference. 
+
+```{r glm-v-nnet-summary}
+summary(glm_v_nnet, size = 0.02)
+```
+The `probability` column indicates the proportion of the posterior distribution that is greater than zero This value indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models. 
+
+Before discussing the ROPE estimates, let's plot the posterior distribution of the differences:
+
+```{r glm-v-nnet-plot}
+ggplot(glm_v_nnet, size = 0.02)
+```
+
+The column `pract_neg` reflects the area where the posterior distribution is _less_ than -2%. Similarly, the `pract_pos` shows that most of the area is greater than 2% which leads us to believe that this is a truly a substantial difference in performance. The `pract_equiv` reflects how much of the posterior is between [-2%, 2%]. If this were near one, it might indicate that the models are not practically different (based on the yardstick of 2%). 
+

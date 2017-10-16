@@ -1,0 +1,126 @@
+
+---
+title: "A Messy Example"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{A Messy Example}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
+
+```{r load, message = FALSE, warning = FALSE}
+library(tidyposterior)
+library(rsample)
+library(ggplot2)
+library(tidyverse)
+library(sessioninfo)
+theme_set(theme_bw())
+options(width = 100, digits = 3)
+```
+
+## A More Complex Example
+
+The data set `noisy_example` contains the results for a series of regression models that were created from a small dataset with considerable variability. For resampling, 10 repeats of 10-fold cross-validation were used to estimate performance. We will compare models using the root mean squared error (RMSE) metric.  
+
+```{r rmse-results}
+library(tidyposterior)
+data("noisy_example")
+
+library(tidyverse)
+
+rmses <- noisy_example %>%
+   select(id, id2, contains("RMSE")) %>%
+   setNames(tolower(gsub("_RMSE$", "", names(.)))) %>%
+  mutate(id = paste(id2, id, sep = "_")) %>%
+  select(-id2)
+
+stacked_rmse <- rmses %>%
+  gather(Model, RMSE, -id)
+
+library(ggplot2)
+
+ggplot(stacked_rmse, aes(x = Model, y = RMSE, group = id, col = id)) + 
+  geom_line(alpha = .75) + 
+  theme(legend.position = "none")
+
+ggplot(stacked_rmse, aes(x = Model, y = RMSE)) + 
+  geom_violin(alpha = .75) + 
+  theme(legend.position = "none")
+```
+
+A few observations about these data:
+
+ * The RMSE values vary 5-fold over the resampling results
+ * Many of the lines cross, indicating that the resample-to-resample variability might be larger than the model-to-model variability. 
+ * The violin plots show right-skewed distributions that, given the variability, are approaching the asymptote of zero. 
+
+
+## A First Model
+
+Based on these observations, a simple Guassian model is unlikely to work. However, we can try to fit this model and assess the fit. 
+
+```{r linear-linear}
+class(rmses) <- c("rset", class(rmses))
+linear_model <- Bayes_resample(rmses, seed = 74)
+
+ggplot(tidy(linear_model)) + 
+  geom_point(
+    data = stacked_rmse, 
+    aes(x = Model, y = RMSE),
+    alpha = .2
+  )
+```
+
+Here, we see that the posterior distributions do not have a consistent range with the observed data and that one of the distributions has values less than zero. Also, we might expect that this distributions should be somewhat skewed. This approach did not appear to work well, mostly because of the high variability in the results. 
+
+## Transforming the Data
+
+Another approach is to transform the RMSE values to something model symmetric and model the data on a different scale. After the posterior distributions are computed, the inverse transformation can be applied to put the results back into the original units. A log transform will be used here using the built-in object `ln_trans`:
+
+
+```{r log-linear}
+log_linear_model <- Bayes_resample(rmses, transform = ln_trans, seed = 74)
+
+ggplot(tidy(log_linear_model)) + 
+  geom_point(
+    data = stacked_rmse, 
+    aes(x = Model, y = RMSE),
+    alpha = .2
+  )
+```
+
+This looks much better, although the distributions don't cover the observed data at the low end of the scale. 
+
+Before proceeding to contrasting models, one more approach will be used.  
+
+## A Different Prior and Trasformation
+
+It might make sense to use a probability model that is consistent with the characteristics of the data. Instead of using a symmetric distribution for the data, a potentially right skewed probability model might make more sense. A Gamma distribution is a reasonable choice and can be fit using the generalized linear model embedded in `Bayes_resample`. This also requires a _link_ function to be chosen to model the data. The canonical link for this distribution is the inverse transformation and this will be our choice. 
+
+To fit this model, the `family` argument to `stan_glmer` can be passed in. The default link is the inverse and no extra transformation will be used. 
+
+```{r gamma}
+gamma_model <- Bayes_resample(rmses, family = Gamma(), seed = 74)
+
+ggplot(tidy(gamma_model)) + 
+  geom_point(
+    data = stacked_rmse, 
+    aes(x = Model, y = RMSE),
+    alpha = .2
+  )
+```
+
+Although it takes more time to converge, this seems like a much more reasonable fit than the first model and slightly more well-behaved than the model using the log transformation. 
+
+We can do all pair-wise combinations to compare models:
+
+```{r gamma-contrast}
+combos <- combn(gamma_model$names, 2)
+combos
+all_contrasts <- contrast_models(gamma_model, combos[1,], combos[2,])
+ggplot(all_contrasts)
+summary(all_contrasts)
+````
+It is highly unlikely that any of these models have better performance than any other (at least not above and beyond the experimental noise).
+
