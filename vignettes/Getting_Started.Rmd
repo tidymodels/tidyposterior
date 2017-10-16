@@ -8,7 +8,17 @@ output:
     toc: yes
 ---
 
-```{r load, message = FALSE, warning = FALSE}
+```{r check-for-build, echo = FALSE, results='asis'}
+eval_chunks <- as.logical(Sys.getenv("local_vignette_build", FALSE))
+if(!eval_chunks) 
+  cat(
+    "(These documents take a long time to create, so only the code",
+    "is shown here. The full version is at",
+    "[https://topepo.github.io/tidyposterior](https://topepo.github.io/tidyposterior).)"
+    )
+```
+
+```{r load, include = FALSE, message = FALSE, warning = FALSE, eval = eval_chunks}
 library(tidyposterior)
 library(rsample)
 library(ggplot2)
@@ -20,7 +30,7 @@ options(width = 100, digits = 3)
 
 The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clean. For the area under the ROC curve:
 
-```{r roc-data}
+```{r roc-data, eval = eval_chunks}
 library(tidyposterior)
 data("precise_example")
 
@@ -51,13 +61,13 @@ We will try a simple linear model with Gaussian errors that has a random effect 
 
 To fit the model, `Bayes_resample` will be used to fit a model using the `stan_glmer` function in the `rstanarm` package: 
 
-```{r linear-model}
+```{r linear-model, eval = eval_chunks}
 roc_model <- Bayes_resample(rocs, seed = 2824)
 ```
 
 The `stan_glmer` model is contained in the element `roc_model$Bayes_mod`:
 
-```{r linear-model-results}
+```{r linear-model-results, eval = eval_chunks}
 roc_model$Bayes_mod
 ```
 
@@ -67,14 +77,14 @@ To evaluate the validity of this fit, the `shinystan` package can be used to gen
 
 The `tidy` function can be used to extract the distributions into a simple data frame: 
 
-```{r linear-model-post}
+```{r linear-model-post, eval = eval_chunks}
 roc_post <- tidy(roc_model)
 head(roc_post)
 ```
 
 There is a basic `ggplot` method for this object and we can overlay the observed statistics for each model:
 
-```{r linear-model-post-plot}
+```{r linear-model-post-plot, eval = eval_chunks}
 ggplot(roc_post) + 
   # Add the observed data to check for consistency 
   geom_point(
@@ -92,20 +102,20 @@ We'll compare the generalized linear model with the neural network. Before doing
 
 First, we can compute the posterior for the difference in RMSE for the two models (parameterized as `nnet`-`glm`):
 
-```{r glm-v-nnet}
+```{r glm-v-nnet, eval = eval_chunks}
 glm_v_nnet <- contrast_models(roc_model, "nnet", "glm")
 head(glm_v_nnet)
 ```
 The `summary` function can be used to quantify this difference. It has an argument called `size` where we can add our belief about the size of a true difference. 
 
-```{r glm-v-nnet-summary}
+```{r glm-v-nnet-summary, eval = eval_chunks}
 summary(glm_v_nnet, size = 0.02)
 ```
 The `probability` column indicates the proportion of the posterior distribution that is greater than zero This value indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models. 
 
 Before discussing the ROPE estimates, let's plot the posterior distribution of the differences:
 
-```{r glm-v-nnet-plot}
+```{r glm-v-nnet-plot, eval = eval_chunks}
 ggplot(glm_v_nnet, size = 0.02)
 ```
 
