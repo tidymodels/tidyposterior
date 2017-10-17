@@ -5,6 +5,7 @@
 \alias{precise_example}
 \alias{noisy_example}
 \alias{concrete_example}
+\alias{ts_example}
 \title{Example Data Sets}
 \value{
 Tibbles with the additonal class \code{rset}
@@ -22,6 +23,8 @@ columns are not included to save space.
 \code{noisy_example} was also generated from a regresison data simulation. The original data set was small (50 samples) and 10-repeated of 10-fold CV were used with four models. There is an excessive of variability in the results (probably more than the resample-to-resample variability). The RMSE distributions show fairly right-skewed distributions.
 
 \code{concrete_example} contains the results of the regression case study from the book \emph{Applied Predictive Modeling}. The original data set contained 745 samples in the training set. 10-repeats of 10-fold CV was also used and 13 models were fit to the data.
+
+\code{ts_example} is from a data set where rolling-origin forecast resampling was used. Each assessment set is the summary of 14 observations (i.e. 2 weeks). The analysis set consisted of a base of about 5,500 samples plus the previous assessment sets. Four regression models were applied to these data.
 }
 \examples{
 data(precise_example)
