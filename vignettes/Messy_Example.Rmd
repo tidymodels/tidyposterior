@@ -30,7 +30,7 @@ options(width = 100, digits = 3)
 
 The data set `noisy_example` contains the results for a series of regression models that were created from a small dataset with considerable variability. For resampling, 10 repeats of 10-fold cross-validation were used to estimate performance. We will compare models using the root mean squared error (RMSE) metric.  
 
-```{r rmse-results, eval = eval_chunks, svg = TRUE}
+```{r rmse-results, eval = eval_chunks, dev = "svg"}
 library(tidyposterior)
 data("noisy_example")
 
@@ -67,7 +67,7 @@ A few observations about these data:
 
 Based on these observations, a simple Guassian model is unlikely to work. However, we can try to fit this model and assess the fit. 
 
-```{r linear-linear, eval = eval_chunks, svg = TRUE}
+```{r linear-linear, eval = eval_chunks, dev = "svg"}
 class(rmses) <- c("rset", class(rmses))
 linear_model <- Bayes_resample(rmses, seed = 74)
 
@@ -86,7 +86,7 @@ Here, we see that the posterior distributions do not have a consistent range wit
 Another approach is to transform the RMSE values to something model symmetric and model the data on a different scale. After the posterior distributions are computed, the inverse transformation can be applied to put the results back into the original units. A log transform will be used here using the built-in object `ln_trans`:
 
 
-```{r log-linear, eval = eval_chunks, svg = TRUE}
+```{r log-linear, eval = eval_chunks, dev = "svg"}
 log_linear_model <- Bayes_resample(rmses, transform = ln_trans, seed = 74)
 
 ggplot(tidy(log_linear_model)) + 
@@ -107,7 +107,7 @@ It might make sense to use a probability model that is consistent with the chara
 
 To fit this model, the `family` argument to `stan_glmer` can be passed in. The default link is the inverse and no extra transformation will be used. 
 
-```{r gamma, eval = eval_chunks, svg = TRUE}
+```{r gamma, eval = eval_chunks, dev = "svg"}
 gamma_model <- Bayes_resample(rmses, family = Gamma(), seed = 74)
 
 ggplot(tidy(gamma_model)) + 
@@ -122,7 +122,7 @@ Although it takes more time to converge, this seems like a much more reasonable 
 
 We can do all pair-wise combinations to compare models:
 
-```{r gamma-contrast, eval = eval_chunks, svg = TRUE}
+```{r gamma-contrast, eval = eval_chunks, dev = "svg"}
 combos <- combn(gamma_model$names, 2)
 combos
 all_contrasts <- contrast_models(gamma_model, combos[1,], combos[2,])
