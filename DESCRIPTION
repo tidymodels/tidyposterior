@@ -26,3 +26,5 @@ Imports:
     purrr
 Suggests: 
     knitr
+Remotes:
+    topepo/rsample

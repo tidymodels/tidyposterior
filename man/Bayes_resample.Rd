@@ -11,7 +11,7 @@ Bayes_resample(object, ...)
 }
 \arguments{
 \item{object}{A data frame or and \code{rset} object (such as
-\code{\link[rsample:vfold_cv]{rsample::vfold_cv()}}) containing the \code{id} column and at least
+\code{\link[rsample:vfold_cv]{rsample::vfold_cv()}}) containing the \code{id} column(s) and at least
 two numeric columns of model performance statistics (e.g.
 accuracy).}
 
