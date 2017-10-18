@@ -38,7 +38,9 @@ Bayes_resample <- function(object, ...)
 #' @importFrom rlang !!
 Bayes_resample.rset <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {
-    rset_type <- pretty(object)
+    rset_type <- try(pretty(object), silent = TRUE)
+    if(inherits(rset_type, "try-error"))
+      rset_type <- NA
 
     if(inherits(object, "bootstraps"))
       object <- object %>% dplyr::filter(id != "Apparent")
@@ -70,13 +72,15 @@ Bayes_resample.rset <-
   }
 
 #' @importFrom utils globalVariables
-utils::globalVariables(c("id", "model", "splits", "statistic"))
+utils::globalVariables(c("id", "model", "splits", "statistic", "Resample"))
 
 #' @export
 print.Bayes_resample <- function(x, ...) {
   cat("Bayesian Analysis of Resampling Results\n")
-  cat("Original data: ")
-  cat(x$rset_type, sep = "\n")
+  if(!is.na(x$rset_type)) {
+    cat("Original data: ")
+    cat(x$rset_type, sep = "\n")
+  }
   cat("\n")
   invisible(x)
 }
@@ -85,3 +89,49 @@ print.Bayes_resample <- function(x, ...) {
 summary.Bayes_resample <- function(object, ...) {
   summary(object$Bayes_mod)
 }
+
+
+#' @export
+#' @importFrom stats setNames
+#' @importFrom purrr map_chr
+Bayes_resample.resamples <-
+  function(object,
+           transform = no_trans,
+           hetero_var = FALSE,
+           metric = object$metrics[1],
+           ...) {
+    suffix <- paste0("~", metric, "$")
+    metric_cols <- grep(suffix,
+                        names(object$values),
+                        value = TRUE)
+    object$values <- object$values %>%
+      dplyr::select(Resample,!!metric_cols) %>%
+      setNames(gsub(suffix, "", names(.)))
+    
+    if(is_repeated_cv(object)) {
+      split_up <- strsplit(as.character(object$values$Resample), "\\.")
+      object$values <- object$values %>%
+        dplyr::mutate(id = map_chr(split_up, function(x) x[2]),
+                      id2 = map_chr(split_up, function(x) x[1])) %>%
+        dplyr::select(-Resample)
+      class(object$values) <- c("vfold_cv", "rset", class(object$values))
+      cv_att <- list(v = length(unique(object$values$id2)), 
+                     repeats = length(unique(object$values$id)), 
+                     strata = FALSE)
+      for (i in names(cv_att)) attr(object$values, i) <- cv_att[[i]]
+    } else {
+      object$values <- object$values %>%
+        dplyr::rename(id = Resample)
+      class(object$values) <- c("rset", class(object$values))
+    }
+    
+    
+    Bayes_resample(object$values, transform = transform, 
+                   hetero_var = hetero_var, ...)
+  }
+
+is_repeated_cv <- function(x) {
+  all(grepl("^Fold", x$values$Resample) & grepl("\\.Rep", x$values$Resample))
+}
+
+
