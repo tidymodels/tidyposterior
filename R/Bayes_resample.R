@@ -10,8 +10,46 @@
 #'  two numeric columns of model performance statistics (e.g.
 #'  accuracy).
 #' @param ... Additonal arguments to pass to [rstanarm::stan_glmer()]
-#'  such as `verbose`, `prior`, `seed`, etc.
+#'  such as `verbose`, `prior`, `seed`, `family`, etc.
 #' @return An object of class `Bayes_resample`.
+#' @details By default, a generalized linear model with Gaussian
+#'  error and an identity link is fit to the data and has terms for
+#'  the predictive model grouping variable. In this way, the
+#'  performance metrics can be compared between models.
+#'
+#' Additionally, random effect terms are also used. For most
+#'  resampling methods (except repeated _V_-fold cross-validation),
+#'  a simple random intercept model its used with an exchangeable
+#'  (i.e. compound-symmetric) variance structure. In the case of
+#'  repeated cross-validation, two random intercept terms are used;
+#'  one for the repeat and another for the fold within repeat. These
+#'  also have exchangeable correlation structures.
+#'
+#' The above model specification assumes that the variance in the
+#'  performance metrics is the same across models. However, this is
+#'  unlikely to be true in some cases. For example, for simple
+#'  binomial accuracy, it well know that the variance is highest
+#'  when the accuracy is near 50 percent. When the argument
+#'  `hetero_var = TRUE`, the variance structure uses random
+#'  intercepts for each model term. This may produce more realistic
+#'  posterior distributions but may take more time to converge.
+#'
+#' Also, as shown in the package vignettes, the Gaussian assumption
+#'  make be unrealistic. In this case, there are at least two
+#'  approaches that can be used. First, the outcome statistics can
+#'  be transformed prior to fitting the model. For example, for
+#'  accuracy, the logit transformation can be used to convert the
+#'  outcome values to be on the real line and a model is fit to
+#'  these data. Once the posterior distributions are computed, the
+#'  inverse transformation can be used to put them back into the
+#'  original units. The `transform` argument can be used to do this.
+#'
+#' The second approach would be to use a different error
+#'  distribution from the exponential family. For RMSE values, the
+#'  Gamma distribution may produce better results at the expense of
+#'  model computational complexity. This can be achieved by passing
+#'  the `family` argument to `Bayes_resample` as one might with the
+#'  `glm` function.
 #' @export
 Bayes_resample <- function(object, ...)
   UseMethod("Bayes_resample")
@@ -70,6 +108,55 @@ Bayes_resample.rset <-
     class(res) <- "Bayes_resample"
     res
   }
+
+#' @export
+#' @exportMethod Bayes_resample vfold_cv
+#' @importFrom rsample vfold_cv
+#' @rdname Bayes_resample
+Bayes_resample.vfold_cv <-
+  function(object, transform = no_trans, hetero_var = FALSE, ...) {
+    rset_type <- try(pretty(object), silent = TRUE)
+    if(inherits(rset_type, "try-error"))
+      rset_type <- NA
+
+    resamples <- gather(object) %>%
+      dplyr::mutate(statistic = transform$func(statistic))
+    
+    model_names <- unique(as.character(resamples$model))
+    
+    if(attributes(object)$repeats > 1) {
+      if (hetero_var) {
+        mod <- stan_glmer(statistic ~  model + 
+                            (model + 0 | id) + 
+                            (model + 0 | id2/id),
+                          data = resamples, ...)
+      } else {
+        mod <- stan_glmer(statistic ~  model + 
+                            (1 | id) + (1 | id2/id),
+                          data = resamples, ...)
+      }
+    } else {
+      if (hetero_var) {
+        mod <- stan_glmer(statistic ~  model + (model + 0 | id),
+                          data = resamples, ...)
+      } else {
+        mod <- stan_glmer(statistic ~  model + (1 | id),
+                          data = resamples, ...)
+      }
+    }
+
+    
+    res <- list(Bayes_mod = mod,
+                hetero_var = hetero_var,
+                names = model_names,
+                rset_type = rset_type,
+                ids = unique(resamples$id),
+                transform = transform)
+    class(res) <- "Bayes_resample"
+    res
+  }
+
+
 
 #' @importFrom utils globalVariables
 utils::globalVariables(c("id", "model", "splits", "statistic", "Resample"))

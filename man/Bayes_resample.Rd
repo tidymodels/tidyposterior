@@ -3,11 +3,15 @@
 \name{Bayes_resample}
 \alias{Bayes_resample}
 \alias{Bayes_resample.rset}
+\alias{Bayes_resample.vfold_cv}
 \title{Bayesian Analysis of Resampling Statistics}
 \usage{
 Bayes_resample(object, ...)
 
 \method{Bayes_resample}{rset}(object, transform = no_trans,
+  hetero_var = FALSE, ...)
+
+\method{Bayes_resample}{vfold_cv}(object, transform = no_trans,
   hetero_var = FALSE, ...)
 }
 \arguments{
@@ -17,7 +21,7 @@ two numeric columns of model performance statistics (e.g.
 accuracy).}
 
 \item{...}{Additonal arguments to pass to \code{\link[rstanarm:stan_glmer]{rstanarm::stan_glmer()}}
-such as \code{verbose}, \code{prior}, \code{seed}, etc.}
+such as \code{verbose}, \code{prior}, \code{seed}, \code{family}, etc.}
 
 \item{transform}{An named list of transformation and inverse
 transformation fuctions. See \code{\link[=logit_trans]{logit_trans()}} as an example.}
@@ -35,4 +39,44 @@ These functions can be used to process and analyze matched
 resampling statistics from different models using a Bayesian
 generalized linear model with effects for the model and the
 resamples.
+}
+\details{
+By default, a generalized linear model with Gaussian
+error and an identity link is fit to the data and has terms for
+the predictive model grouping variable. In this way, the
+performance metrics can be compared between models.
+
+Additionally, random effect terms are also used. For most
+resampling methods (except repeated \emph{V}-fold cross-validation),
+a simple random intercept model its used with an exchangeable
+(i.e. compound-symmetric) variance structure. In the case of
+repeated cross-validation, two random intercept terms are used;
+one for the repeat and another for the fold within repeat. These
+also have exchangeable correlation structures.
+
+The above model specification assumes that the variance in the
+performance metrics is the same across models. However, this is
+unlikely to be true in some cases. For example, for simple
+binomial accuracy, it well know that the variance is highest
+when the accuracy is near 50 percent. When the argument
+\code{hetero_var = TRUE}, the variance structure uses random
+intercepts for each model term. This may produce more realistic
+posterior distributions but may take more time to converge.
+
+Also, as shown in the package vignettes, the Gaussian assumption
+make be unrealistic. In this case, there are at least two
+approaches that can be used. First, the outcome statistics can
+be transformed prior to fitting the model. For example, for
+accuracy, the logit transformation can be used to convert the
+outcome values to be on the real line and a model is fit to
+these data. Once the posterior distributions are computed, the
+inverse transformation can be used to put them back into the
+original units. The \code{transform} argument can be used to do this.
+
+The second approach would be to use a different error
+distribution from the exponential family. For RMSE values, the
+Gamma distribution may produce better results at the expense of
+model computational complexity. This can be achieved by passing
+the \code{family} argument to \code{Bayes_resample} as one might with the
+\code{glm} function.
 }
