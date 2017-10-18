@@ -76,7 +76,7 @@ ggplot.posterior <-
 #' @importFrom rstanarm posterior_predict
 get_post <- function(x) {
   new_dat <- data.frame(model = unique(x$names), id = x$ids[1])
-  post_data <- rstantools::posterior_predict(x$Bayes_mod, newdata = new_dat)
+  post_data <- rstanarm::posterior_predict(x$Bayes_mod, newdata = new_dat)
   post_data <- as.data.frame(post_data)
   names(post_data) <- x$names
   post_data
@@ -87,7 +87,7 @@ postint <- function(object, ...) UseMethod("postint")
 #' @importFrom rstanarm posterior_interval
 postint.numeric <- function(object, prob = 0.90, ...) {
   object <- matrix(object, ncol = 1)
-  res <- rstantools::posterior_interval(object, prob = prob)
+  res <- rstanarm::posterior_interval(object, prob = prob)
   res <- as.data.frame(res)
   names(res) <- c("lower", "upper")
   res
