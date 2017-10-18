@@ -26,7 +26,7 @@ Bayes_resample <- function(object, ...)
 #'  transformation fuctions. See [logit_trans()] as an example.
 #' @export
 #' @importFrom dplyr filter select mutate %>%
-#' @importFrom tidyr gather
+#' @importFrom rsample gather.rset
 #' @importFrom rstanarm stan_glmer
 #' @importFrom rlang !!
 Bayes_resample.rset <-
