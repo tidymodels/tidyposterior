@@ -24,13 +24,20 @@ Bayes_resample <- function(object, ...)
 #' @rdname Bayes_resample
 #' @param transform An named list of transformation and inverse
 #'  transformation fuctions. See [logit_trans()] as an example.
+#' @param hetero_var A logical; if `TRUE`, then different
+#'  variances are estimated for each model group. Otherwise, the
+#'  same variance is used for each group. Estimating heterogeneous
+#'  variances may slow or prevent convergence.
 #' @export
 #' @importFrom dplyr filter select mutate %>%
-#' @importFrom rsample gather.rset
+#' @importFrom rsample gather.rset pretty.group_vfold_cv
+#' @importFrom rsample pretty.bootstraps pretty.nested_cv
+#' @importFrom rsample pretty.mc_cv pretty.rolling_origin
+#' @importFrom rsample pretty.loo_cv pretty.vfold_cv
 #' @importFrom rstanarm stan_glmer
 #' @importFrom rlang !!
 Bayes_resample.rset <-
-  function(object, transform = no_trans, ...) {
+  function(object, transform = no_trans, hetero_var = FALSE, ...) {
     rset_type <- pretty(object)
 
     if(inherits(object, "bootstraps"))
@@ -44,12 +51,16 @@ Bayes_resample.rset <-
 
     model_names <- unique(as.character(resamples$model))
 
-    ## option to fit common variance or model-specific with (model | id)
-    ## see http://rpubs.com/bbolker/6298
-
-    mod <- stan_glmer(statistic ~  model + (1 | id), data = resamples, ...)
+    if (hetero_var) {
+      mod <- stan_glmer(statistic ~  model + (model + 0 | id),
+                        data = resamples, ...)
+    } else {
+      mod <- stan_glmer(statistic ~  model + (1 | id),
+                        data = resamples, ...)
+    }
 
     res <- list(Bayes_mod = mod,
+                hetero_var = hetero_var,
                 names = model_names,
                 rset_type = rset_type,
                 ids = unique(resamples$id),

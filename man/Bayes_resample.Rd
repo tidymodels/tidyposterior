@@ -7,7 +7,8 @@
 \usage{
 Bayes_resample(object, ...)
 
-\method{Bayes_resample}{rset}(object, transform = no_trans, ...)
+\method{Bayes_resample}{rset}(object, transform = no_trans,
+  hetero_var = FALSE, ...)
 }
 \arguments{
 \item{object}{A data frame or and \code{rset} object (such as
@@ -20,6 +21,11 @@ such as \code{verbose}, \code{prior}, \code{seed}, etc.}
 
 \item{transform}{An named list of transformation and inverse
 transformation fuctions. See \code{\link[=logit_trans]{logit_trans()}} as an example.}
+
+\item{hetero_var}{A logical; if \code{TRUE}, then different
+variances are estimated for each model group. Otherwise, the
+same variance is used for each group. Estimating heterogeneous
+variances may slow or prevent convergence.}
 }
 \value{
 An object of class \code{Bayes_resample}.
