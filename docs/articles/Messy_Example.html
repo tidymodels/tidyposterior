@@ -60,25 +60,30 @@
 <p>The data set <code>noisy_example</code> contains the results for a series of regression models that were created from a small dataset with considerable variability. For resampling, 10 repeats of 10-fold cross-validation were used to estimate performance. We will compare models using the root mean squared error (RMSE) metric.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyposterior)
 <span class="kw">data</span>(<span class="st">"noisy_example"</span>)
+## I'll fix this in the data object
+<span class="kw">class</span>(noisy_example) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"vfold_cv"</span>, <span class="kw">class</span>(noisy_example))
 
 <span class="kw">library</span>(tidyverse)
 
 rmses &lt;-<span class="st"> </span>noisy_example <span class="op">%&gt;%</span>
 <span class="st">   </span><span class="kw">select</span>(id, id2, <span class="kw">contains</span>(<span class="st">"RMSE"</span>)) <span class="op">%&gt;%</span>
-<span class="st">   </span><span class="kw">setNames</span>(<span class="kw">tolower</span>(<span class="kw">gsub</span>(<span class="st">"_RMSE$"</span>, <span class="st">""</span>, <span class="kw">names</span>(.)))) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">id =</span> <span class="kw">paste</span>(id2, id, <span class="dt">sep =</span> <span class="st">"_"</span>)) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>id2)
+<span class="st">   </span><span class="kw">setNames</span>(<span class="kw">tolower</span>(<span class="kw">gsub</span>(<span class="st">"_RMSE$"</span>, <span class="st">""</span>, <span class="kw">names</span>(.))))
 
-stacked_rmse &lt;-<span class="st"> </span>rmses <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">gather</span>(Model, RMSE, <span class="op">-</span>id)
+stacked_rmse &lt;-<span class="st"> </span><span class="kw">gather</span>(rmses)
 
 <span class="kw">library</span>(ggplot2)
 
-<span class="kw">ggplot</span>(stacked_rmse, <span class="kw">aes</span>(<span class="dt">x =</span> Model, <span class="dt">y =</span> RMSE, <span class="dt">group =</span> id, <span class="dt">col =</span> id)) <span class="op">+</span><span class="st"> </span>
+<span class="kw">ggplot</span>(stacked_rmse, 
+       <span class="kw">aes</span>(
+         <span class="dt">x =</span> model,
+         <span class="dt">y =</span> statistic,
+         <span class="dt">group =</span> <span class="kw">paste</span>(id, id2),
+         <span class="dt">col =</span> <span class="kw">paste</span>(id, id2))
+       ) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> .<span class="dv">75</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</code></pre></div>
 <p><img src="Messy_Example_files/figure-html/rmse-results-1.svg" width="672"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(stacked_rmse, <span class="kw">aes</span>(<span class="dt">col =</span> Model, <span class="dt">x =</span> RMSE)) <span class="op">+</span><span class="st"> </span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(stacked_rmse, <span class="kw">aes</span>(<span class="dt">col =</span> model, <span class="dt">x =</span> statistic)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">stat =</span> <span class="st">"density"</span>, <span class="dt">trim =</span> <span class="ot">FALSE</span>) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"top"</span>)</code></pre></div>
 <p><img src="Messy_Example_files/figure-html/rmse-results-2.svg" width="672"></p>
@@ -92,14 +97,14 @@ stacked_rmse &lt;-<span class="st"> </span>rmses <span class="op">%&gt;%</span>
 <h2 class="hasAnchor">
 <a href="#a-first-model" class="anchor"></a>A First Model</h2>
 <p>Based on these observations, a simple Guassian model is unlikely to work. However, we can try to fit this model and assess the fit.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(rmses) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"rset"</span>, <span class="kw">class</span>(rmses))
-linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rmses, <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rmses, <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
+<pre><code>## using stratification</code></pre>
 <pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.00014 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.4 seconds.
+## Gradient evaluation took 0.000183 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.83 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -116,15 +121,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.64633 seconds (Warm-up)
-##                1.36259 seconds (Sampling)
-##                3.00892 seconds (Total)
+##  Elapsed Time: 4.39091 seconds (Warm-up)
+##                2.61935 seconds (Sampling)
+##                7.01026 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 5.1e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.51 seconds.
+## Gradient evaluation took 0.000147 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.47 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -141,15 +146,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.50711 seconds (Warm-up)
-##                1.35364 seconds (Sampling)
-##                2.86075 seconds (Total)
+##  Elapsed Time: 4.19603 seconds (Warm-up)
+##                2.85252 seconds (Sampling)
+##                7.04854 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 7e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.7 seconds.
+## Gradient evaluation took 7.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.79 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -166,15 +171,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.47475 seconds (Warm-up)
-##                1.29729 seconds (Sampling)
-##                2.77205 seconds (Total)
+##  Elapsed Time: 3.79563 seconds (Warm-up)
+##                3.98546 seconds (Sampling)
+##                7.78109 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 0.00013 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.3 seconds.
+## Gradient evaluation took 6.3e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.63 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -191,14 +196,14 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.55154 seconds (Warm-up)
-##                1.2869 seconds (Sampling)
-##                2.83843 seconds (Total)</code></pre>
+##  Elapsed Time: 4.55859 seconds (Warm-up)
+##                3.99467 seconds (Sampling)
+##                8.55326 seconds (Total)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">tidy</span>(linear_model)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(
     <span class="dt">data =</span> stacked_rmse, 
-    <span class="kw">aes</span>(<span class="dt">x =</span> Model, <span class="dt">y =</span> RMSE),
-    <span class="dt">alpha =</span> .<span class="dv">2</span>
+    <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic),
+    <span class="dt">alpha =</span> .<span class="dv">2</span>, <span class="dt">col =</span> <span class="st">"blue"</span>
   )</code></pre></div>
 <p><img src="Messy_Example_files/figure-html/linear-linear-1.svg" width="672"></p>
 <p>Here, we see that the posterior distributions do not have a consistent range with the observed data and that one of the distributions has values less than zero. Also, we might expect that this distributions should be somewhat skewed. This approach did not appear to work well, mostly because of the high variability in the results.</p>
@@ -208,12 +213,13 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <a href="#transforming-the-data" class="anchor"></a>Transforming the Data</h2>
 <p>Another approach is to transform the RMSE values to something model symmetric and model the data on a different scale. After the posterior distributions are computed, the inverse transformation can be applied to put the results back into the original units. A log transform will be used here using the built-in object <code>ln_trans</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">log_linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rmses, <span class="dt">transform =</span> ln_trans, <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
+<pre><code>## using stratification</code></pre>
 <pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 8.2e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.82 seconds.
+## Gradient evaluation took 7.6e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.76 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -230,15 +236,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.68614 seconds (Warm-up)
-##                1.22123 seconds (Sampling)
-##                2.90738 seconds (Total)
+##  Elapsed Time: 3.64288 seconds (Warm-up)
+##                3.56283 seconds (Sampling)
+##                7.2057 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 0.0001 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1 seconds.
+## Gradient evaluation took 9.2e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.92 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -255,15 +261,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.66101 seconds (Warm-up)
-##                1.35034 seconds (Sampling)
-##                3.01135 seconds (Total)
+##  Elapsed Time: 4.25699 seconds (Warm-up)
+##                3.69369 seconds (Sampling)
+##                7.95068 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 0.000107 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.07 seconds.
+## Gradient evaluation took 0.000137 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.37 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -280,15 +286,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.87217 seconds (Warm-up)
-##                0.73691 seconds (Sampling)
-##                2.60908 seconds (Total)
+##  Elapsed Time: 3.70457 seconds (Warm-up)
+##                3.57722 seconds (Sampling)
+##                7.28179 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 7.5e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.75 seconds.
+## Gradient evaluation took 6.3e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.63 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -305,14 +311,14 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 1.45898 seconds (Warm-up)
-##                1.00005 seconds (Sampling)
-##                2.45903 seconds (Total)</code></pre>
+##  Elapsed Time: 3.51751 seconds (Warm-up)
+##                3.60106 seconds (Sampling)
+##                7.11858 seconds (Total)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">tidy</span>(log_linear_model)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(
     <span class="dt">data =</span> stacked_rmse, 
-    <span class="kw">aes</span>(<span class="dt">x =</span> Model, <span class="dt">y =</span> RMSE),
-    <span class="dt">alpha =</span> .<span class="dv">2</span>
+    <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic),
+    <span class="dt">alpha =</span> .<span class="dv">2</span>, <span class="dt">col =</span> <span class="st">"blue"</span>
   )</code></pre></div>
 <p><img src="Messy_Example_files/figure-html/log-linear-1.svg" width="672"></p>
 <p>This looks much better, although the distributions don’t cover the observed data at the low end of the scale.</p>
@@ -324,12 +330,13 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 <p>It might make sense to use a probability model that is consistent with the characteristics of the data. Instead of using a symmetric distribution for the data, a potentially right skewed probability model might make more sense. A Gamma distribution is a reasonable choice and can be fit using the generalized linear model embedded in <code>Bayes_resample</code>. This also requires a <em>link</em> function to be chosen to model the data. The canonical link for this distribution is the inverse transformation and this will be our choice.</p>
 <p>To fit this model, the <code>family</code> argument to <code>stan_glmer</code> can be passed in. The default link is the inverse and no extra transformation will be used.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gamma_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rmses, <span class="dt">family =</span> <span class="kw">Gamma</span>(), <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
+<pre><code>## using stratification</code></pre>
 <pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.000249 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 2.49 seconds.
+## Gradient evaluation took 0.000118 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.18 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -346,15 +353,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 142.519 seconds (Warm-up)
-##                7.00237 seconds (Sampling)
-##                149.522 seconds (Total)
+##  Elapsed Time: 202.084 seconds (Warm-up)
+##                18.3603 seconds (Sampling)
+##                220.445 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 6e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.6 seconds.
+## Gradient evaluation took 8.1e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.81 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -371,15 +378,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 165.473 seconds (Warm-up)
-##                7.09767 seconds (Sampling)
-##                172.57 seconds (Total)
+##  Elapsed Time: 250.197 seconds (Warm-up)
+##                18.3791 seconds (Sampling)
+##                268.576 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 0.000133 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.33 seconds.
+## Gradient evaluation took 8.8e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.88 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -396,15 +403,15 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 172.432 seconds (Warm-up)
-##                6.89912 seconds (Sampling)
-##                179.331 seconds (Total)
+##  Elapsed Time: 336.454 seconds (Warm-up)
+##                17.2424 seconds (Sampling)
+##                353.696 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 9.7e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.97 seconds.
+## Gradient evaluation took 8.5e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.85 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -421,14 +428,14 @@ linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../referenc
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 178.832 seconds (Warm-up)
-##                7.3554 seconds (Sampling)
-##                186.187 seconds (Total)</code></pre>
+##  Elapsed Time: 236.365 seconds (Warm-up)
+##                17.7941 seconds (Sampling)
+##                254.159 seconds (Total)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(<span class="kw">tidy</span>(gamma_model)) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">geom_point</span>(
     <span class="dt">data =</span> stacked_rmse, 
-    <span class="kw">aes</span>(<span class="dt">x =</span> Model, <span class="dt">y =</span> RMSE),
-    <span class="dt">alpha =</span> .<span class="dv">2</span>
+    <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic),
+    <span class="dt">alpha =</span> .<span class="dv">2</span>, <span class="dt">col =</span> <span class="st">"blue"</span>
   )</code></pre></div>
 <p><img src="Messy_Example_files/figure-html/gamma-1.svg" width="672"></p>
 <p>Although it takes more time to converge, this seems like a much more reasonable fit than the first model and slightly more well-behaved than the model using the log transformation.</p>
@@ -443,14 +450,14 @@ combos</code></pre></div>
 <p><img src="Messy_Example_files/figure-html/gamma-contrast-1.svg" width="672"></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(all_contrasts)</code></pre></div>
 <pre><code>## # A tibble: 6 x 9
-##         contrast probability   mean lower upper  size pract_neg pract_equiv pract_pos
-##            &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;lgl&gt;       &lt;lgl&gt;     &lt;lgl&gt;
-## 1  bag vs cubist       0.593  2.422 -12.6  17.9     0        NA          NA        NA
-## 2    bag vs mars       0.529  0.723 -14.9  16.0     0        NA          NA        NA
-## 3    bag vs nnet       0.463 -1.108 -17.5  15.3     0        NA          NA        NA
-## 4 cubist vs mars       0.428 -1.812 -16.8  12.8     0        NA          NA        NA
-## 5 cubist vs nnet       0.351 -3.404 -19.2  12.0     0        NA          NA        NA
-## 6   mars vs nnet       0.439 -1.701 -18.2  14.0     0        NA          NA        NA</code></pre>
+##         contrast probability  mean lower upper  size pract_neg pract_equiv pract_pos
+##            &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;lgl&gt;       &lt;lgl&gt;     &lt;lgl&gt;
+## 1  bag vs cubist       0.607  2.50 -12.5  18.4     0        NA          NA        NA
+## 2    bag vs mars       0.520  0.33 -15.5  15.9     0        NA          NA        NA
+## 3    bag vs nnet       0.448 -1.19 -17.8  15.1     0        NA          NA        NA
+## 4 cubist vs mars       0.425 -1.81 -17.0  13.1     0        NA          NA        NA
+## 5 cubist vs nnet       0.366 -3.44 -19.5  12.1     0        NA          NA        NA
+## 6   mars vs nnet       0.444 -1.54 -18.3  14.6     0        NA          NA        NA</code></pre>
 <p>It is highly unlikely that any of these models have better performance than any other (at least not above and beyond the experimental noise).</p>
 </div>
 </div>

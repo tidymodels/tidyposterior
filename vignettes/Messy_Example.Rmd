@@ -33,25 +33,30 @@ The data set `noisy_example` contains the results for a series of regression mod
 ```{r rmse-results, eval = eval_chunks, dev = "svg"}
 library(tidyposterior)
 data("noisy_example")
+## I'll fix this in the data object
+class(noisy_example) <- c("vfold_cv", class(noisy_example))
 
 library(tidyverse)
 
 rmses <- noisy_example %>%
    select(id, id2, contains("RMSE")) %>%
-   setNames(tolower(gsub("_RMSE$", "", names(.)))) %>%
-  mutate(id = paste(id2, id, sep = "_")) %>%
-  select(-id2)
+   setNames(tolower(gsub("_RMSE$", "", names(.))))
 
-stacked_rmse <- rmses %>%
-  gather(Model, RMSE, -id)
+stacked_rmse <- gather(rmses)
 
 library(ggplot2)
 
-ggplot(stacked_rmse, aes(x = Model, y = RMSE, group = id, col = id)) + 
+ggplot(stacked_rmse, 
+       aes(
+         x = model,
+         y = statistic,
+         group = paste(id, id2),
+         col = paste(id, id2))
+       ) + 
   geom_line(alpha = .75) + 
   theme(legend.position = "none")
 
-ggplot(stacked_rmse, aes(col = Model, x = RMSE)) + 
+ggplot(stacked_rmse, aes(col = model, x = statistic)) + 
   geom_line(stat = "density", trim = FALSE) + 
   theme(legend.position = "top")
 ```
@@ -68,14 +73,13 @@ A few observations about these data:
 Based on these observations, a simple Guassian model is unlikely to work. However, we can try to fit this model and assess the fit. 
 
 ```{r linear-linear, eval = eval_chunks, dev = "svg"}
-class(rmses) <- c("rset", class(rmses))
 linear_model <- Bayes_resample(rmses, seed = 74)
 
 ggplot(tidy(linear_model)) + 
   geom_point(
     data = stacked_rmse, 
-    aes(x = Model, y = RMSE),
-    alpha = .2
+    aes(x = model, y = statistic),
+    alpha = .2, col = "blue"
   )
 ```
 
@@ -92,8 +96,8 @@ log_linear_model <- Bayes_resample(rmses, transform = ln_trans, seed = 74)
 ggplot(tidy(log_linear_model)) + 
   geom_point(
     data = stacked_rmse, 
-    aes(x = Model, y = RMSE),
-    alpha = .2
+    aes(x = model, y = statistic),
+    alpha = .2, col = "blue"
   )
 ```
 
@@ -113,8 +117,8 @@ gamma_model <- Bayes_resample(rmses, family = Gamma(), seed = 74)
 ggplot(tidy(gamma_model)) + 
   geom_point(
     data = stacked_rmse, 
-    aes(x = Model, y = RMSE),
-    alpha = .2
+    aes(x = model, y = statistic),
+    alpha = .2, col = "blue"
   )
 ```
 

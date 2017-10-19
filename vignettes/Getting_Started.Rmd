@@ -41,10 +41,9 @@ rocs
 
 library(ggplot2)
 
-rocs_stacked <- rocs %>%
-  gather(key = Model, value = ROC, -id)
+rocs_stacked <- gather(rocs)
 
-ggplot(rocs_stacked, aes(x = Model, y = ROC, group = id, col = id)) + 
+ggplot(rocs_stacked, aes(x = model, y = statistic, group = id, col = id)) + 
   geom_line(alpha = .75) + 
   theme(legend.position = "none")
 ```
@@ -87,8 +86,8 @@ ggplot(roc_post) +
   # Add the observed data to check for consistency 
   geom_point(
     data = rocs_stacked, 
-    aes(x = Model, y = ROC), 
-    alpha = .5
+    aes(x = model, y = statistic), 
+    alpha = .5, col = "blue"
   )
 ```
 
