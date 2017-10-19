@@ -75,7 +75,9 @@ ggplot.posterior <-
 
 #' @importFrom rstanarm posterior_predict
 get_post <- function(x) {
-  new_dat <- data.frame(model = unique(x$names), id = x$ids[1])
+  new_dat <- data.frame(model = unique(x$names))
+  new_dat <- as.data.frame(lapply(x$ids, function(x) rep(x[1], nrow(new_dat)))) %>%
+    bind_cols(new_dat)
   post_data <- rstanarm::posterior_predict(x$Bayes_mod, newdata = new_dat)
   post_data <- as.data.frame(post_data)
   names(post_data) <- x$names
