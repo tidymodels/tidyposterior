@@ -18,7 +18,7 @@
 #' @export
 #' @importFrom purrr map2 map_df
 contrast_models <- function(x, list_1 = NULL, list_2 = NULL) {
-  models <- purrr::map2(list_1, list_2, make_df, id = x$ids[1])
+  models <- purrr::map2(list_1, list_2, make_df, id_vals = x$ids)
   diffs <- 
     purrr::map_df(
       models, 
@@ -112,8 +112,11 @@ ggplot.posterior_diff <-
   }
 
 
-make_df <- function(a, b, id_val = "?")
-  data.frame(model = c(a, b), id = id_val)
+make_df <- function(a, b, id_vals = NULL) {
+  new_dat <- data.frame(model = c(a, b))
+  as.data.frame(lapply(id_vals, function(x) rep(x[1], nrow(new_dat)))) %>%
+    bind_cols(new_dat)
+}
 
 make_diffs <- function(spec, obj, trans) {
   res_1 <- posterior_predict(obj, newdata = spec[1,])
