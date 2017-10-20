@@ -108,7 +108,7 @@ The `summary` function can be used to quantify this difference. It has an argume
 ```{r glm-v-nnet-summary, eval = eval_chunks}
 summary(glm_v_nnet, size = 0.02)
 ```
-The `probability` column indicates the proportion of the posterior distribution that is greater than zero This value indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models. 
+The `probability` column indicates the proportion of the posterior distribution that is greater than zero. This result indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models. 
 
 Before discussing the ROPE estimates, let's plot the posterior distribution of the differences:
 
@@ -116,5 +116,5 @@ Before discussing the ROPE estimates, let's plot the posterior distribution of t
 ggplot(glm_v_nnet, size = 0.02)
 ```
 
-The column `pract_neg` reflects the area where the posterior distribution is _less_ than -2%. Similarly, the `pract_pos` shows that most of the area is greater than 2% which leads us to believe that this is a truly a substantial difference in performance. The `pract_equiv` reflects how much of the posterior is between [-2%, 2%]. If this were near one, it might indicate that the models are not practically different (based on the yardstick of 2%). 
+The column `pract_neg` reflects the area where the posterior distribution is _less_ than -2% (i.e, _practically negative_). Similarly, the `pract_pos` shows that most of the area is greater than 2% which leads us to believe that this is a truly a substantial difference in performance. The `pract_equiv` reflects how much of the posterior is between [-2%, 2%]. If this were near one, it might indicate that the models are not practically different (based on the yardstick of 2%). 
 
