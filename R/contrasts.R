@@ -103,19 +103,20 @@ ggplot.posterior_diff <-
     out <- ggplot(as.data.frame(data), 
                   aes(x = difference)) + 
       geom_line(stat = "density", trim = TRUE) +
-      facet_grid(model_2 ~ model_1) +
       ylab("Posterior Probability")
+    if(length(unique(paste0(data$model_1, data$model_2))) > 1)
+      out <- out  + facet_grid(model_2 ~ model_1) 
     if(size != 0) 
       out <- out + 
         geom_vline(xintercept = c(-size, size), lty = 2, alpha = .5)
     out
   }
 
-
+#' @importFrom dplyr bind_cols
 make_df <- function(a, b, id_vals = NULL) {
   new_dat <- data.frame(model = c(a, b))
   as.data.frame(lapply(id_vals, function(x) rep(x[1], nrow(new_dat)))) %>%
-    bind_cols(new_dat)
+    dplyr::bind_cols(new_dat)
 }
 
 make_diffs <- function(spec, obj, trans) {
