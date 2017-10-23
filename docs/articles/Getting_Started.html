@@ -102,8 +102,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 9.1e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.91 seconds.
+## Gradient evaluation took 8.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.89 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -120,15 +120,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.90909 seconds (Warm-up)
-##                0.282667 seconds (Sampling)
-##                3.19176 seconds (Total)
+##  Elapsed Time: 2.53665 seconds (Warm-up)
+##                0.276771 seconds (Sampling)
+##                2.81343 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 2.6e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.26 seconds.
+## Gradient evaluation took 3.5e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.35 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -145,15 +145,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 4.00852 seconds (Warm-up)
-##                0.322666 seconds (Sampling)
-##                4.33119 seconds (Total)
+##  Elapsed Time: 3.33136 seconds (Warm-up)
+##                0.285284 seconds (Sampling)
+##                3.61664 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 2.2e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.22 seconds.
+## Gradient evaluation took 1.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -170,15 +170,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.05337 seconds (Warm-up)
-##                0.21569 seconds (Sampling)
-##                3.26906 seconds (Total)
+##  Elapsed Time: 3.03623 seconds (Warm-up)
+##                0.228865 seconds (Sampling)
+##                3.2651 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 3.1e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
+## Gradient evaluation took 3e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.3 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -195,9 +195,9 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.40647 seconds (Warm-up)
-##                0.328473 seconds (Sampling)
-##                2.73494 seconds (Total)</code></pre>
+##  Elapsed Time: 2.42219 seconds (Warm-up)
+##                0.302912 seconds (Sampling)
+##                2.72511 seconds (Total)</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$Bayes_mod</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>Bayes_mod</code></pre></div>
 <pre><code>## stan_glmer
@@ -234,12 +234,12 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_post &lt;-<span class="st"> </span><span class="kw">tidy</span>(roc_model)
 <span class="kw">head</span>(roc_post)</code></pre></div>
 <pre><code>##   model posterior
-## 1   glm     0.790
-## 2   glm     0.788
-## 3   glm     0.801
-## 4   glm     0.797
-## 5   glm     0.782
-## 6   glm     0.790</code></pre>
+## 1   glm     0.799
+## 2   glm     0.784
+## 3   glm     0.797
+## 4   glm     0.788
+## 5   glm     0.791
+## 6   glm     0.805</code></pre>
 <p>There is a basic <code>ggplot</code> method for this object and we can overlay the observed statistics for each model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(roc_post) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="co"># Add the observed data to check for consistency </span>
@@ -259,23 +259,23 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_v_nnet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/contrast_models.html">contrast_models</a></span>(roc_model, <span class="st">"nnet"</span>, <span class="st">"glm"</span>)
 <span class="kw">head</span>(glm_v_nnet)</code></pre></div>
 <pre><code>##   difference model_1 model_2
-## 1     0.0655    nnet     glm
-## 2     0.0503    nnet     glm
-## 3     0.0542    nnet     glm
-## 4     0.0297    nnet     glm
-## 5     0.0486    nnet     glm
-## 6     0.0483    nnet     glm</code></pre>
+## 1     0.0428    nnet     glm
+## 2     0.0537    nnet     glm
+## 3     0.0491    nnet     glm
+## 4     0.0419    nnet     glm
+## 5     0.0740    nnet     glm
+## 6     0.0512    nnet     glm</code></pre>
 <p>The <code>summary</code> function can be used to quantify this difference. It has an argument called <code>size</code> where we can add our belief about the size of a true difference.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>
 <pre><code>## # A tibble: 1 x 9
 ##      contrast probability   mean  lower  upper  size pract_neg pract_equiv pract_pos
 ##         &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
-## 1 nnet vs glm           1 0.0504 0.0323 0.0686  0.02         0      0.0045     0.996</code></pre>
-<p>The <code>probability</code> column indicates the proportion of the posterior distribution that is greater than zero This value indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models.</p>
+## 1 nnet vs glm           1 0.0506 0.0314 0.0692  0.02         0     0.00425     0.996</code></pre>
+<p>The <code>probability</code> column indicates the proportion of the posterior distribution that is greater than zero. This result indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models.</p>
 <p>Before discussing the ROPE estimates, let’s plot the posterior distribution of the differences:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>
 <p><img src="Getting_Started_files/figure-html/glm-v-nnet-plot-1.svg" width="672"></p>
-<p>The column <code>pract_neg</code> reflects the area where the posterior distribution is <em>less</em> than -2%. Similarly, the <code>pract_pos</code> shows that most of the area is greater than 2% which leads us to believe that this is a truly a substantial difference in performance. The <code>pract_equiv</code> reflects how much of the posterior is between [-2%, 2%]. If this were near one, it might indicate that the models are not practically different (based on the yardstick of 2%).</p>
+<p>The column <code>pract_neg</code> reflects the area where the posterior distribution is <em>less</em> than -2% (i.e, <em>practically negative</em>). Similarly, the <code>pract_pos</code> shows that most of the area is greater than 2% which leads us to believe that this is a truly a substantial difference in performance. The <code>pract_equiv</code> reflects how much of the posterior is between [-2%, 2%]. If this were near one, it might indicate that the models are not practically different (based on the yardstick of 2%).</p>
 </div>
 </div>
   </div>
