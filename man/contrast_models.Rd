@@ -11,7 +11,8 @@ contrast_models(x, list_1 = NULL, list_2 = NULL)
 
 \item{list_1, list_2}{Character vectors of equal length that
 specify the specific pairwise contrasts. The contrast is
-parameterized as \code{list_1[i] - list_2[i]}.}
+parameterized as \code{list_1[i] - list_2[i]}. If the defaults
+are left to \code{NULL}, all combinations are evaluated.}
 }
 \value{
 A data frame of the posterior distribution(s) of the

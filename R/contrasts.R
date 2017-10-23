@@ -8,7 +8,8 @@
 #' @param x An object produced by [Bayes_resample()].
 #' @param list_1,list_2 Character vectors of equal length that
 #'  specify the specific pairwise contrasts. The contrast is
-#'  parameterized as `list_1[i] - list_2[i]`.
+#'  parameterized as `list_1[i] - list_2[i]`. If the defaults
+#'  are left to `NULL`, all combinations are evaluated. 
 #' @return A data frame of the posterior distribution(s) of the
 #'  difference(s). The object has an extra class of
 #'  `"posterior_diff"`.
@@ -17,7 +18,18 @@
 #'  inverse is applied _before_ the difference is computed. 
 #' @export
 #' @importFrom purrr map2 map_df
+#' @importFrom utils combn
 contrast_models <- function(x, list_1 = NULL, list_2 = NULL) {
+  if (is.null(list_1) & is.null(list_2)) {
+    combos <- combn(x$names, 2)
+    list_1 <- combos[1, ]
+    list_2 <- combos[2, ]
+  } else {
+    if (length(list_1) != length(list_2))
+      stop("`list_1` and `list_2` should be the same length.",
+           call. = FALSE)
+  }
+  
   models <- purrr::map2(list_1, list_2, make_df, id_vals = x$ids)
   diffs <- 
     purrr::map_df(

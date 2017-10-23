@@ -105,7 +105,7 @@ This looks much better, although the distributions don't cover the observed data
 
 Before proceeding to contrasting models, one more approach will be used.  
 
-## A Different Prior and Trasformation
+## A Non-Gaussian Model
 
 It might make sense to use a probability model that is consistent with the characteristics of the data. Instead of using a symmetric distribution for the data, a potentially right skewed probability model might make more sense. A Gamma distribution is a reasonable choice and can be fit using the generalized linear model embedded in `Bayes_resample`. This also requires a _link_ function to be chosen to model the data. The canonical link for this distribution is the inverse transformation and this will be our choice. 
 
@@ -124,12 +124,10 @@ ggplot(tidy(gamma_model)) +
 
 Although it takes more time to converge, this seems like a much more reasonable fit than the first model and slightly more well-behaved than the model using the log transformation. 
 
-We can do all pair-wise combinations to compare models:
+We can compare models using the `contrast_models` function. The function has arguments for two sets of models to compare but if these are left to their default (`NULL`), all pair-wise combinations are used.
 
 ```{r gamma-contrast, eval = eval_chunks, dev = "svg"}
-combos <- combn(gamma_model$names, 2)
-combos
-all_contrasts <- contrast_models(gamma_model, combos[1,], combos[2,])
+all_contrasts <- contrast_models(gamma_model)
 ggplot(all_contrasts)
 summary(all_contrasts)
 ````
