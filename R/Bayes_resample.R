@@ -54,6 +54,13 @@
 Bayes_resample <- function(object, ...)
   UseMethod("Bayes_resample")
 
+
+#' @export
+Bayes_resample.default <- function(object, ...)
+  stop("`object` should have at least one of these classes: ",
+       "'rset', 'data.frame', 'resamples', or 'vfold_cv'. ",
+       "See ?Bayes_resample")
+
 # Make a general data.frame method, maybe `gather` methods for
 # `rset` and `rsample` objects instead of having the `gather`
 # code inside of `Bayes_resample.rset`. If we do that, there could
@@ -76,6 +83,7 @@ Bayes_resample <- function(object, ...)
 #' @importFrom rlang !!
 Bayes_resample.rset <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {
+    check_trans(transform)
     rset_type <- try(pretty(object), silent = TRUE)
     if(inherits(rset_type, "try-error"))
       rset_type <- NA
@@ -115,6 +123,7 @@ Bayes_resample.rset <-
 #' @rdname Bayes_resample
 Bayes_resample.vfold_cv <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {
+    check_trans(transform)
     rset_type <- try(pretty(object), silent = TRUE)
     if(inherits(rset_type, "try-error"))
       rset_type <- NA
@@ -216,17 +225,6 @@ Bayes_resample.resamples <-
     Bayes_resample(object$values, transform = transform, 
                    hetero_var = hetero_var, ...)
   }
-
-is_repeated_cv <- function(x) {
-  all(grepl("^Fold", x$values$Resample) & grepl("\\.Rep", x$values$Resample))
-}
-
-#' @importFrom purrr map
-get_id_vals <- function(x) {
-  id_vars <- grep("(^id$)|(^id[1-9]$)", names(x), value = TRUE)
-  map(x[, id_vars, drop = FALSE], function(x) unique(as.character(x)))
-}
-
 
 #' @export
 Bayes_resample.data.frame <-
