@@ -27,6 +27,7 @@ Imports:
     utils,
     purrr
 Suggests: 
-    knitr
+    knitr,
+    testthat
 Remotes:
     topepo/rsample
