@@ -4,7 +4,8 @@
 \alias{contrast_models}
 \title{Estimate the Difference Between Models}
 \usage{
-contrast_models(x, list_1 = NULL, list_2 = NULL)
+contrast_models(x, list_1 = NULL, list_2 = NULL, seed = sample.int(10000,
+  1))
 }
 \arguments{
 \item{x}{An object produced by \code{\link[=Bayes_resample]{Bayes_resample()}}.}
@@ -13,6 +14,8 @@ contrast_models(x, list_1 = NULL, list_2 = NULL)
 specify the specific pairwise contrasts. The contrast is
 parameterized as \code{list_1[i] - list_2[i]}. If the defaults
 are left to \code{NULL}, all combinations are evaluated.}
+
+\item{seed}{A single integer for sampling from the posterior.}
 }
 \value{
 A data frame of the posterior distribution(s) of the

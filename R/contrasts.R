@@ -10,6 +10,7 @@
 #'  specify the specific pairwise contrasts. The contrast is
 #'  parameterized as `list_1[i] - list_2[i]`. If the defaults
 #'  are left to `NULL`, all combinations are evaluated. 
+#' @param seed A single integer for sampling from the posterior. 
 #' @return A data frame of the posterior distribution(s) of the
 #'  difference(s). The object has an extra class of
 #'  `"posterior_diff"`.
@@ -19,7 +20,8 @@
 #' @export
 #' @importFrom purrr map2 map_df
 #' @importFrom utils combn
-contrast_models <- function(x, list_1 = NULL, list_2 = NULL) {
+contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
+                            seed = sample.int(10000, 1)) {
   if (is.null(list_1) & is.null(list_2)) {
     combos <- combn(x$names, 2)
     list_1 <- combos[1, ]
@@ -36,7 +38,8 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL) {
       models, 
       make_diffs, 
       obj = x$Bayes_mod, 
-      trans = x$transform
+      trans = x$transform,
+      seed = seed
     )
   class(diffs) <- c("posterior_diff", class(diffs))
   diffs
@@ -131,10 +134,12 @@ make_df <- function(a, b, id_vals = NULL) {
     dplyr::bind_cols(new_dat)
 }
 
-make_diffs <- function(spec, obj, trans) {
-  res_1 <- posterior_predict(obj, newdata = spec[1,])
+make_diffs <- function(spec, obj, trans, seed) {
+  res_1 <- posterior_predict(obj, newdata = spec[1,],
+                             seed = seed)
   res_1 <- trans$inv(res_1[,1])
-  res_2 <- posterior_predict(obj, newdata = spec[2,])
+  res_2 <- posterior_predict(obj, newdata = spec[2,],
+                             seed = seed)
   res_2 <- trans$inv(res_2[,1])
   res <- data.frame(difference = res_1 - res_2,
                     model_1 = as.character(spec$model[1]),
