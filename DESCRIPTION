@@ -28,6 +28,7 @@ Imports:
     purrr
 Suggests: 
     knitr,
-    testthat
+    testthat,
+    covr
 Remotes:
     topepo/rsample

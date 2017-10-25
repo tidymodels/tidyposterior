@@ -3,3 +3,5 @@
 ^docs$
 ^_pkgdown\.yml$
 vignettes/.build.timestamp
+^\.travis\.yml$
+^codecov\.yml$
