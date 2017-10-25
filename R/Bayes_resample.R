@@ -141,12 +141,11 @@ Bayes_resample.vfold_cv <-
     if(attributes(object)$repeats > 1) {
       if (hetero_var) {
         mod <- stan_glmer(statistic ~  model + 
-                            (model + 0 | id) + 
                             (model + 0 | id2/id),
                           data = resamples, ...)
       } else {
         mod <- stan_glmer(statistic ~  model + 
-                            (1 | id) + (1 | id2/id),
+                            (1 | id2/id),
                           data = resamples, ...)
       }
     } else {
