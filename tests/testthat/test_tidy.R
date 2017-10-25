@@ -17,27 +17,20 @@ test_rcv$two <- rnorm(nrow(test_rcv), mean = 12)
 fit_bt <- Bayes_resample(test_bt, seed = 781, 
                          chains = 2, iter = 50, 
                          verbose = FALSE)
-set.seed(647)
-tidy_bt <- tidy(fit_bt)
 
-## Regression test expected values from initial run created with
-## seed 647. See `test_tidy_session` in file below for versions
+tidy_bt <- tidy(fit_bt, seed = 647)
 
-load("../test_tidy_obj.RData")
+###################################################################
+
+test_that('reproducibility', {
+  expect_equal(tidy(fit_bt, seed = 647), tidy_bt)
+})
 
 ###################################################################
 
 test_that('basic object', {
   expect_equal(sort(unique(tidy_bt$model)), c("one", "two"))
   expect_equal(nrow(tidy_bt), 100)
-})
-
-###################################################################
-
-# see https://github.com/tidyverse/dplyr/issues/2751
-test_that('summary object', {
-  expect_equal(as.data.frame(summary(tidy_bt)), tidy_bt_post_int_90)
-  expect_equal(as.data.frame(summary(tidy_bt, prob = .99)), tidy_bt_post_int_99)
 })
 
 ###################################################################
