@@ -88,8 +88,12 @@ Bayes_resample.rset <-
     if(inherits(rset_type, "try-error"))
       rset_type <- NA
 
-    if(inherits(object, "bootstraps"))
+    ## dplyr::filter (and `[` !) drops the other classes =[
+    if(inherits(object, "bootstraps")) {
+      oc <- class(object)
       object <- object %>% dplyr::filter(id != "Apparent")
+      class(object) <- oc
+    }
 
     resamples <- gather(object) %>%
       dplyr::mutate(statistic = transform$func(statistic))
