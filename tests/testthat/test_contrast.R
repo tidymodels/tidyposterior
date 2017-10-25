@@ -12,68 +12,13 @@ fit_bt <- Bayes_resample(test_bt, seed = 781,
                          chains = 2, iter = 100, 
                          verbose = FALSE)
 
+contr_obj <- contrast_models(fit_bt, seed = 3666)
 
-## Regression test expected values from initial run
-## on 01/24/17 using rstanarm_2.15.3, Rcpp_0.12.13,
-## rstan_2.16.2, rstantools_1.3.0, StanHeaders_2.16.0-1,
+## Regression test expected values from initial run created with
+## seed 647. See `test_contrast_session` in file below for versions
 ## seed = 3666
 
-no_rope_90 <- structure(
-  list(
-    contrast = c("one vs three", "one vs two", "two vs three"), 
-    probability = c(0, 0.1, 0.08), 
-    mean = c(-4.12051862225756, -1.6788094239894, -1.7876188931085), 
-    lower = c(-5.72821597426092, -3.88577310109503, -3.92561746525354), 
-    upper = c(-2.17987663652163, 0.418565665138206, 0.580691049056751), 
-    size = c(0, 0, 0), 
-    pract_neg = c(NA, NA, NA), 
-    pract_equiv = c(NA, NA, NA), 
-    pract_pos = c(NA, NA, NA )
-  ), 
-  class = c("tbl_df", "tbl", "data.frame"), 
-  row.names = c(NA, -3L), 
-  .Names = c("contrast", "probability", "mean", "lower", 
-             "upper", "size", "pract_neg", "pract_equiv", 
-             "pract_pos")
-)
-
-no_rope_99 <- structure(
-  list(
-    contrast = c("one vs three", "one vs two", "two vs three"), 
-    probability = c(0, 0.1, 0.08), 
-    mean = c(-4.12051862225756, -1.6788094239894, -1.7876188931085), 
-    lower = c(-6.71677384510621, -4.99016146379666, -5.03614719046164), 
-    upper = c(-1.58542110599456, 2.21176294776361, 0.87660952438492), 
-    size = c(0, 0, 0), 
-    pract_neg = c(NA, NA, NA), 
-    pract_equiv = c(NA, NA, NA), 
-    pract_pos = c(NA, NA, NA )
-  ), 
-  class = c("tbl_df", "tbl", "data.frame"), 
-  row.names = c(NA, -3L), 
-  .Names = c("contrast", "probability", "mean", "lower", 
-             "upper", "size", "pract_neg", "pract_equiv", 
-             "pract_pos")
-)
-
-rope_1_90 <- structure(
-  list(
-    contrast = c("one vs three", "one vs two", "two vs three"), 
-    probability = c(0, 0.1, 0.08), 
-    mean = c(-4.12051862225756, -1.6788094239894, -1.7876188931085), 
-    lower = c(-5.72821597426092, -3.88577310109503, -3.92561746525354), 
-    upper = c(-2.17987663652163, 0.418565665138206, 0.580691049056751), 
-    size = c(1, 1, 1), 
-    pract_neg = c(1, 0.72, 0.76), 
-    pract_equiv = c(0, 0.25, 0.24), 
-    pract_pos = c(0, 0.03, 0)
-  ), 
-  class = c("tbl_df", "tbl", "data.frame"), 
-  row.names = c(NA, -3L), 
-  .Names = c("contrast", "probability", "mean", "lower", 
-             "upper", "size", "pract_neg", "pract_equiv", 
-             "pract_pos")
-)
+load("../test_contrast_obj.RData")
 
 ###################################################################
 
@@ -82,22 +27,23 @@ test_that('bad args', {
 })
 
 test_that('basics', {
-  comp <- contrast_models(fit_bt)
-  expect_equal(nrow(comp), 3* 100)
-  expect_equal(names(comp), c("difference", "model_1", "model_2"))
+  expect_equal(nrow(contr_obj), 3* 100)
+  expect_equal(names(contr_obj), c("difference", "model_1", "model_2"))
 })
 
 # see https://github.com/tidyverse/dplyr/issues/2751
-test_that('summary object', {
-  set.seed(3666)
-  expect_equal(as.data.frame(summary(contrast_models(fit_bt))), 
-               as.data.frame(no_rope_90))
-  set.seed(3666)
-  expect_equal(as.data.frame(summary(contrast_models(fit_bt), prob = .99)), 
-               as.data.frame(no_rope_99))
-  set.seed(3666)
-  expect_equal(as.data.frame(summary(contrast_models(fit_bt), size = 1)), 
-               as.data.frame(rope_1_90))
+test_that('reproducibility and summary calcs', {
+  post_90_obs <- summary(contr_obj)
+  post_90_obs <- as.data.frame(post_90_obs)
+  expect_equal(post_90_obs, fit_bt_post_int_90)
+  
+  post_99_obs <- summary(contr_obj, prob = .99)
+  post_99_obs <- as.data.frame(post_99_obs)
+  expect_equal(post_99_obs, fit_bt_post_int_99)
+
+  post_int_rope_1_obs <- summary(contr_obj, size = 1)
+  post_int_rope_1_obs <- as.data.frame(post_int_rope_1_obs)
+  expect_equal(post_int_rope_1_obs, fit_bt_post_int_rope_1)
 })
 
 
