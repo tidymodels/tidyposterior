@@ -92,6 +92,14 @@ resamples.</p>
 
 <span class='co'># S3 method for vfold_cv</span>
 <span class='fu'>Bayes_resample</span>(<span class='no'>object</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='no'>no_trans</span>,
+  <span class='kw'>hetero_var</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
+
+<span class='co'># S3 method for resamples</span>
+<span class='fu'>Bayes_resample</span>(<span class='no'>object</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='no'>no_trans</span>,
+  <span class='kw'>hetero_var</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>metric</span> <span class='kw'>=</span> <span class='no'>object</span>$<span class='no'>metrics</span>[<span class='fl'>1</span>], <span class='no'>...</span>)
+
+<span class='co'># S3 method for data.frame</span>
+<span class='fu'>Bayes_resample</span>(<span class='no'>object</span>, <span class='kw'>transform</span> <span class='kw'>=</span> <span class='no'>no_trans</span>,
   <span class='kw'>hetero_var</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -102,7 +110,8 @@ resamples.</p>
       <td><p>A data frame or and <code>rset</code> object (such as
 <code><a href='http://www.rdocumentation.org/packages/rsample/topics/vfold_cv'>rsample::vfold_cv()</a></code>) containing the <code>id</code> column(s) and at least
 two numeric columns of model performance statistics (e.g.
-accuracy).</p></td>
+accuracy). Additionally, an object from <code>caret::resamples</code>
+can be used.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -120,6 +129,11 @@ transformation fuctions. See <code><a href='transformations.html'>logit_trans()<
 variances are estimated for each model group. Otherwise, the
 same variance is used for each group. Estimating heterogeneous
 variances may slow or prevent convergence.</p></td>
+    </tr>
+    <tr>
+      <th>metric</th>
+      <td><p>A single character value for the statstic from
+the <code>resamples</code> object that should be analyzed.</p></td>
     </tr>
     </table>
     

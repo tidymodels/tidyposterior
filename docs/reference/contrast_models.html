@@ -84,7 +84,8 @@ between models. One or more comparisons can be computed at
 the same time.</p>
     
 
-    <pre class="usage"><span class='fu'>contrast_models</span>(<span class='no'>x</span>, <span class='kw'>list_1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>list_2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>contrast_models</span>(<span class='no'>x</span>, <span class='kw'>list_1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>list_2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fu'>sample.int</span>(<span class='fl'>10000</span>,
+  <span class='fl'>1</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -99,6 +100,10 @@ the same time.</p>
 specify the specific pairwise contrasts. The contrast is
 parameterized as <code>list_1[i] - list_2[i]</code>. If the defaults
 are left to <code>NULL</code>, all combinations are evaluated.</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>A single integer for sampling from the posterior.</p></td>
     </tr>
     </table>
     

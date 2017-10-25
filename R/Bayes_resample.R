@@ -8,7 +8,8 @@
 #' @param object A data frame or and `rset` object (such as
 #'  [rsample::vfold_cv()]) containing the `id` column(s) and at least
 #'  two numeric columns of model performance statistics (e.g.
-#'  accuracy).
+#'  accuracy). Additionally, an object from `caret::resamples`
+#'  can be used. 
 #' @param ... Additonal arguments to pass to [rstanarm::stan_glmer()]
 #'  such as `verbose`, `prior`, `seed`, `family`, etc.
 #' @return An object of class `Bayes_resample`.
@@ -194,6 +195,9 @@ summary.Bayes_resample <- function(object, ...) {
 #' @export
 #' @importFrom stats setNames
 #' @importFrom purrr map_chr
+#' @rdname Bayes_resample
+#' @param metric A single character value for the statstic from
+#'  the `resamples` object that should be analyzed. 
 Bayes_resample.resamples <-
   function(object,
            transform = no_trans,
@@ -231,11 +235,11 @@ Bayes_resample.resamples <-
   }
 
 #' @export
+#' @rdname Bayes_resample
 Bayes_resample.data.frame <-
   function(object,
            transform = no_trans,
            hetero_var = FALSE,
-           metric = object$metrics[1],
            ...) {
     id_cols <- grep("(^id)|(^id[1-9]$)",
                     names(object),

@@ -101,8 +101,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 9e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.9 seconds.
+## Gradient evaluation took 0.0001 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -119,9 +119,9 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.64265 seconds (Warm-up)
-##                0.288198 seconds (Sampling)
-##                2.93085 seconds (Total)
+##  Elapsed Time: 3.07369 seconds (Warm-up)
+##                0.29985 seconds (Sampling)
+##                3.37355 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
@@ -144,15 +144,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.72543 seconds (Warm-up)
-##                0.310814 seconds (Sampling)
-##                4.03624 seconds (Total)
+##  Elapsed Time: 2.66577 seconds (Warm-up)
+##                0.319112 seconds (Sampling)
+##                2.98488 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 1.8e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
+## Gradient evaluation took 4.8e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -169,15 +169,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.20311 seconds (Warm-up)
-##                0.220295 seconds (Sampling)
-##                3.42341 seconds (Total)
+##  Elapsed Time: 2.79226 seconds (Warm-up)
+##                0.305524 seconds (Sampling)
+##                3.09778 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 2.1e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
+## Gradient evaluation took 3.6e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -194,14 +194,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.45329 seconds (Warm-up)
-##                0.313293 seconds (Sampling)
-##                2.76658 seconds (Total)</code></pre>
+##  Elapsed Time: 2.81438 seconds (Warm-up)
+##                0.320282 seconds (Sampling)
+##                3.13466 seconds (Total)</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$Bayes_mod</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>Bayes_mod</code></pre></div>
 <pre><code>## stan_glmer
-##  family:  gaussian [identity]
-##  formula: statistic ~ model + (1 | id)
+##  family:       gaussian [identity]
+##  formula:      statistic ~ model + (1 | id)
+##  observations: 30
 ## ------
 ## 
 ## Estimates:
@@ -233,12 +234,12 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_post &lt;-<span class="st"> </span><span class="kw">tidy</span>(roc_model)
 <span class="kw">head</span>(roc_post)</code></pre></div>
 <pre><code>##   model posterior
-## 1   glm     0.791
-## 2   glm     0.781
-## 3   glm     0.798
-## 4   glm     0.805
-## 5   glm     0.800
-## 6   glm     0.790</code></pre>
+## 1   glm     0.787
+## 2   glm     0.791
+## 3   glm     0.787
+## 4   glm     0.788
+## 5   glm     0.799
+## 6   glm     0.792</code></pre>
 <p>There is a basic <code>ggplot</code> method for this object and we can overlay the observed statistics for each model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(roc_post) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="co"># Add the observed data to check for consistency </span>
@@ -258,18 +259,18 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_v_nnet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/contrast_models.html">contrast_models</a></span>(roc_model, <span class="st">"nnet"</span>, <span class="st">"glm"</span>)
 <span class="kw">head</span>(glm_v_nnet)</code></pre></div>
 <pre><code>##   difference model_1 model_2
-## 1     0.0439    nnet     glm
-## 2     0.0639    nnet     glm
-## 3     0.0613    nnet     glm
-## 4     0.0573    nnet     glm
-## 5     0.0423    nnet     glm
-## 6     0.0417    nnet     glm</code></pre>
+## 1     0.0475    nnet     glm
+## 2     0.0534    nnet     glm
+## 3     0.0497    nnet     glm
+## 4     0.0517    nnet     glm
+## 5     0.0500    nnet     glm
+## 6     0.0511    nnet     glm</code></pre>
 <p>The <code>summary</code> function can be used to quantify this difference. It has an argument called <code>size</code> where we can add our belief about the size of a true difference.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>
 <pre><code>## # A tibble: 1 x 9
 ##      contrast probability   mean  lower  upper  size pract_neg pract_equiv pract_pos
 ##         &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
-## 1 nnet vs glm           1 0.0503 0.0317 0.0689  0.02         0       0.004     0.996</code></pre>
+## 1 nnet vs glm           1 0.0504 0.0448 0.0559  0.02         0           0         1</code></pre>
 <p>The <code>probability</code> column indicates the proportion of the posterior distribution that is greater than zero. This result indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models.</p>
 <p>Before discussing the ROPE estimates, let’s plot the posterior distribution of the differences:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>

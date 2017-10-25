@@ -33,8 +33,6 @@ The data set `noisy_example` contains the results for a series of regression mod
 ```{r rmse-results, eval = eval_chunks, dev = "svg"}
 library(tidyposterior)
 data("noisy_example")
-## I'll fix this in the data object
-class(noisy_example) <- c("vfold_cv", class(noisy_example))
 
 library(tidyverse)
 
@@ -75,7 +73,7 @@ Based on these observations, a simple Guassian model is unlikely to work. Howeve
 ```{r linear-linear, eval = eval_chunks, dev = "svg"}
 linear_model <- Bayes_resample(rmses, seed = 74)
 
-ggplot(tidy(linear_model)) + 
+ggplot(tidy(linear_model, seed = 457)) + 
   geom_point(
     data = stacked_rmse, 
     aes(x = model, y = statistic),
@@ -93,7 +91,7 @@ Another approach is to transform the RMSE values to something model symmetric an
 ```{r log-linear, eval = eval_chunks, dev = "svg"}
 log_linear_model <- Bayes_resample(rmses, transform = ln_trans, seed = 74)
 
-ggplot(tidy(log_linear_model)) + 
+ggplot(tidy(log_linear_model, seed = 3750)) + 
   geom_point(
     data = stacked_rmse, 
     aes(x = model, y = statistic),
@@ -114,7 +112,7 @@ To fit this model, the `family` argument to `stan_glmer` can be passed in. The d
 ```{r gamma, eval = eval_chunks, dev = "svg"}
 gamma_model <- Bayes_resample(rmses, family = Gamma(), seed = 74)
 
-ggplot(tidy(gamma_model)) + 
+ggplot(tidy(gamma_model, seed = 5264)) + 
   geom_point(
     data = stacked_rmse, 
     aes(x = model, y = statistic),
@@ -127,7 +125,7 @@ Although it takes more time to converge, this seems like a much more reasonable 
 We can compare models using the `contrast_models` function. The function has arguments for two sets of models to compare but if these are left to their default (`NULL`), all pair-wise combinations are used.
 
 ```{r gamma-contrast, eval = eval_chunks, dev = "svg"}
-all_contrasts <- contrast_models(gamma_model)
+all_contrasts <- contrast_models(gamma_model, seed = 8967)
 ggplot(all_contrasts)
 summary(all_contrasts)
 ````

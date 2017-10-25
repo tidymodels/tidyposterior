@@ -4,6 +4,8 @@
 \alias{Bayes_resample}
 \alias{Bayes_resample.rset}
 \alias{Bayes_resample.vfold_cv}
+\alias{Bayes_resample.resamples}
+\alias{Bayes_resample.data.frame}
 \title{Bayesian Analysis of Resampling Statistics}
 \usage{
 Bayes_resample(object, ...)
@@ -13,12 +15,19 @@ Bayes_resample(object, ...)
 
 \method{Bayes_resample}{vfold_cv}(object, transform = no_trans,
   hetero_var = FALSE, ...)
+
+\method{Bayes_resample}{resamples}(object, transform = no_trans,
+  hetero_var = FALSE, metric = object$metrics[1], ...)
+
+\method{Bayes_resample}{data.frame}(object, transform = no_trans,
+  hetero_var = FALSE, ...)
 }
 \arguments{
 \item{object}{A data frame or and \code{rset} object (such as
 \code{\link[rsample:vfold_cv]{rsample::vfold_cv()}}) containing the \code{id} column(s) and at least
 two numeric columns of model performance statistics (e.g.
-accuracy).}
+accuracy). Additionally, an object from \code{caret::resamples}
+can be used.}
 
 \item{...}{Additonal arguments to pass to \code{\link[rstanarm:stan_glmer]{rstanarm::stan_glmer()}}
 such as \code{verbose}, \code{prior}, \code{seed}, \code{family}, etc.}
@@ -30,6 +39,9 @@ transformation fuctions. See \code{\link[=logit_trans]{logit_trans()}} as an exa
 variances are estimated for each model group. Otherwise, the
 same variance is used for each group. Estimating heterogeneous
 variances may slow or prevent convergence.}
+
+\item{metric}{A single character value for the statstic from
+the \code{resamples} object that should be analyzed.}
 }
 \value{
 An object of class \code{Bayes_resample}.
