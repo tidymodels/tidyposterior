@@ -4,13 +4,16 @@
 \alias{summary.posterior}
 \title{Summarize the Posterior Distributions of Model Statistics}
 \usage{
-\method{summary}{posterior}(object, prob = 0.9, ...)
+\method{summary}{posterior}(object, prob = 0.9, seed = sample.int(10000, 1),
+  ...)
 }
 \arguments{
 \item{object}{An object produced by \code{\link[=tidy.Bayes_resample]{tidy.Bayes_resample()}}.}
 
 \item{prob}{A number p (0 < p < 1) indicating the desired
 probability mass to include in the intervals.}
+
+\item{seed}{A single integer for sampling from the posterior.}
 
 \item{...}{Not currently used}
 }

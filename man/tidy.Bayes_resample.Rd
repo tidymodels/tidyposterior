@@ -4,10 +4,12 @@
 \alias{tidy.Bayes_resample}
 \title{Extract Posterior Distributions for Models}
 \usage{
-\method{tidy}{Bayes_resample}(x, ...)
+\method{tidy}{Bayes_resample}(x, seed = sample.int(10000, 1), ...)
 }
 \arguments{
 \item{x}{An object from \code{\link[=Bayes_resample]{Bayes_resample()}}}
+
+\item{seed}{A single integer for sampling from the posterior.}
 
 \item{...}{Not currently used}
 }
