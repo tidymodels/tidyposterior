@@ -115,7 +115,7 @@ test_that('rsample method with repeated cv', {
   expect_equal(obj_5$rset_type, "5-fold cross-validation repeated 2 times")  
   expect_equal(class(obj_5$Bayes_mod), c('stanreg', 'glm', 'lm', 'lmerMod'))
   expect_equal(formula(obj_5$Bayes_mod), 
-               as.formula(statistic ~ model + (1 | id) + (1 | id2/id)))
+               as.formula(statistic ~ model + (1 | id2/id)))
   expect_output(print(obj_5))
   expect_equal(summary(obj_5), summary(obj_5$Bayes_mod))
 })
@@ -133,7 +133,7 @@ test_that('repeated v_fold method', {
   expect_equal(obj_6$rset_type, "5-fold cross-validation repeated 2 times")  
   expect_equal(class(obj_6$Bayes_mod), c('stanreg', 'glm', 'lm', 'lmerMod'))
   expect_equal(formula(obj_6$Bayes_mod), 
-               as.formula(statistic ~ model + (1 | id) + (1 | id2/id)))
+               as.formula(statistic ~ model + (1 | id2/id)))
   expect_output(print(obj_6))
   expect_equal(summary(obj_6), summary(obj_6$Bayes_mod))
 })
