@@ -135,11 +135,21 @@ make_df <- function(a, b, id_vals = NULL) {
 }
 
 make_diffs <- function(spec, obj, trans, seed) {
-  res_1 <- posterior_predict(obj, newdata = spec[1,],
-                             seed = seed)
+  res_1 <- posterior_linpred(
+    obj, 
+    newdata = spec[1,],
+    seed = seed,
+    re.form = NA,
+    transform = TRUE
+  )
   res_1 <- trans$inv(res_1[,1])
-  res_2 <- posterior_predict(obj, newdata = spec[2,],
-                             seed = seed)
+  res_2 <- posterior_linpred(
+    obj, 
+    newdata = spec[2,],
+    seed = seed,
+    re.form = NA,
+    transform = TRUE
+  )
   res_2 <- trans$inv(res_2[,1])
   res <- data.frame(difference = res_1 - res_2,
                     model_1 = as.character(spec$model[1]),

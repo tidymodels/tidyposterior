@@ -8,6 +8,11 @@
 #' @param seed A single integer for sampling from the posterior. 
 #' @param ... Not currently used
 #' @return A data frame with the additional class `"posterior"`
+#' @details Note that this posterior only reflects the variability
+#'  of the groups (i.e. the fixed effects). This helps answer the
+#'  question of which model is best _for this data set_. If does not
+#'  answer the question of which model would be best on a new
+#'  resample of the data (which would have greater variability).
 #' @export
 #' @importFrom tidyr gather
 #' @importFrom dplyr mutate %>%
@@ -76,14 +81,20 @@ ggplot.posterior <-
   }
 
 
-#' @importFrom rstanarm posterior_predict
+#' @importFrom rstanarm posterior_linpred
 get_post <- function(x, seed = sample.int(10000, 1)) {
   new_dat <- data.frame(model = unique(x$names))
   new_dat <- as.data.frame(lapply(x$ids, 
                                   function(x) rep(x[1], nrow(new_dat)))) %>%
     bind_cols(new_dat)
   post_data <- 
-    rstanarm::posterior_predict(x$Bayes_mod, newdata = new_dat, seed = seed)
+    rstanarm::posterior_linpred(
+      x$Bayes_mod, 
+      newdata = new_dat, 
+      seed = seed,
+      re.form = NA,
+      transform = TRUE
+      )
   post_data <- as.data.frame(post_data)
   names(post_data) <- x$names
   post_data

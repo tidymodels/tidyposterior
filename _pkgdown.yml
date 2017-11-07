@@ -26,8 +26,8 @@ navbar:
   left:  
   - text: Getting Started
     href: articles/Getting_Started.html    
-  - text: A Messy Example
-    href: articles/Messy_Example.html         
+  - text: Different Bayesian Models
+    href: articles/Different_Bayesian_Models.html         
   - text: Reference
     href: reference/index.html
 

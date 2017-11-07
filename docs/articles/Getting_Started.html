@@ -32,7 +32,7 @@
   <a href="../articles/Getting_Started.html">Getting Started</a>
 </li>
 <li>
-  <a href="../articles/Messy_Example.html">A Messy Example</a>
+  <a href="../articles/Different_Bayesian_Models.html">Different Bayesian Models</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -101,8 +101,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.0001 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1 seconds.
+## Gradient evaluation took 0.000106 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.06 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -119,15 +119,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.07369 seconds (Warm-up)
-##                0.29985 seconds (Sampling)
-##                3.37355 seconds (Total)
+##  Elapsed Time: 2.99397 seconds (Warm-up)
+##                0.287072 seconds (Sampling)
+##                3.28104 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 2.2e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.22 seconds.
+## Gradient evaluation took 2e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -144,15 +144,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.66577 seconds (Warm-up)
-##                0.319112 seconds (Sampling)
-##                2.98488 seconds (Total)
+##  Elapsed Time: 2.61401 seconds (Warm-up)
+##                0.311239 seconds (Sampling)
+##                2.92524 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 4.8e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
+## Gradient evaluation took 2.8e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -169,15 +169,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.79226 seconds (Warm-up)
-##                0.305524 seconds (Sampling)
-##                3.09778 seconds (Total)
+##  Elapsed Time: 2.68845 seconds (Warm-up)
+##                0.300963 seconds (Sampling)
+##                2.98942 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 3.6e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
+## Gradient evaluation took 2.8e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -194,9 +194,9 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.81438 seconds (Warm-up)
-##                0.320282 seconds (Sampling)
-##                3.13466 seconds (Total)</code></pre>
+##  Elapsed Time: 2.76328 seconds (Warm-up)
+##                0.320087 seconds (Sampling)
+##                3.08337 seconds (Total)</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$Bayes_mod</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>Bayes_mod</code></pre></div>
 <pre><code>## stan_glmer
@@ -234,12 +234,12 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_post &lt;-<span class="st"> </span><span class="kw">tidy</span>(roc_model)
 <span class="kw">head</span>(roc_post)</code></pre></div>
 <pre><code>##   model posterior
-## 1   glm     0.787
-## 2   glm     0.791
-## 3   glm     0.787
-## 4   glm     0.788
-## 5   glm     0.799
-## 6   glm     0.792</code></pre>
+## 1   glm     0.792
+## 2   glm     0.790
+## 3   glm     0.796
+## 4   glm     0.785
+## 5   glm     0.786
+## 6   glm     0.793</code></pre>
 <p>There is a basic <code>ggplot</code> method for this object and we can overlay the observed statistics for each model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(roc_post) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="co"># Add the observed data to check for consistency </span>
@@ -249,7 +249,7 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
     <span class="dt">alpha =</span> .<span class="dv">5</span>, <span class="dt">col =</span> <span class="st">"blue"</span>
   )</code></pre></div>
 <p><img src="Getting_Started_files/figure-html/linear-model-post-plot-1.svg" width="672"></p>
-<p>These results look fairly reasonable given that we estimated a constance variance for each of the models.</p>
+<p>These results look fairly reasonable given that we estimated a common variance for each of the models.</p>
 </div>
 <div id="comparing-models" class="section level2">
 <h2 class="hasAnchor">
