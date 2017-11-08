@@ -70,6 +70,7 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #'  unlikely to be practically different relative to `size`.
 #' @export
 #' @importFrom dplyr mutate rename group_by summarise full_join %>%
+#' @importFrom rlang na_dbl
 summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
   object <- object %>% 
     dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs ")) %>%
@@ -93,9 +94,9 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
     rope_stats <- object %>% 
     dplyr::group_by(contrast) %>% 
     dplyr::summarise(size = size, 
-                     pract_neg = NA,
-                     pract_equiv = NA,
-                     pract_pos = NA)
+                     pract_neg = na_dbl,
+                     pract_equiv = na_dbl,
+                     pract_pos = na_dbl)
   dplyr::full_join(post_stats, rope_stats, by = c("contrast")) 
 }
 
