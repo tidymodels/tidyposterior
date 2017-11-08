@@ -117,19 +117,19 @@ Four regression models were applied to these data.</p></li>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>precise_example</span>)
 <span class='no'>precise_example</span></div><div class='output co'>#&gt; #  10-fold cross-validation using stratification 
-#&gt; # A tibble: 10 x 28
-#&gt;        id glm_Accuracy glm_Kappa   glm_ROC  glm_Sens  glm_Spec glm_PRAUC
-#&gt;     &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-#&gt;  1 Fold01    0.7219789 0.3276231 0.7980770 0.7294282 0.7202908 0.4890519
-#&gt;  2 Fold02    0.6964700 0.2896545 0.7779284 0.7196653 0.6912137 0.4559959
-#&gt;  3 Fold03    0.7012887 0.2972104 0.7900645 0.7234637 0.6962705 0.4862322
-#&gt;  4 Fold04    0.7041999 0.3157213 0.7947942 0.7625698 0.6909953 0.4974863
-#&gt;  5 Fold05    0.7210201 0.3235922 0.7972035 0.7224547 0.7206951 0.4807800
-#&gt;  6 Fold06    0.7108993 0.3032914 0.7804242 0.7057183 0.7120733 0.4835726
-#&gt;  7 Fold07    0.7023963 0.3048452 0.7899755 0.7391911 0.6940582 0.4850924
-#&gt;  8 Fold08    0.7175258 0.3211274 0.7838771 0.7290503 0.7149178 0.4765777
-#&gt;  9 Fold09    0.7196599 0.3280866 0.7953167 0.7391911 0.7152339 0.4910643
-#&gt; 10 Fold10    0.7194022 0.3235179 0.7960815 0.7280335 0.7174463 0.4876692
+#&gt; # A tibble: 10 x 29
+#&gt;    splits     id glm_Accuracy glm_Kappa   glm_ROC  glm_Sens  glm_Spec glm_PRAUC
+#&gt;     &lt;lgl&gt;  &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+#&gt;  1     NA Fold01    0.7219789 0.3276231 0.7980770 0.7294282 0.7202908 0.4890519
+#&gt;  2     NA Fold02    0.6964700 0.2896545 0.7779284 0.7196653 0.6912137 0.4559959
+#&gt;  3     NA Fold03    0.7012887 0.2972104 0.7900645 0.7234637 0.6962705 0.4862322
+#&gt;  4     NA Fold04    0.7041999 0.3157213 0.7947942 0.7625698 0.6909953 0.4974863
+#&gt;  5     NA Fold05    0.7210201 0.3235922 0.7972035 0.7224547 0.7206951 0.4807800
+#&gt;  6     NA Fold06    0.7108993 0.3032914 0.7804242 0.7057183 0.7120733 0.4835726
+#&gt;  7     NA Fold07    0.7023963 0.3048452 0.7899755 0.7391911 0.6940582 0.4850924
+#&gt;  8     NA Fold08    0.7175258 0.3211274 0.7838771 0.7290503 0.7149178 0.4765777
+#&gt;  9     NA Fold09    0.7196599 0.3280866 0.7953167 0.7391911 0.7152339 0.4910643
+#&gt; 10     NA Fold10    0.7194022 0.3235179 0.7960815 0.7280335 0.7174463 0.4876692
 #&gt; # ... with 21 more variables: glm_Precision &lt;dbl&gt;, glm_Recall &lt;dbl&gt;,
 #&gt; #   glm_F &lt;dbl&gt;, knn_Accuracy &lt;dbl&gt;, knn_Kappa &lt;dbl&gt;, knn_ROC &lt;dbl&gt;,
 #&gt; #   knn_Sens &lt;dbl&gt;, knn_Spec &lt;dbl&gt;, knn_PRAUC &lt;dbl&gt;, knn_Precision &lt;dbl&gt;,

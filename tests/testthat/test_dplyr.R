@@ -1,8 +1,6 @@
 library(tidyposterior)
-library(rsample)
 library(testthat)
 library(dplyr)
-library(tidyposterior)
 
 ###################################################################
 

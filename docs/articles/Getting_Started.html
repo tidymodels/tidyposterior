@@ -71,16 +71,16 @@ rocs</code></pre></div>
 ## # A tibble: 10 x 4
 ##        id   glm   knn  nnet
 ##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1 Fold01 0.798 0.753 0.844
-##  2 Fold02 0.778 0.744 0.825
-##  3 Fold03 0.790 0.743 0.843
-##  4 Fold04 0.795 0.755 0.851
-##  5 Fold05 0.797 0.760 0.835
-##  6 Fold06 0.780 0.747 0.855
-##  7 Fold07 0.790 0.757 0.832
-##  8 Fold08 0.784 0.754 0.829
-##  9 Fold09 0.795 0.764 0.850
-## 10 Fold10 0.796 0.748 0.846</code></pre>
+##  1 Fold01 0.798 0.753 0.843
+##  2 Fold02 0.778 0.744 0.827
+##  3 Fold03 0.790 0.743 0.846
+##  4 Fold04 0.795 0.755 0.852
+##  5 Fold05 0.797 0.760 0.838
+##  6 Fold06 0.780 0.747 0.852
+##  7 Fold07 0.790 0.757 0.833
+##  8 Fold08 0.784 0.754 0.832
+##  9 Fold09 0.795 0.764 0.846
+## 10 Fold10 0.796 0.748 0.847</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 
 rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
@@ -101,8 +101,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.000129 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.29 seconds.
+## Gradient evaluation took 0.000103 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.03 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -119,15 +119,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.06073 seconds (Warm-up)
-##                0.307159 seconds (Sampling)
-##                3.36788 seconds (Total)
+##  Elapsed Time: 2.89022 seconds (Warm-up)
+##                0.181217 seconds (Sampling)
+##                3.07144 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 1.9e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
+## Gradient evaluation took 2.4e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -144,15 +144,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.75459 seconds (Warm-up)
-##                0.328083 seconds (Sampling)
-##                3.08267 seconds (Total)
+##  Elapsed Time: 3.3186 seconds (Warm-up)
+##                0.257099 seconds (Sampling)
+##                3.5757 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 2.9e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
+## Gradient evaluation took 2.3e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -169,15 +169,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.81475 seconds (Warm-up)
-##                0.332002 seconds (Sampling)
-##                3.14675 seconds (Total)
+##  Elapsed Time: 3.26629 seconds (Warm-up)
+##                0.300275 seconds (Sampling)
+##                3.56657 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 3.5e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.35 seconds.
+## Gradient evaluation took 3.1e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -194,9 +194,9 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.84072 seconds (Warm-up)
-##                0.345261 seconds (Sampling)
-##                3.18598 seconds (Total)</code></pre>
+##  Elapsed Time: 2.84049 seconds (Warm-up)
+##                0.203871 seconds (Sampling)
+##                3.04436 seconds (Total)</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$Bayes_mod</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>Bayes_mod</code></pre></div>
 <pre><code>## stan_glmer
@@ -214,8 +214,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## 
 ## Error terms:
 ##  Groups   Name        Std.Dev.
-##  id       (Intercept) 0.0047  
-##  Residual             0.0075  
+##  id       (Intercept) 0.0043  
+##  Residual             0.0070  
 ## Num. levels: id 10 
 ## 
 ## Sample avg. posterior predictive 
@@ -236,12 +236,12 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## # A tibble: 6 x 2
 ##   model posterior
 ## * &lt;chr&gt;     &lt;dbl&gt;
-## 1   glm     0.792
+## 1   glm     0.793
 ## 2   glm     0.790
-## 3   glm     0.796
-## 4   glm     0.785
-## 5   glm     0.786
-## 6   glm     0.793</code></pre>
+## 3   glm     0.792
+## 4   glm     0.789
+## 5   glm     0.789
+## 6   glm     0.789</code></pre>
 <p>There is a basic <code>ggplot</code> method for this object and we can overlay the observed statistics for each model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(roc_post) <span class="op">+</span><span class="st"> </span>
 <span class="st">  </span><span class="co"># Add the observed data to check for consistency </span>
@@ -261,18 +261,18 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_v_nnet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/contrast_models.html">contrast_models</a></span>(roc_model, <span class="st">"nnet"</span>, <span class="st">"glm"</span>)
 <span class="kw">head</span>(glm_v_nnet)</code></pre></div>
 <pre><code>##   difference model_1 model_2
-## 1     0.0475    nnet     glm
-## 2     0.0534    nnet     glm
-## 3     0.0497    nnet     glm
-## 4     0.0517    nnet     glm
-## 5     0.0500    nnet     glm
-## 6     0.0511    nnet     glm</code></pre>
+## 1     0.0467    nnet     glm
+## 2     0.0490    nnet     glm
+## 3     0.0523    nnet     glm
+## 4     0.0525    nnet     glm
+## 5     0.0536    nnet     glm
+## 6     0.0558    nnet     glm</code></pre>
 <p>The <code>summary</code> function can be used to quantify this difference. It has an argument called <code>size</code> where we can add our belief about the size of a true difference.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>
 <pre><code>## # A tibble: 1 x 9
 ##      contrast probability   mean  lower  upper  size pract_neg pract_equiv pract_pos
 ##         &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
-## 1 nnet vs glm           1 0.0504 0.0448 0.0559  0.02         0           0         1</code></pre>
+## 1 nnet vs glm           1 0.0511 0.0459 0.0563  0.02         0           0         1</code></pre>
 <p>The <code>probability</code> column indicates the proportion of the posterior distribution that is greater than zero. This result indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models.</p>
 <p>Before discussing the ROPE estimates, let’s plot the posterior distribution of the differences:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>
