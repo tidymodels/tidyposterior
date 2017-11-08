@@ -25,7 +25,8 @@ Imports:
     rstanarm,
     rlang,
     utils,
-    purrr
+    purrr,
+    tibble
 Suggests: 
     knitr,
     testthat,

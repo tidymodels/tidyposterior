@@ -15,7 +15,7 @@
 #'  resample of the data (which would have greater variability).
 #' @export
 #' @importFrom tidyr gather
-#' @importFrom dplyr mutate %>%
+#' @importFrom dplyr mutate %>% as_tibble
 #' @importFrom broom tidy
 tidy.Bayes_resample <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
@@ -26,6 +26,7 @@ tidy.Bayes_resample <- function(x, seed = sample.int(10000, 1), ...) {
       value = posterior
     ) %>%
     dplyr::mutate(posterior = x$transform$inv(posterior))
+  post_dat <- as_tibble(post_dat)
   class(post_dat) <- c("posterior", class(post_dat))
   post_dat
 }
