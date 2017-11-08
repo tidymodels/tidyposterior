@@ -5,8 +5,8 @@ template:
 reference:
   - title: Bayessian Analysis of Resampling Results
     contents:
-      - Bayes_resample
-      - tidy.Bayes_resample
+      - perf_mod
+      - tidy.perf_mod
       - contrast_models
       - matches("summary")
       - matches("ggplot")

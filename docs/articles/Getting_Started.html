@@ -95,14 +95,14 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <h2 class="hasAnchor">
 <a href="#a-basic-linear-model" class="anchor"></a>A Basic Linear Model</h2>
 <p>We will try a simple linear model with Gaussian errors that has a random effect for the resamples so that the within-resample correlation can be estimated. Although the outcome is bounded in the interval [0,1], the variability of these estimates might be precise enough to achieve a well-fitting model.</p>
-<p>To fit the model, <code>Bayes_resample</code> will be used to fit a model using the <code>stan_glmer</code> function in the <code>rstanarm</code> package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rocs, <span class="dt">seed =</span> <span class="dv">2824</span>)</code></pre></div>
+<p>To fit the model, <code>perf_mod</code> will be used to fit a model using the <code>stan_glmer</code> function in the <code>rstanarm</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/perf_mod.html">perf_mod</a></span>(rocs, <span class="dt">seed =</span> <span class="dv">2824</span>)</code></pre></div>
 <pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.000106 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.06 seconds.
+## Gradient evaluation took 0.000129 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.29 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -119,15 +119,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.99397 seconds (Warm-up)
-##                0.287072 seconds (Sampling)
-##                3.28104 seconds (Total)
+##  Elapsed Time: 3.06073 seconds (Warm-up)
+##                0.307159 seconds (Sampling)
+##                3.36788 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 2e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
+## Gradient evaluation took 1.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.19 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -144,15 +144,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.61401 seconds (Warm-up)
-##                0.311239 seconds (Sampling)
-##                2.92524 seconds (Total)
+##  Elapsed Time: 2.75459 seconds (Warm-up)
+##                0.328083 seconds (Sampling)
+##                3.08267 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 2.8e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
+## Gradient evaluation took 2.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -169,15 +169,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.68845 seconds (Warm-up)
-##                0.300963 seconds (Sampling)
-##                2.98942 seconds (Total)
+##  Elapsed Time: 2.81475 seconds (Warm-up)
+##                0.332002 seconds (Sampling)
+##                3.14675 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 2.8e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
+## Gradient evaluation took 3.5e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.35 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -194,9 +194,9 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.76328 seconds (Warm-up)
-##                0.320087 seconds (Sampling)
-##                3.08337 seconds (Total)</code></pre>
+##  Elapsed Time: 2.84072 seconds (Warm-up)
+##                0.345261 seconds (Sampling)
+##                3.18598 seconds (Total)</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$Bayes_mod</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>Bayes_mod</code></pre></div>
 <pre><code>## stan_glmer
@@ -233,7 +233,9 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <p>The <code>tidy</code> function can be used to extract the distributions into a simple data frame:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_post &lt;-<span class="st"> </span><span class="kw">tidy</span>(roc_model)
 <span class="kw">head</span>(roc_post)</code></pre></div>
-<pre><code>##   model posterior
+<pre><code>## # A tibble: 6 x 2
+##   model posterior
+## * &lt;chr&gt;     &lt;dbl&gt;
 ## 1   glm     0.792
 ## 2   glm     0.790
 ## 3   glm     0.796

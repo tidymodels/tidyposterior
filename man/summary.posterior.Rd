@@ -8,7 +8,7 @@
   ...)
 }
 \arguments{
-\item{object}{An object produced by \code{\link[=tidy.Bayes_resample]{tidy.Bayes_resample()}}.}
+\item{object}{An object produced by \code{\link[=tidy.perf_mod]{tidy.perf_mod()}}.}
 
 \item{prob}{A number p (0 < p < 1) indicating the desired
 probability mass to include in the intervals.}

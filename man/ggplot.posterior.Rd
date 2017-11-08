@@ -8,7 +8,7 @@
   reorder = TRUE)
 }
 \arguments{
-\item{data}{An object produced by \code{\link[=tidy.Bayes_resample]{tidy.Bayes_resample()}}.}
+\item{data}{An object produced by \code{\link[=tidy.perf_mod]{tidy.perf_mod()}}.}
 
 \item{mapping, ..., environment}{Not currently used.}
 

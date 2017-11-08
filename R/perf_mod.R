@@ -5,14 +5,14 @@
 #'  generalized linear model with effects for the model and the
 #'  resamples.
 #'
-#' @param object A data frame or and `rset` object (such as
+#' @param object A data frame or an `rset` object (such as
 #'  [rsample::vfold_cv()]) containing the `id` column(s) and at least
 #'  two numeric columns of model performance statistics (e.g.
 #'  accuracy). Additionally, an object from `caret::resamples`
 #'  can be used. 
 #' @param ... Additonal arguments to pass to [rstanarm::stan_glmer()]
 #'  such as `verbose`, `prior`, `seed`, `family`, etc.
-#' @return An object of class `Bayes_resample`.
+#' @return An object of class `perf_mod`.
 #' @details By default, a generalized linear model with Gaussian
 #'  error and an identity link is fit to the data and has terms for
 #'  the predictive model grouping variable. In this way, the
@@ -49,25 +49,25 @@
 #'  distribution from the exponential family. For RMSE values, the
 #'  Gamma distribution may produce better results at the expense of
 #'  model computational complexity. This can be achieved by passing
-#'  the `family` argument to `Bayes_resample` as one might with the
+#'  the `family` argument to `perf_mod` as one might with the
 #'  `glm` function.
 #' @export
-Bayes_resample <- function(object, ...)
-  UseMethod("Bayes_resample")
+perf_mod <- function(object, ...)
+  UseMethod("perf_mod")
 
 
 #' @export
-Bayes_resample.default <- function(object, ...)
+perf_mod.default <- function(object, ...)
   stop("`object` should have at least one of these classes: ",
        "'rset', 'data.frame', 'resamples', or 'vfold_cv'. ",
-       "See ?Bayes_resample")
+       "See ?perf_mod")
 
 # Make a general data.frame method, maybe `gather` methods for
 # `rset` and `rsample` objects instead of having the `gather`
-# code inside of `Bayes_resample.rset`. If we do that, there could
+# code inside of `perf_mod.rset`. If we do that, there could
 # be more specific methods (e.g. "rolling_origin" instead of `rset`)
 
-#' @rdname Bayes_resample
+#' @rdname perf_mod
 #' @param transform An named list of transformation and inverse
 #'  transformation fuctions. See [logit_trans()] as an example.
 #' @param hetero_var A logical; if `TRUE`, then different
@@ -82,7 +82,7 @@ Bayes_resample.default <- function(object, ...)
 #' @importFrom rsample pretty.loo_cv pretty.vfold_cv
 #' @importFrom rstanarm stan_glmer
 #' @importFrom rlang !!
-Bayes_resample.rset <-
+perf_mod.rset <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {
     check_trans(transform)
     rset_type <- try(pretty(object), silent = TRUE)
@@ -118,15 +118,15 @@ Bayes_resample.rset <-
                 rset_type = rset_type,
                 ids = get_id_vals(resamples),
                 transform = transform)
-    class(res) <- "Bayes_resample"
+    class(res) <- "perf_mod"
     res
   }
 
 #' @export
-#' @exportMethod Bayes_resample vfold_cv
+#' @exportMethod perf_mod vfold_cv
 #' @importFrom rsample vfold_cv
-#' @rdname Bayes_resample
-Bayes_resample.vfold_cv <-
+#' @rdname perf_mod
+perf_mod.vfold_cv <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {
     check_trans(transform)
     rset_type <- try(pretty(object), silent = TRUE)
@@ -165,7 +165,7 @@ Bayes_resample.vfold_cv <-
                 rset_type = rset_type,
                 ids = get_id_vals(resamples),
                 transform = transform)
-    class(res) <- "Bayes_resample"
+    class(res) <- "perf_mod"
     res
   }
 
@@ -175,7 +175,7 @@ Bayes_resample.vfold_cv <-
 utils::globalVariables(c("id", "model", "splits", "statistic", "Resample"))
 
 #' @export
-print.Bayes_resample <- function(x, ...) {
+print.perf_mod <- function(x, ...) {
   cat("Bayesian Analysis of Resampling Results\n")
   if(!is.na(x$rset_type)) {
     cat("Original data: ")
@@ -186,7 +186,7 @@ print.Bayes_resample <- function(x, ...) {
 }
 
 #' @export
-summary.Bayes_resample <- function(object, ...) {
+summary.perf_mod <- function(object, ...) {
   summary(object$Bayes_mod)
 }
 
@@ -194,10 +194,10 @@ summary.Bayes_resample <- function(object, ...) {
 #' @export
 #' @importFrom stats setNames
 #' @importFrom purrr map_chr
-#' @rdname Bayes_resample
+#' @rdname perf_mod
 #' @param metric A single character value for the statstic from
 #'  the `resamples` object that should be analyzed. 
-Bayes_resample.resamples <-
+perf_mod.resamples <-
   function(object,
            transform = no_trans,
            hetero_var = FALSE,
@@ -229,13 +229,13 @@ Bayes_resample.resamples <-
     }
     
     
-    Bayes_resample(object$values, transform = transform, 
-                   hetero_var = hetero_var, ...)
+    perf_mod(object$values, transform = transform, 
+             hetero_var = hetero_var, ...)
   }
 
 #' @export
-#' @rdname Bayes_resample
-Bayes_resample.data.frame <-
+#' @rdname perf_mod
+perf_mod.data.frame <-
   function(object,
            transform = no_trans,
            hetero_var = FALSE,
@@ -260,6 +260,6 @@ Bayes_resample.data.frame <-
     
     class(object) <- c("rset", class(object))
     
-    Bayes_resample(object, transform = transform, 
-                   hetero_var = hetero_var, ...)
+    perf_mod(object, transform = transform, 
+             hetero_var = hetero_var, ...)
   }

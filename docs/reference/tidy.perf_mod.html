@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarize the Posterior Distributions of Model Statistics — summary.posterior • tidyposterior</title>
+<title>Extract Posterior Distributions for Models — tidy.perf_mod • tidyposterior</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -74,30 +74,24 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summarize the Posterior Distributions of Model Statistics</h1>
+    <h1>Extract Posterior Distributions for Models</h1>
     </div>
 
     
-    <p>Numerical summaries are created for each model including the
-posterior mean and upper and lower credible intervals (aka
-uncertainty intervals).</p>
+    <p><code>tidy</code> can be used on an object produced by <code><a href='perf_mod.html'>perf_mod()</a></code>
+to create a data frame with a column for the model name and
+the posterior predictive distribution values.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for posterior</span>
-<span class='fu'>summary</span>(<span class='no'>object</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fu'>sample.int</span>(<span class='fl'>10000</span>, <span class='fl'>1</span>),
-  <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for perf_mod</span>
+<span class='fu'>tidy</span>(<span class='no'>x</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fu'>sample.int</span>(<span class='fl'>10000</span>, <span class='fl'>1</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>object</th>
-      <td><p>An object produced by <code><a href='tidy.perf_mod.html'>tidy.perf_mod()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>prob</th>
-      <td><p>A number p (0 &lt; p &lt; 1) indicating the desired
-probability mass to include in the intervals.</p></td>
+      <th>x</th>
+      <td><p>An object from <code><a href='perf_mod.html'>perf_mod()</a></code></p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -111,8 +105,15 @@ probability mass to include in the intervals.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame with summary statistics and a row for
-each model.</p>
+    <p>A data frame with the additional class <code>"posterior"</code></p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Note that this posterior only reflects the variability
+of the groups (i.e. the fixed effects). This helps answer the
+question of which model is best <em>for this data set</em>. If does not
+answer the question of which model would be best on a new
+resample of the data (which would have greater variability).</p>
     
 
   </div>
@@ -122,6 +123,8 @@ each model.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
           </ul>
 
   </div>

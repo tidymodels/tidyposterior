@@ -1,11 +1,11 @@
 #' Estimate the Difference Between Models
 #' 
-#' The posterior distributions created by [Bayes_resample()] can
+#' The posterior distributions created by [perf_mod()] can
 #'  be used to obtain the posterior distribution of the difference(s)
 #'  between models. One or more comparisons can be computed at
 #'  the same time. 
 #'  
-#' @param x An object produced by [Bayes_resample()].
+#' @param x An object produced by [perf_mod()].
 #' @param list_1,list_2 Character vectors of equal length that
 #'  specify the specific pairwise contrasts. The contrast is
 #'  parameterized as `list_1[i] - list_2[i]`. If the defaults

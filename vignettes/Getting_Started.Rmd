@@ -57,10 +57,10 @@ If `rocs` were produced by the `rsample` package it is ready to use with `tidypo
 
 We will try a simple linear model with Gaussian errors that has a random effect for the resamples so that the within-resample correlation can be estimated. Although the outcome is bounded in the interval [0,1], the variability of these estimates might be precise enough to achieve a well-fitting model. 
 
-To fit the model, `Bayes_resample` will be used to fit a model using the `stan_glmer` function in the `rstanarm` package: 
+To fit the model, `perf_mod` will be used to fit a model using the `stan_glmer` function in the `rstanarm` package: 
 
 ```{r linear-model, eval = eval_chunks}
-roc_model <- Bayes_resample(rocs, seed = 2824)
+roc_model <- perf_mod(rocs, seed = 2824)
 ```
 
 The `stan_glmer` model is contained in the element `roc_model$Bayes_mod`:

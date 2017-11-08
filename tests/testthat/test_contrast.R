@@ -8,9 +8,9 @@ test_bt$one <- rnorm(nrow(test_bt), mean = 10)
 test_bt$two <- rnorm(nrow(test_bt), mean = 12)
 test_bt$three <- rnorm(nrow(test_bt), mean = 14)
 
-fit_bt <- Bayes_resample(test_bt, seed = 781, 
-                         chains = 2, iter = 100, 
-                         verbose = FALSE)
+fit_bt <- perf_mod(test_bt, seed = 781, 
+                   chains = 2, iter = 100, 
+                   verbose = FALSE)
 
 contr_obj <- contrast_models(fit_bt, seed = 3666)
 

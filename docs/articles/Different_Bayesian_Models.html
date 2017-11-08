@@ -99,15 +99,15 @@ mean_rmse &lt;-<span class="st"> </span>stacked_rmse <span class="op">%&gt;%</sp
 <div id="a-first-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-first-model" class="anchor"></a>A First Model</h2>
-<p>It might make sense to use a probability model that is consistent with the characteristics of the data (in terms of skewness). Instead of using a symmetric distribution for the data (such as Gaussian), a potentially right skewed probability model might make more sense. A Gamma distribution is a reasonable choice and can be fit using the generalized linear model embedded in <code>Bayes_resample</code>. This also requires a <em>link</em> function to be chosen to model the data. The canonical link for this distribution is the inverse transformation and this will be our choice.</p>
+<p>It might make sense to use a probability model that is consistent with the characteristics of the data (in terms of skewness). Instead of using a symmetric distribution for the data (such as Gaussian), a potentially right skewed probability model might make more sense. A Gamma distribution is a reasonable choice and can be fit using the generalized linear model embedded in <code>perf_mod</code>. This also requires a <em>link</em> function to be chosen to model the data. The canonical link for this distribution is the inverse transformation and this will be our choice.</p>
 <p>To fit this model, the <code>family</code> argument to <code>stan_glmer</code> can be passed in. The default link is the inverse and no extra transformation will be used.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gamma_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rmses, <span class="dt">family =</span> <span class="kw">Gamma</span>(), <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gamma_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/perf_mod.html">perf_mod</a></span>(rmses, <span class="dt">family =</span> <span class="kw">Gamma</span>(), <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
 <pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.00017 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.7 seconds.
+## Gradient evaluation took 0.000168 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.68 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -124,62 +124,12 @@ mean_rmse &lt;-<span class="st"> </span>stacked_rmse <span class="op">%&gt;%</sp
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 193.237 seconds (Warm-up)
-##                15.2019 seconds (Sampling)
-##                208.439 seconds (Total)
+##  Elapsed Time: 202.416 seconds (Warm-up)
+##                15.4979 seconds (Sampling)
+##                217.914 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
-## 
-## Gradient evaluation took 6.6e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.66 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 207.513 seconds (Warm-up)
-##                14.3674 seconds (Sampling)
-##                221.88 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
-## 
-## Gradient evaluation took 6.9e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.69 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 199.895 seconds (Warm-up)
-##                14.9206 seconds (Sampling)
-##                214.816 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
 ## Gradient evaluation took 6.8e-05 seconds
 ## 1000 transitions using 10 leapfrog steps per transition would take 0.68 seconds.
@@ -199,9 +149,59 @@ mean_rmse &lt;-<span class="st"> </span>stacked_rmse <span class="op">%&gt;%</sp
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 197.816 seconds (Warm-up)
-##                14.8122 seconds (Sampling)
-##                212.629 seconds (Total)</code></pre>
+##  Elapsed Time: 214.975 seconds (Warm-up)
+##                15.2665 seconds (Sampling)
+##                230.241 seconds (Total)
+## 
+## 
+## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
+## 
+## Gradient evaluation took 6.7e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.67 seconds.
+## Adjust your expectations accordingly!
+## 
+## 
+## Iteration:    1 / 2000 [  0%]  (Warmup)
+## Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Iteration: 2000 / 2000 [100%]  (Sampling)
+## 
+##  Elapsed Time: 210.057 seconds (Warm-up)
+##                15.5304 seconds (Sampling)
+##                225.587 seconds (Total)
+## 
+## 
+## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
+## 
+## Gradient evaluation took 8.3e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.83 seconds.
+## Adjust your expectations accordingly!
+## 
+## 
+## Iteration:    1 / 2000 [  0%]  (Warmup)
+## Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Iteration: 2000 / 2000 [100%]  (Sampling)
+## 
+##  Elapsed Time: 209.112 seconds (Warm-up)
+##                15.5412 seconds (Sampling)
+##                224.653 seconds (Total)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get the posterior distributions of the mean parameters:</span>
 gamma_post &lt;-<span class="st"> </span><span class="kw">tidy</span>(gamma_model, <span class="dt">seed =</span> <span class="dv">3750</span>)
 gamma_mean &lt;-<span class="st"> </span><span class="kw">summary</span>(gamma_post)
@@ -225,13 +225,13 @@ gamma_mean</code></pre></div>
 <h2 class="hasAnchor">
 <a href="#transforming-the-data" class="anchor"></a>Transforming the Data</h2>
 <p>Another approach is to transform the RMSE values to something model symmetric and model the data on a different scale. A log transform will be used here using the built-in object <code>ln_trans</code>. In using this option, the posterior distributions are computed on the log scale and is automatically back-transformed into the original units. By not passing <code>family</code> to the function, we are using a Gaussian model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">log_linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rmses, <span class="dt">transform =</span> ln_trans, <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">log_linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/perf_mod.html">perf_mod</a></span>(rmses, <span class="dt">transform =</span> ln_trans, <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
 <pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 6.9e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.69 seconds.
+## Gradient evaluation took 6.8e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.68 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -248,62 +248,12 @@ gamma_mean</code></pre></div>
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.67297 seconds (Warm-up)
-##                1.47805 seconds (Sampling)
-##                4.15102 seconds (Total)
+##  Elapsed Time: 2.75383 seconds (Warm-up)
+##                1.56667 seconds (Sampling)
+##                4.3205 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
-## 
-## Gradient evaluation took 5.9e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.59 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 2.87899 seconds (Warm-up)
-##                1.49238 seconds (Sampling)
-##                4.37137 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
-## 
-## Gradient evaluation took 7.7e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.77 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 2.55278 seconds (Warm-up)
-##                1.5167 seconds (Sampling)
-##                4.06948 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
 ## Gradient evaluation took 6.6e-05 seconds
 ## 1000 transitions using 10 leapfrog steps per transition would take 0.66 seconds.
@@ -323,9 +273,59 @@ gamma_mean</code></pre></div>
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.24917 seconds (Warm-up)
-##                1.49838 seconds (Sampling)
-##                3.74755 seconds (Total)</code></pre>
+##  Elapsed Time: 3.00671 seconds (Warm-up)
+##                1.52747 seconds (Sampling)
+##                4.53418 seconds (Total)
+## 
+## 
+## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
+## 
+## Gradient evaluation took 0.000116 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.16 seconds.
+## Adjust your expectations accordingly!
+## 
+## 
+## Iteration:    1 / 2000 [  0%]  (Warmup)
+## Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Iteration: 2000 / 2000 [100%]  (Sampling)
+## 
+##  Elapsed Time: 2.6618 seconds (Warm-up)
+##                1.58272 seconds (Sampling)
+##                4.24452 seconds (Total)
+## 
+## 
+## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
+## 
+## Gradient evaluation took 0.000105 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.05 seconds.
+## Adjust your expectations accordingly!
+## 
+## 
+## Iteration:    1 / 2000 [  0%]  (Warmup)
+## Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Iteration: 2000 / 2000 [100%]  (Sampling)
+## 
+##  Elapsed Time: 2.33589 seconds (Warm-up)
+##                1.53866 seconds (Sampling)
+##                3.87455 seconds (Total)</code></pre>
 <pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
@@ -352,13 +352,13 @@ log_linear_mean</code></pre></div>
 <h2 class="hasAnchor">
 <a href="#a-simple-gaussian-model" class="anchor"></a>A Simple Gaussian Model</h2>
 <p>Let’s try the easiest model that used a linear function and assumes a Gaussian distirbution for the RMSE estimates.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/Bayes_resample.html">Bayes_resample</a></span>(rmses, <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">linear_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/perf_mod.html">perf_mod</a></span>(rmses, <span class="dt">seed =</span> <span class="dv">74</span>)</code></pre></div>
 <pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 6.7e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.67 seconds.
+## Gradient evaluation took 7.1e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.71 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -375,15 +375,15 @@ log_linear_mean</code></pre></div>
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.19061 seconds (Warm-up)
-##                2.90627 seconds (Sampling)
-##                6.09688 seconds (Total)
+##  Elapsed Time: 3.35751 seconds (Warm-up)
+##                3.01528 seconds (Sampling)
+##                6.3728 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 5.6e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.56 seconds.
+## Gradient evaluation took 5.5e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.55 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -400,15 +400,15 @@ log_linear_mean</code></pre></div>
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.71165 seconds (Warm-up)
-##                2.46789 seconds (Sampling)
-##                5.17954 seconds (Total)
+##  Elapsed Time: 2.81233 seconds (Warm-up)
+##                2.53303 seconds (Sampling)
+##                5.34536 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 8.7e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.87 seconds.
+## Gradient evaluation took 6.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.69 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -425,15 +425,15 @@ log_linear_mean</code></pre></div>
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.46058 seconds (Warm-up)
-##                2.5385 seconds (Sampling)
-##                4.99908 seconds (Total)
+##  Elapsed Time: 2.50537 seconds (Warm-up)
+##                2.59959 seconds (Sampling)
+##                5.10496 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 6.8e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.68 seconds.
+## Gradient evaluation took 8.4e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.84 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -450,9 +450,9 @@ log_linear_mean</code></pre></div>
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.01112 seconds (Warm-up)
-##                2.84888 seconds (Sampling)
-##                5.86001 seconds (Total)</code></pre>
+##  Elapsed Time: 3.17453 seconds (Warm-up)
+##                2.93851 seconds (Sampling)
+##                6.11304 seconds (Total)</code></pre>
 <pre><code>## Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.95 may help. See
 ## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup</code></pre>
 <pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>

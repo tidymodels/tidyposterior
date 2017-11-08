@@ -30,40 +30,40 @@ rs_rcv$values$Resample <-
 ## run fits outside of test functions
 ## https://github.com/stan-dev/rstanarm/issues/202
 
-obj_1 <- Bayes_resample(test_bt, seed = 781, 
-                        chains = 2, iter = 50, 
-                        verbose = FALSE)
+obj_1 <- perf_mod(test_bt, seed = 781, 
+                  chains = 2, iter = 50, 
+                  verbose = FALSE)
 
 test_df <- as.data.frame(test_bt[, -1])
-obj_2 <- Bayes_resample(test_df, seed = 781, 
-                        chains = 2, iter = 50, 
-                        verbose = FALSE)
+obj_2 <- perf_mod(test_df, seed = 781, 
+                  chains = 2, iter = 50, 
+                  verbose = FALSE)
 
-obj_3 <- Bayes_resample(test_bt, seed = 781, 
-                        chains = 2, iter = 50, 
-                        verbose = FALSE,
-                        hetero_var = TRUE)
+obj_3 <- perf_mod(test_bt, seed = 781, 
+                  chains = 2, iter = 50, 
+                  verbose = FALSE,
+                  hetero_var = TRUE)
 
-obj_4 <- Bayes_resample(rs_obj, seed = 781, 
-                        chains = 2, iter = 50, 
-                        verbose = FALSE)
+obj_4 <- perf_mod(rs_obj, seed = 781, 
+                  chains = 2, iter = 50, 
+                  verbose = FALSE)
 
-obj_5 <- Bayes_resample(rs_rcv, seed = 781, 
-                        chains = 2, iter = 50, 
-                        verbose = FALSE)
+obj_5 <- perf_mod(rs_rcv, seed = 781, 
+                  chains = 2, iter = 50, 
+                  verbose = FALSE)
 
-obj_6 <- Bayes_resample(test_rcv, seed = 781, 
-                        chains = 2, iter = 50, 
-                        verbose = FALSE)
+obj_6 <- perf_mod(test_rcv, seed = 781, 
+                  chains = 2, iter = 50, 
+                  verbose = FALSE)
 
 ###################################################################
 
 test_that('bad arguments', {
-  expect_error(Bayes_resample(test_bt, transform = NULL))
-  expect_error(Bayes_resample(test_bt, transform = no_trans[1]))  
-  expect_error(Bayes_resample(test_bt, transform = list(not = 1, right = 2))) 
-  expect_error(Bayes_resample(test_bt, transform = list(func = 1, inc = 2))) 
-  expect_error(Bayes_resample(1:10))
+  expect_error(perf_mod(test_bt, transform = NULL))
+  expect_error(perf_mod(test_bt, transform = no_trans[1]))  
+  expect_error(perf_mod(test_bt, transform = list(not = 1, right = 2))) 
+  expect_error(perf_mod(test_bt, transform = list(func = 1, inc = 2))) 
+  expect_error(perf_mod(1:10))
 })
 
 ###################################################################

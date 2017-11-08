@@ -8,7 +8,7 @@ contrast_models(x, list_1 = NULL, list_2 = NULL, seed = sample.int(10000,
   1))
 }
 \arguments{
-\item{x}{An object produced by \code{\link[=Bayes_resample]{Bayes_resample()}}.}
+\item{x}{An object produced by \code{\link[=perf_mod]{perf_mod()}}.}
 
 \item{list_1, list_2}{Character vectors of equal length that
 specify the specific pairwise contrasts. The contrast is
@@ -23,7 +23,7 @@ difference(s). The object has an extra class of
 \code{"posterior_diff"}.
 }
 \description{
-The posterior distributions created by \code{\link[=Bayes_resample]{Bayes_resample()}} can
+The posterior distributions created by \code{\link[=perf_mod]{perf_mod()}} can
 be used to obtain the posterior distribution of the difference(s)
 between models. One or more comparisons can be computed at
 the same time.

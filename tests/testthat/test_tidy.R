@@ -14,9 +14,9 @@ test_rcv <- vfold_cv(mtcars, v = 5, repeats = 2)
 test_rcv$one <- rnorm(nrow(test_rcv), mean = 10)
 test_rcv$two <- rnorm(nrow(test_rcv), mean = 12)
 
-fit_bt <- Bayes_resample(test_bt, seed = 781, 
-                         chains = 2, iter = 50, 
-                         verbose = FALSE)
+fit_bt <- perf_mod(test_bt, seed = 781, 
+                   chains = 2, iter = 50, 
+                   verbose = FALSE)
 
 tidy_bt <- tidy(fit_bt, seed = 647)
 

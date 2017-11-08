@@ -1,10 +1,10 @@
 #' Extract Posterior Distributions for Models
 #' 
-#' `tidy` can be used on an object produced by [Bayes_resample()]
+#' `tidy` can be used on an object produced by [perf_mod()]
 #'  to create a data frame with a column for the model name and
 #'  the posterior predictive distribution values. 
 #'  
-#' @param x An object from [Bayes_resample()]
+#' @param x An object from [perf_mod()]
 #' @param seed A single integer for sampling from the posterior. 
 #' @param ... Not currently used
 #' @return A data frame with the additional class `"posterior"`
@@ -17,7 +17,7 @@
 #' @importFrom tidyr gather
 #' @importFrom dplyr mutate %>% as_tibble
 #' @importFrom broom tidy
-tidy.Bayes_resample <- function(x, seed = sample.int(10000, 1), ...) {
+tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
   post_dat <-
     tidyr::gather(
@@ -37,7 +37,7 @@ tidy.Bayes_resample <- function(x, seed = sample.int(10000, 1), ...) {
 #'  posterior mean and upper and lower credible intervals (aka
 #'  uncertainty intervals). 
 #'
-#' @param object An object produced by [tidy.Bayes_resample()]. 
+#' @param object An object produced by [tidy.perf_mod()]. 
 #' @param prob A number p (0 < p < 1) indicating the desired
 #'  probability mass to include in the intervals. 
 #' @param seed A single integer for sampling from the posterior. 
@@ -63,7 +63,7 @@ summary.posterior <- function(object, prob = 0.90,
 #' 
 #' A simple violin plot is created by the function.
 #'
-#' @param data An object produced by [tidy.Bayes_resample()]. 
+#' @param data An object produced by [tidy.perf_mod()]. 
 #' @param mapping,...,environment Not currently used. 
 #' @param reorder A logical; should the `model` column be reordered
 #'  by the average of the posterior distribution? 

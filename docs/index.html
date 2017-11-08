@@ -81,7 +81,7 @@ accuracy &lt;-<span class="st"> </span>precise_example <span class="op">%&gt;%</
 accuracy
 
 <span class="co"># Model the accuracy results</span>
-acc_model &lt;-<span class="st"> </span><span class="kw"><a href="reference/Bayes_resample.html">Bayes_resample</a></span>(accuracy, <span class="dt">seed =</span> <span class="dv">13311</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)   
+acc_model &lt;-<span class="st"> </span><span class="kw">Bayes_resample</span>(accuracy, <span class="dt">seed =</span> <span class="dv">13311</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)   
 
 <span class="co"># Extract posterior distributions:</span>
 accuracy_dists &lt;-<span class="st"> </span><span class="kw">tidy</span>(acc_model)

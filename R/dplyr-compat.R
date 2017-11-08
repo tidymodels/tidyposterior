@@ -56,7 +56,7 @@ maybe_posterior <- function(x) {
 
 ## tidyposterior does not import any generics from dplyr,
 ## but if dplyr is loaded and main verbs are used on a `posterior` 
-## object generated from `tidy.Bayes_resample`, we want to retain 
+## object generated from `tidy.perf_mod`, we want to retain 
 ## the `posterior`` class if it is proper to do so therefore these 
 ## S3 methods are registered manually in .onLoad()
 
