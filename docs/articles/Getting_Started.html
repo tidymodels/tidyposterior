@@ -101,8 +101,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 0.000103 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 1.03 seconds.
+## Gradient evaluation took 9.5e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.95 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -119,15 +119,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.89022 seconds (Warm-up)
-##                0.181217 seconds (Sampling)
-##                3.07144 seconds (Total)
+##  Elapsed Time: 2.97732 seconds (Warm-up)
+##                0.198662 seconds (Sampling)
+##                3.17598 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 2.4e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.24 seconds.
+## Gradient evaluation took 3.2e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -144,15 +144,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.3186 seconds (Warm-up)
-##                0.257099 seconds (Sampling)
-##                3.5757 seconds (Total)
+##  Elapsed Time: 3.61918 seconds (Warm-up)
+##                0.298904 seconds (Sampling)
+##                3.91809 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 2.3e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
+## Gradient evaluation took 2.7e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -169,15 +169,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.26629 seconds (Warm-up)
-##                0.300275 seconds (Sampling)
-##                3.56657 seconds (Total)
+##  Elapsed Time: 3.56781 seconds (Warm-up)
+##                0.343506 seconds (Sampling)
+##                3.91132 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 3.1e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
+## Gradient evaluation took 2.9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -194,11 +194,11 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.84049 seconds (Warm-up)
-##                0.203871 seconds (Sampling)
-##                3.04436 seconds (Total)</code></pre>
-<p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$Bayes_mod</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>Bayes_mod</code></pre></div>
+##  Elapsed Time: 3.10632 seconds (Warm-up)
+##                0.22708 seconds (Sampling)
+##                3.3334 seconds (Total)</code></pre>
+<p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$stan</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>stan</code></pre></div>
 <pre><code>## stan_glmer
 ##  family:       gaussian [identity]
 ##  formula:      statistic ~ model + (1 | id)

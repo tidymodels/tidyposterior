@@ -72,10 +72,10 @@ test_that('basic usage', {
   expect_equal(obj_1$names, c("one", "two"))
   expect_equal(obj_1$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
   expect_equal(obj_1$rset_type, "Bootstrap sampling")  
-  expect_equal(class(obj_1$Bayes_mod), c('stanreg', 'glm', 'lm', 'lmerMod'))
-  expect_equal(formula(obj_1$Bayes_mod), as.formula(statistic ~ model + (1 | id)))
+  expect_equal(class(obj_1$stan), c('stanreg', 'glm', 'lm', 'lmerMod'))
+  expect_equal(formula(obj_1$stan), as.formula(statistic ~ model + (1 | id)))
   expect_output(print(obj_1))
-  expect_equal(summary(obj_1), summary(obj_1$Bayes_mod))
+  expect_equal(summary(obj_1), summary(obj_1$stan))
 })
 
 ###################################################################
@@ -84,16 +84,16 @@ test_that('data frame method', {
   expect_equal(obj_2$names, c("one", "two"))
   expect_equal(obj_2$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
   expect_equal(obj_2$rset_type, NA)  
-  expect_equal(class(obj_2$Bayes_mod), c('stanreg', 'glm', 'lm', 'lmerMod'))
-  expect_equal(formula(obj_2$Bayes_mod), as.formula(statistic ~ model + (1 | id)))
+  expect_equal(class(obj_2$stan), c('stanreg', 'glm', 'lm', 'lmerMod'))
+  expect_equal(formula(obj_2$stan), as.formula(statistic ~ model + (1 | id)))
   expect_output(print(obj_2))
-  expect_equal(summary(obj_2), summary(obj_2$Bayes_mod))
+  expect_equal(summary(obj_2), summary(obj_2$stan))
 })
 
 ###################################################################
 
 test_that('model-specifc variance', {
-  expect_equal(formula(obj_3$Bayes_mod), as.formula(statistic ~model + (model + 0 | id)))
+  expect_equal(formula(obj_3$stan), as.formula(statistic ~model + (model + 0 | id)))
 })
 
 ###################################################################
@@ -102,10 +102,10 @@ test_that('rsample method', {
   expect_equal(obj_4$names, c("one", "two"))
   expect_equal(obj_4$ids, list(id = c(paste0("Fold0", 1:9), "Fold10")))
   expect_equal(obj_4$rset_type, NA)  
-  expect_equal(class(obj_4$Bayes_mod), c('stanreg', 'glm', 'lm', 'lmerMod'))
-  expect_equal(formula(obj_4$Bayes_mod), as.formula(statistic ~ model + (1 | id)))
+  expect_equal(class(obj_4$stan), c('stanreg', 'glm', 'lm', 'lmerMod'))
+  expect_equal(formula(obj_4$stan), as.formula(statistic ~ model + (1 | id)))
   expect_output(print(obj_4))
-  expect_equal(summary(obj_4), summary(obj_4$Bayes_mod))
+  expect_equal(summary(obj_4), summary(obj_4$stan))
 })
 
 
@@ -113,11 +113,11 @@ test_that('rsample method with repeated cv', {
   expect_true(tidyposterior:::is_repeated_cv(rs_rcv$values))
   expect_equal(obj_5$names, c("one", "two"))
   expect_equal(obj_5$rset_type, "5-fold cross-validation repeated 2 times")  
-  expect_equal(class(obj_5$Bayes_mod), c('stanreg', 'glm', 'lm', 'lmerMod'))
-  expect_equal(formula(obj_5$Bayes_mod), 
+  expect_equal(class(obj_5$stan), c('stanreg', 'glm', 'lm', 'lmerMod'))
+  expect_equal(formula(obj_5$stan), 
                as.formula(statistic ~ model + (1 | id2/id)))
   expect_output(print(obj_5))
-  expect_equal(summary(obj_5), summary(obj_5$Bayes_mod))
+  expect_equal(summary(obj_5), summary(obj_5$stan))
 })
 
 ###################################################################
@@ -131,9 +131,9 @@ test_that('repeated v_fold method', {
                )
   )
   expect_equal(obj_6$rset_type, "5-fold cross-validation repeated 2 times")  
-  expect_equal(class(obj_6$Bayes_mod), c('stanreg', 'glm', 'lm', 'lmerMod'))
-  expect_equal(formula(obj_6$Bayes_mod), 
+  expect_equal(class(obj_6$stan), c('stanreg', 'glm', 'lm', 'lmerMod'))
+  expect_equal(formula(obj_6$stan), 
                as.formula(statistic ~ model + (1 | id2/id)))
   expect_output(print(obj_6))
-  expect_equal(summary(obj_6), summary(obj_6$Bayes_mod))
+  expect_equal(summary(obj_6), summary(obj_6$stan))
 })

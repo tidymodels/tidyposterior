@@ -90,7 +90,7 @@ get_post <- function(x, seed = sample.int(10000, 1)) {
     bind_cols(new_dat)
   post_data <- 
     rstanarm::posterior_linpred(
-      x$Bayes_mod, 
+      x$stan, 
       newdata = new_dat, 
       seed = seed,
       re.form = NA,

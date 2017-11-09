@@ -112,7 +112,7 @@ perf_mod.rset <-
                         data = resamples, ...)
     }
 
-    res <- list(Bayes_mod = mod,
+    res <- list(stan = mod,
                 hetero_var = hetero_var,
                 names = model_names,
                 rset_type = rset_type,
@@ -159,7 +159,7 @@ perf_mod.vfold_cv <-
     }
 
     
-    res <- list(Bayes_mod = mod,
+    res <- list(stan = mod,
                 hetero_var = hetero_var,
                 names = model_names,
                 rset_type = rset_type,
@@ -187,7 +187,7 @@ print.perf_mod <- function(x, ...) {
 
 #' @export
 summary.perf_mod <- function(object, ...) {
-  summary(object$Bayes_mod)
+  summary(object$stan)
 }
 
 

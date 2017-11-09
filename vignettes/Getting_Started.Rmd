@@ -63,10 +63,10 @@ To fit the model, `perf_mod` will be used to fit a model using the `stan_glmer` 
 roc_model <- perf_mod(rocs, seed = 2824)
 ```
 
-The `stan_glmer` model is contained in the element `roc_model$Bayes_mod`:
+The `stan_glmer` model is contained in the element `roc_model$stan`:
 
 ```{r linear-model-results, eval = eval_chunks}
-roc_model$Bayes_mod
+roc_model$stan
 ```
 
 To evaluate the validity of this fit, the [`shinystan`](http://mc-stan.org/users/interfaces/shinystan) package can be used to generate an interactive assessment of the model results. One other thing that we can do it to examine the posterior distributions to see if they make sense in terms of the range of values.

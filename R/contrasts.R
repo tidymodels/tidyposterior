@@ -37,7 +37,7 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
     purrr::map_df(
       models, 
       make_diffs, 
-      obj = x$Bayes_mod, 
+      obj = x$stan, 
       trans = x$transform,
       seed = seed
     )
