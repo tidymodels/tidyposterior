@@ -59,6 +59,9 @@
 #' load(file)
 #' 
 #' roc_model
+#' 
+#' # Summary method shows the underlying `stan` model
+#' summary(roc_model)
 #' @export
 perf_mod <- function(object, ...)
   UseMethod("perf_mod")

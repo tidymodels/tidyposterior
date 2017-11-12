@@ -21,7 +21,10 @@
 #' load(file)
 #' 
 #' roc_model
-#' tidy(roc_model)
+#' posterior_values <- tidy(roc_model)
+#' head(posterior)
+#' class(posterior)
+#' 
 #' @export
 #' @importFrom tidyr gather
 #' @importFrom dplyr mutate %>% as_tibble
@@ -60,8 +63,9 @@ tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
 #' file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
 #' load(file)
 #' 
-#' roc_model
-#' summary(roc_model)
+#' posterior_values <- tidy(roc_model)
+#' summary(posterior_values)
+#' 
 #' @export
 #' @importFrom dplyr group_by do summarise full_join
 summary.posterior <- function(object, prob = 0.90, 
@@ -94,12 +98,9 @@ summary.posterior <- function(object, prob = 0.90,
 #' file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
 #' load(file)
 #' 
-#' roc_model
-#' 
 #' posterior_values <- tidy(roc_model)
-#' head(posterior_values)
 #' 
-#' ggplot(posterior_values)
+#' ggplot(posterior_values) + theme_bw()
 #' @export
 #' @importFrom ggplot2 ggplot geom_violin xlab ylab
 #' @importFrom stats reorder

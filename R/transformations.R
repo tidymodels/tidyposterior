@@ -23,6 +23,10 @@
 #'  but can be used here for an metrics falling between -1 and 1,
 #'  such as Kappa.
 #'  
+#' @examples 
+#' logit_trans$func(.5)
+#' logit_trans$inv(0)
+#' 
 #' @rdname transformations
 #' @export
 no_trans <- list(func = function(x) x,

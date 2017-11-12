@@ -27,7 +27,7 @@
 #' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
 #' load(file)
 #' 
-#' glm_v_nnet
+#' head(glm_v_nnet)
 #' 
 contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
                             seed = sample.int(10000, 1)) {
@@ -64,7 +64,7 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #' @param prob A number p (0 < p < 1) indicating the desired
 #'  probability mass to include in the intervals. 
 #' @param size The size of an effective difference. For example, a
-#'  5% increase in accuracy between two models might be considered a
+#'  5\% increase in accuracy between two models might be considered a
 #'  "real" difference.
 #' @param ... Not currently used
 #' @return A data frame with interval and ROPE statistics for each
@@ -126,7 +126,7 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' @param data An object produced by [contrast_models()]. 
 #' @param mapping,...,environment Not currently used. 
 #' @param size The size of an effective difference. For example, a
-#'  5% increase in accuracy between two models might be considered a
+#'  5\% increase in accuracy between two models might be considered a
 #'  "real" difference. 
 #' @return A [ggplot2::ggplot()] object using `geom_density` 
 #'  facetted by the models being contrasted (when there are 2 or
@@ -138,7 +138,7 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
 #' load(file)
 #' 
-#' ggplot(glm_v_nnet, size = 0.02)
+#' ggplot(glm_v_nnet, size = 0.02) + theme_bw()
 #'  
 #' @export
 #' @importFrom ggplot2 ggplot geom_line xlab ylab facet_grid geom_vline
