@@ -39,6 +39,6 @@ inverse is applied \emph{before} the difference is computed.
 file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
 load(file)
 
-glm_v_nnet
+head(glm_v_nnet)
 
 }

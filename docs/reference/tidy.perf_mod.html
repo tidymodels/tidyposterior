@@ -116,6 +116,18 @@ answer the question of which model would be best on a new
 resample of the data (which would have greater variability).</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Example from "Getting Started" vignette at</span>
+<span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
+
+<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"examples"</span>, <span class='st'>"roc_model.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
+<span class='fu'>load</span>(<span class='no'>file</span>)
+
+<span class='no'>roc_model</span></div><div class='output co'>#&gt; Bayesian Analysis of Resampling Results
+#&gt; Original data: 10-fold cross-validation using stratification
+#&gt; </div><div class='input'><span class='no'>posterior_values</span> <span class='kw'>&lt;-</span> <span class='fu'>tidy</span>(<span class='no'>roc_model</span>)
+<span class='fu'>head</span>(<span class='no'>posterior</span>)</div><div class='output co'>#&gt; <span class='error'>Error in head(posterior): object 'posterior' not found</span></div><div class='input'><span class='fu'>class</span>(<span class='no'>posterior</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'posterior' not found</span></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -125,7 +137,9 @@ resample of the data (which would have greater variability).</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

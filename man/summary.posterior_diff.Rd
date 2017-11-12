@@ -13,7 +13,7 @@
 probability mass to include in the intervals.}
 
 \item{size}{The size of an effective difference. For example, a
-5% increase in accuracy between two models might be considered a
+5\% increase in accuracy between two models might be considered a
 "real" difference.}
 
 \item{...}{Not currently used}

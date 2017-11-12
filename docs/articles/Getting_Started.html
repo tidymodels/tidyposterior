@@ -101,8 +101,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 9.5e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.95 seconds.
+## Gradient evaluation took 0.000103 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 1.03 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -119,15 +119,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.97732 seconds (Warm-up)
-##                0.198662 seconds (Sampling)
-##                3.17598 seconds (Total)
+##  Elapsed Time: 2.94721 seconds (Warm-up)
+##                0.185547 seconds (Sampling)
+##                3.13275 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 3.2e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.
+## Gradient evaluation took 4.8e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.48 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -144,37 +144,12 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.61918 seconds (Warm-up)
-##                0.298904 seconds (Sampling)
-##                3.91809 seconds (Total)
+##  Elapsed Time: 3.34569 seconds (Warm-up)
+##                0.258289 seconds (Sampling)
+##                3.60398 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
-## 
-## Gradient evaluation took 2.7e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.27 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 3.56781 seconds (Warm-up)
-##                0.343506 seconds (Sampling)
-##                3.91132 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
 ## Gradient evaluation took 2.9e-05 seconds
 ## 1000 transitions using 10 leapfrog steps per transition would take 0.29 seconds.
@@ -194,9 +169,34 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.10632 seconds (Warm-up)
-##                0.22708 seconds (Sampling)
-##                3.3334 seconds (Total)</code></pre>
+##  Elapsed Time: 3.25121 seconds (Warm-up)
+##                0.305963 seconds (Sampling)
+##                3.55718 seconds (Total)
+## 
+## 
+## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
+## 
+## Gradient evaluation took 2e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.2 seconds.
+## Adjust your expectations accordingly!
+## 
+## 
+## Iteration:    1 / 2000 [  0%]  (Warmup)
+## Iteration:  200 / 2000 [ 10%]  (Warmup)
+## Iteration:  400 / 2000 [ 20%]  (Warmup)
+## Iteration:  600 / 2000 [ 30%]  (Warmup)
+## Iteration:  800 / 2000 [ 40%]  (Warmup)
+## Iteration: 1000 / 2000 [ 50%]  (Warmup)
+## Iteration: 1001 / 2000 [ 50%]  (Sampling)
+## Iteration: 1200 / 2000 [ 60%]  (Sampling)
+## Iteration: 1400 / 2000 [ 70%]  (Sampling)
+## Iteration: 1600 / 2000 [ 80%]  (Sampling)
+## Iteration: 1800 / 2000 [ 90%]  (Sampling)
+## Iteration: 2000 / 2000 [100%]  (Sampling)
+## 
+##  Elapsed Time: 2.81135 seconds (Warm-up)
+##                0.205877 seconds (Sampling)
+##                3.01722 seconds (Total)</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$stan</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>stan</code></pre></div>
 <pre><code>## stan_glmer

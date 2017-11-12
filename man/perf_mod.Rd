@@ -100,4 +100,7 @@ file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
 load(file)
 
 roc_model
+
+# Summary method shows the underlying `stan` model
+summary(roc_model)
 }

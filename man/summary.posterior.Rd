@@ -33,6 +33,7 @@ uncertainty intervals).
 file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
 load(file)
 
-roc_model
-summary(roc_model)
+posterior_values <- tidy(roc_model)
+summary(posterior_values)
+
 }

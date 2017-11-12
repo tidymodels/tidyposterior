@@ -36,5 +36,8 @@ file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
 load(file)
 
 roc_model
-tidy(roc_model)
+posterior_values <- tidy(roc_model)
+head(posterior)
+class(posterior)
+
 }

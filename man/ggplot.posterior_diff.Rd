@@ -13,7 +13,7 @@
 \item{mapping, ..., environment}{Not currently used.}
 
 \item{size}{The size of an effective difference. For example, a
-5% increase in accuracy between two models might be considered a
+5\% increase in accuracy between two models might be considered a
 "real" difference.}
 }
 \value{
@@ -31,6 +31,6 @@ A density is created for each contrast in a facetted grid.
 file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
 load(file)
 
-ggplot(glm_v_nnet, size = 0.02)
+ggplot(glm_v_nnet, size = 0.02) + theme_bw()
  
 }

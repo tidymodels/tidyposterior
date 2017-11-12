@@ -115,6 +115,21 @@ probability mass to include in the intervals.</p></td>
 each model.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Example from "Getting Started" vignette at</span>
+<span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
+
+<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"examples"</span>, <span class='st'>"roc_model.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
+<span class='fu'>load</span>(<span class='no'>file</span>)
+
+<span class='no'>posterior_values</span> <span class='kw'>&lt;-</span> <span class='fu'>tidy</span>(<span class='no'>roc_model</span>)
+<span class='fu'>summary</span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
+#&gt;   model      mean     lower     upper
+#&gt;   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1   glm 0.7903114 0.7861054 0.7946825
+#&gt; 2   knn 0.7526229 0.7482982 0.7569819
+#&gt; 3  nnet 0.8414034 0.8370168 0.8455970</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -122,7 +137,9 @@ each model.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

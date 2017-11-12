@@ -29,10 +29,7 @@ A simple violin plot is created by the function.
 file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
 load(file)
 
-roc_model
-
 posterior_values <- tidy(roc_model)
-head(posterior_values)
 
-ggplot(posterior_values)
+ggplot(posterior_values) + theme_bw()
 }

@@ -119,6 +119,21 @@ difference(s). The object has an extra class of
 inverse is applied <em>before</em> the difference is computed.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># Example from "Getting Started" vignette at</span>
+<span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
+
+<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"examples"</span>, <span class='st'>"glm_v_nnet.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
+<span class='fu'>load</span>(<span class='no'>file</span>)
+
+<span class='fu'>head</span>(<span class='no'>glm_v_nnet</span>)</div><div class='output co'>#&gt;   difference model_1 model_2
+#&gt; 1 0.04669174    nnet     glm
+#&gt; 2 0.04897076    nnet     glm
+#&gt; 3 0.05226163    nnet     glm
+#&gt; 4 0.05251462    nnet     glm
+#&gt; 5 0.05363919    nnet     glm
+#&gt; 6 0.05582835    nnet     glm</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -128,7 +143,9 @@ inverse is applied <em>before</em> the difference is computed.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
