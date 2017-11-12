@@ -5,3 +5,4 @@
 vignettes/.build.timestamp
 ^\.travis\.yml$
 ^codecov\.yml$
+README.*
