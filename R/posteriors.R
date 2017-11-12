@@ -13,6 +13,15 @@
 #'  question of which model is best _for this data set_. If does not
 #'  answer the question of which model would be best on a new
 #'  resample of the data (which would have greater variability).
+#' @examples 
+#' # Example from "Getting Started" vignette at
+#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' 
+#' file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
+#' load(file)
+#' 
+#' roc_model
+#' tidy(roc_model)
 #' @export
 #' @importFrom tidyr gather
 #' @importFrom dplyr mutate %>% as_tibble
@@ -44,6 +53,15 @@ tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
 #' @param ... Not currently used
 #' @return A data frame with summary statistics and a row for
 #'  each model. 
+#' @examples 
+#' # Example from "Getting Started" vignette at
+#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' 
+#' file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
+#' load(file)
+#' 
+#' roc_model
+#' summary(roc_model)
 #' @export
 #' @importFrom dplyr group_by do summarise full_join
 summary.posterior <- function(object, prob = 0.90, 
@@ -67,7 +85,21 @@ summary.posterior <- function(object, prob = 0.90,
 #' @param mapping,...,environment Not currently used. 
 #' @param reorder A logical; should the `model` column be reordered
 #'  by the average of the posterior distribution? 
-#' @return A [ggplot2::ggplot()] object. 
+#' @return A [ggplot2::ggplot()] object using
+#'  [ggplot2::geom_violin()] for the posteriors.
+#' @examples 
+#' # Example from "Getting Started" vignette at
+#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' 
+#' file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
+#' load(file)
+#' 
+#' roc_model
+#' 
+#' posterior_values <- tidy(roc_model)
+#' head(posterior_values)
+#' 
+#' ggplot(posterior_values)
 #' @export
 #' @importFrom ggplot2 ggplot geom_violin xlab ylab
 #' @importFrom stats reorder

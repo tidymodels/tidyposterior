@@ -26,3 +26,13 @@ Numerical summaries are created for each model including the
 posterior mean and upper and lower credible intervals (aka
 uncertainty intervals).
 }
+\examples{
+# Example from "Getting Started" vignette at
+#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+
+file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
+load(file)
+
+roc_model
+summary(roc_model)
+}

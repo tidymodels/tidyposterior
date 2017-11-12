@@ -17,8 +17,20 @@
 "real" difference.}
 }
 \value{
-A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object using \code{geom_density}
+facetted by the models being contrasted (when there are 2 or
+more contrasts).
 }
 \description{
 A density is created for each contrast in a facetted grid.
+}
+\examples{
+# Example from "Getting Started" vignette at
+#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+
+file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
+load(file)
+
+ggplot(glm_v_nnet, size = 0.02)
+ 
 }

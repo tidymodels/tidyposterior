@@ -92,3 +92,12 @@ model computational complexity. This can be achieved by passing
 the \code{family} argument to \code{perf_mod} as one might with the
 \code{glm} function.
 }
+\examples{
+# Example from "Getting Started" vignette at
+#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+
+file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
+load(file)
+
+roc_model
+}

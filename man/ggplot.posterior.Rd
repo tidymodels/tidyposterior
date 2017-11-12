@@ -16,8 +16,23 @@
 by the average of the posterior distribution?}
 }
 \value{
-A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object using
+\code{\link[ggplot2:geom_violin]{ggplot2::geom_violin()}} for the posteriors.
 }
 \description{
 A simple violin plot is created by the function.
+}
+\examples{
+# Example from "Getting Started" vignette at
+#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+
+file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
+load(file)
+
+roc_model
+
+posterior_values <- tidy(roc_model)
+head(posterior_values)
+
+ggplot(posterior_values)
 }

@@ -20,6 +20,15 @@
 #' @export
 #' @importFrom purrr map2 map_df
 #' @importFrom utils combn
+#' @examples 
+#' # Example from "Getting Started" vignette at
+#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' 
+#' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
+#' load(file)
+#' 
+#' glm_v_nnet
+#' 
 contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
                             seed = sample.int(10000, 1)) {
   if (is.null(list_1) & is.null(list_2)) {
@@ -71,6 +80,15 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #' @export
 #' @importFrom dplyr mutate rename group_by summarise full_join %>%
 #' @importFrom rlang na_dbl
+#' @examples 
+#' # Example from "Getting Started" vignette at
+#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' 
+#' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
+#' load(file)
+#' 
+#' summary(glm_v_nnet, size = 0.02)
+#' 
 summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
   object <- object %>% 
     dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs ")) %>%
@@ -110,7 +128,18 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' @param size The size of an effective difference. For example, a
 #'  5% increase in accuracy between two models might be considered a
 #'  "real" difference. 
-#' @return A [ggplot2::ggplot()] object. 
+#' @return A [ggplot2::ggplot()] object using `geom_density` 
+#'  facetted by the models being contrasted (when there are 2 or
+#'  more contrasts).
+#' @examples 
+#' # Example from "Getting Started" vignette at
+#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' 
+#' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
+#' load(file)
+#' 
+#' ggplot(glm_v_nnet, size = 0.02)
+#'  
 #' @export
 #' @importFrom ggplot2 ggplot geom_line xlab ylab facet_grid geom_vline
 #' @importFrom stats reorder

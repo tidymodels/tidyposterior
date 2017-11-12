@@ -32,3 +32,13 @@ the same time.
 If a transformation was used when \code{x} was created, the
 inverse is applied \emph{before} the difference is computed.
 }
+\examples{
+# Example from "Getting Started" vignette at
+#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+
+file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
+load(file)
+
+glm_v_nnet
+
+}

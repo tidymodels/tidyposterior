@@ -28,3 +28,13 @@ question of which model is best \emph{for this data set}. If does not
 answer the question of which model would be best on a new
 resample of the data (which would have greater variability).
 }
+\examples{
+# Example from "Getting Started" vignette at
+#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+
+file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
+load(file)
+
+roc_model
+tidy(roc_model)
+}
