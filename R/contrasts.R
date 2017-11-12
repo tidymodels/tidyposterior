@@ -21,7 +21,7 @@
 #' @importFrom purrr map2 map_df
 #' @importFrom utils combn
 #' @examples 
-#' # Example from "Getting Started" vignette at
+#' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
 #' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
@@ -81,7 +81,7 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #' @importFrom dplyr mutate rename group_by summarise full_join %>%
 #' @importFrom rlang na_dbl
 #' @examples 
-#' # Example from "Getting Started" vignette at
+#' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
 #' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
@@ -132,7 +132,7 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #'  facetted by the models being contrasted (when there are 2 or
 #'  more contrasts).
 #' @examples 
-#' # Example from "Getting Started" vignette at
+#' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
 #' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")

@@ -93,7 +93,7 @@ the \code{family} argument to \code{perf_mod} as one might with the
 \code{glm} function.
 }
 \examples{
-# Example from "Getting Started" vignette at
+# Example objects from the "Getting Started" vignette at
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
 file <- system.file("examples", "roc_model.RData", package = "tidyposterior")

@@ -25,7 +25,7 @@ more contrasts).
 A density is created for each contrast in a facetted grid.
 }
 \examples{
-# Example from "Getting Started" vignette at
+# Example objects from the "Getting Started" vignette at
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
 file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")

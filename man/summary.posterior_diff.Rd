@@ -38,7 +38,7 @@ better when larger or smaller. \code{pract_equiv} integrates between
 unlikely to be practically different relative to \code{size}.
 }
 \examples{
-# Example from "Getting Started" vignette at
+# Example objects from the "Getting Started" vignette at
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
 file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")

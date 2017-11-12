@@ -23,7 +23,7 @@ A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object using
 A simple violin plot is created by the function.
 }
 \examples{
-# Example from "Getting Started" vignette at
+# Example objects from the "Getting Started" vignette at
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
 file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
