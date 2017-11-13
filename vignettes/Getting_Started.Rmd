@@ -65,7 +65,7 @@ roc_model <- perf_mod(rocs, seed = 2824)
 ```{r save-mod, include = FALSE, eval = eval_chunks}
 # Two objects are saved to be used in the man files
 # `build_site` runs these in `tidyposterior/docs/articles`
-save(roc_model, file = "../../inst/examples/roc_model.Rdata", compress = TRUE)
+save(roc_model, file = "../../inst/examples/roc_model.RData", compress = TRUE)
 ```
 
 The `stan_glmer` model is contained in the element `roc_model$stan`:
@@ -111,7 +111,7 @@ head(glm_v_nnet)
 ```
 
 ```{r save-contrast, include = FALSE, eval = eval_chunks}
-save(glm_v_nnet, file = "../../inst/examples/glm_v_nnet.Rdata", compress = TRUE)
+save(glm_v_nnet, file = "../../inst/examples/glm_v_nnet.RData", compress = TRUE)
 ```
 
 The `summary` function can be used to quantify this difference. It has an argument called `size` where we can add our belief about the size of a true difference. 
