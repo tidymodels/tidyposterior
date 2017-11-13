@@ -22,8 +22,8 @@
 #' 
 #' roc_model
 #' posterior_values <- tidy(roc_model)
-#' head(posterior)
-#' class(posterior)
+#' head(posterior_values)
+#' class(posterior_values)
 #' 
 #' @export
 #' @importFrom tidyr gather
