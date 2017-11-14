@@ -1,9 +1,13 @@
 #' Bayesian Analysis of Resampling Statistics
 #'
-#' These functions can be used to process and analyze matched
-#'  resampling statistics from different models using a Bayesian
-#'  generalized linear model with effects for the model and the
-#'  resamples.
+#' Bayesian analysis used here to answer the question: "when
+#'  looking at resampling results, are the differences between
+#'  models 'real?'" To answer this, a model can be created were the
+#'  _outcome_ is the resampling statistics (e.g. accuracy or RMSE).
+#'  These values are explained by the model types. In doing this, we
+#'  can get parameter estimates for each model's affect on
+#'  performance and make statistical (and practical) comparisons
+#'  between models.
 #'
 #' @param object A data frame or an `rset` object (such as
 #'  [rsample::vfold_cv()]) containing the `id` column(s) and at least
@@ -13,10 +17,15 @@
 #' @param ... Additonal arguments to pass to [rstanarm::stan_glmer()]
 #'  such as `verbose`, `prior`, `seed`, `family`, etc.
 #' @return An object of class `perf_mod`.
-#' @details By default, a generalized linear model with Gaussian
-#'  error and an identity link is fit to the data and has terms for
-#'  the predictive model grouping variable. In this way, the
-#'  performance metrics can be compared between models.
+#' @details These functions can be used to process and analyze
+#'  matched resampling statistics from different models using a
+#'  Bayesian generalized linear model with effects for the model and
+#'  the resamples.
+#' 
+#' By default, a generalized linear model with Gaussian error and
+#'  an identity link is fit to the data and has terms for the
+#'  predictive model grouping variable. In this way, the performance
+#'  metrics can be compared between models.
 #'
 #' Additionally, random effect terms are also used. For most
 #'  resampling methods (except repeated _V_-fold cross-validation),

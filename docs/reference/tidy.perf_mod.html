@@ -126,7 +126,15 @@ resample of the data (which would have greater variability).</p>
 <span class='no'>roc_model</span></div><div class='output co'>#&gt; Bayesian Analysis of Resampling Results
 #&gt; Original data: 10-fold cross-validation using stratification
 #&gt; </div><div class='input'><span class='no'>posterior_values</span> <span class='kw'>&lt;-</span> <span class='fu'>tidy</span>(<span class='no'>roc_model</span>)
-<span class='fu'>head</span>(<span class='no'>posterior</span>)</div><div class='output co'>#&gt; <span class='error'>Error in head(posterior): object 'posterior' not found</span></div><div class='input'><span class='fu'>class</span>(<span class='no'>posterior</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'posterior' not found</span></div><div class='input'>
+<span class='fu'>head</span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 2
+#&gt;   model posterior
+#&gt; * &lt;chr&gt;     &lt;dbl&gt;
+#&gt; 1   glm 0.7934251
+#&gt; 2   glm 0.7904836
+#&gt; 3   glm 0.7919471
+#&gt; 4   glm 0.7891128
+#&gt; 5   glm 0.7889031
+#&gt; 6   glm 0.7887428</div><div class='input'><span class='fu'>class</span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; [1] "posterior"  "tbl_df"     "tbl"        "data.frame"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

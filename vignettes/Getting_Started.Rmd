@@ -27,7 +27,7 @@ theme_set(theme_bw())
 options(width = 100, digits = 3)
 ```
 
-The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clean. For the area under the ROC curve:
+The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clear. For the area under the ROC curve:
 
 ```{r roc-data, eval = eval_chunks, dev = "svg"}
 library(tidyposterior)
@@ -54,6 +54,12 @@ Since the lines are fairly parallel, there is likely to be a strong resample-to-
 If `rocs` were produced by the `rsample` package it is ready to use with `tidyposterior`, which has a method for `rset` objects. 
 
 ## A Basic Linear Model
+
+The main question is:
+
+> When looking at resampling results, are the differences between models "real"?
+
+To answer that, a model can be created were the _outcome_ is the resampling statistics (the area under the ROC curve in this example). These values are explained by the model types. In doing this, we can get parameter estimates for each model's affect on the resampled ROC values and make statistical (and practical) comparisons between models. 
 
 We will try a simple linear model with Gaussian errors that has a random effect for the resamples so that the within-resample correlation can be estimated. Although the outcome is bounded in the interval [0,1], the variability of these estimates might be precise enough to achieve a well-fitting model. 
 

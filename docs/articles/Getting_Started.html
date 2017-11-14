@@ -57,7 +57,7 @@
     
     
 <div class="contents">
-<p>The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clean. For the area under the ROC curve:</p>
+<p>The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clear. For the area under the ROC curve:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyposterior)
 <span class="kw">data</span>(<span class="st">"precise_example"</span>)
 
@@ -94,6 +94,11 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <div id="a-basic-linear-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-basic-linear-model" class="anchor"></a>A Basic Linear Model</h2>
+<p>The main question is:</p>
+<blockquote>
+<p>When looking at resampling results, are the differences between models “real”?</p>
+</blockquote>
+<p>To answer that, a model can be created were the <em>outcome</em> is the resampling statistics (the area under the ROC curve in this example). These values are explained by the model types. In doing this, we can get parameter estimates for each model’s affect on the resampled ROC values and make statistical (and practical) comparisons between models.</p>
 <p>We will try a simple linear model with Gaussian errors that has a random effect for the resamples so that the within-resample correlation can be estimated. Although the outcome is bounded in the interval [0,1], the variability of these estimates might be precise enough to achieve a well-fitting model.</p>
 <p>To fit the model, <code>perf_mod</code> will be used to fit a model using the <code>stan_glmer</code> function in the <code>rstanarm</code> package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/perf_mod.html">perf_mod</a></span>(rocs, <span class="dt">seed =</span> <span class="dv">2824</span>)</code></pre></div>
@@ -101,8 +106,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## 
-## Gradient evaluation took 8.9e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.89 seconds.
+## Gradient evaluation took 9e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.9 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -119,15 +124,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.91283 seconds (Warm-up)
-##                0.187368 seconds (Sampling)
-##                3.1002 seconds (Total)
+##  Elapsed Time: 2.9438 seconds (Warm-up)
+##                0.205124 seconds (Sampling)
+##                3.14893 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## 
-## Gradient evaluation took 3.1e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
+## Gradient evaluation took 2.3e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.23 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -144,15 +149,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.30754 seconds (Warm-up)
-##                0.256849 seconds (Sampling)
-##                3.56438 seconds (Total)
+##  Elapsed Time: 3.48728 seconds (Warm-up)
+##                0.248927 seconds (Sampling)
+##                3.73621 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## 
-## Gradient evaluation took 3.4e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.34 seconds.
+## Gradient evaluation took 2.1e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.21 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -169,15 +174,15 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 3.16703 seconds (Warm-up)
-##                0.30616 seconds (Sampling)
-##                3.47319 seconds (Total)
+##  Elapsed Time: 3.36499 seconds (Warm-up)
+##                0.322332 seconds (Sampling)
+##                3.68732 seconds (Total)
 ## 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## 
-## Gradient evaluation took 3.2e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.
+## Gradient evaluation took 2.8e-05 seconds
+## 1000 transitions using 10 leapfrog steps per transition would take 0.28 seconds.
 ## Adjust your expectations accordingly!
 ## 
 ## 
@@ -194,9 +199,9 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 ## Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Iteration: 2000 / 2000 [100%]  (Sampling)
 ## 
-##  Elapsed Time: 2.74976 seconds (Warm-up)
-##                0.207805 seconds (Sampling)
-##                2.95757 seconds (Total)</code></pre>
+##  Elapsed Time: 2.81074 seconds (Warm-up)
+##                0.209037 seconds (Sampling)
+##                3.01978 seconds (Total)</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$stan</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>stan</code></pre></div>
 <pre><code>## stan_glmer

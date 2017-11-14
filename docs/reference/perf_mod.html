@@ -78,10 +78,14 @@
     </div>
 
     
-    <p>These functions can be used to process and analyze matched
-resampling statistics from different models using a Bayesian
-generalized linear model with effects for the model and the
-resamples.</p>
+    <p>Bayesian analysis used here to answer the question: "when
+looking at resampling results, are the differences between
+models 'real?'" To answer this, a model can be created were the
+<em>outcome</em> is the resampling statistics (e.g. accuracy or RMSE).
+These values are explained by the model types. In doing this, we
+can get parameter estimates for each model's affect on
+performance and make statistical (and practical) comparisons
+between models.</p>
     
 
     <pre class="usage"><span class='fu'>perf_mod</span>(<span class='no'>object</span>, <span class='no'>...</span>)
@@ -143,10 +147,14 @@ the <code>resamples</code> object that should be analyzed.</p></td>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>By default, a generalized linear model with Gaussian
-error and an identity link is fit to the data and has terms for
-the predictive model grouping variable. In this way, the
-performance metrics can be compared between models.</p>
+    <p>These functions can be used to process and analyze
+matched resampling statistics from different models using a
+Bayesian generalized linear model with effects for the model and
+the resamples.</p>
+<p>By default, a generalized linear model with Gaussian error and
+an identity link is fit to the data and has terms for the
+predictive model grouping variable. In this way, the performance
+metrics can be compared between models.</p>
 <p>Additionally, random effect terms are also used. For most
 resampling methods (except repeated <em>V</em>-fold cross-validation),
 a simple random intercept model its used with an exchangeable
