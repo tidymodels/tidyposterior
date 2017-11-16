@@ -22,7 +22,7 @@ Imports:
     rsample (>= 0.0.2),
     tidyr,
     dplyr,
-    rstanarm,
+    rstanarm (>= 2.15.3),
     rlang,
     utils,
     purrr,
