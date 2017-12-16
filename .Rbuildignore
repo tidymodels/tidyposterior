@@ -7,3 +7,4 @@ vignettes/.build.timestamp
 ^codecov\.yml$
 README.*
 ^pkgdown$
+tidyposterior_hex.png
