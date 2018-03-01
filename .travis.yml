@@ -14,3 +14,10 @@ r:
 
 after_success:
   - Rscript -e 'covr::codecov()'
+
+# circa 2018-03-01, devel takes 45m to build and causes timeout error
+
+matrix:
+  allow_failures:
+    - r: devel
+
