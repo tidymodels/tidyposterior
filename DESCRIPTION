@@ -20,7 +20,7 @@ Depends:
     R (>= 2.10)
 Imports: 
     rsample (>= 0.0.2),
-    tidyr,
+    tidyr (>= 0.7.1),
     dplyr,
     rstanarm (>= 2.15.3),
     rlang,
