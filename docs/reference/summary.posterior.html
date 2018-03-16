@@ -18,12 +18,21 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  <link href="../extra.css" rel="stylesheet">
+  
+<meta property="og:title" content="Summarize the Posterior Distributions of Model Statistics — summary.posterior" />
 
+<meta property="og:description" content="Numerical summaries are created for each model including the
+posterior mean and upper and lower credible intervals (aka
+uncertainty intervals)." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -124,11 +133,11 @@ each model.</p>
 
 <span class='no'>posterior_values</span> <span class='kw'>&lt;-</span> <span class='fu'>tidy</span>(<span class='no'>roc_model</span>)
 <span class='fu'>summary</span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
-#&gt;   model      mean     lower     upper
-#&gt;   &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-#&gt; 1   glm 0.7903114 0.7861054 0.7946825
-#&gt; 2   knn 0.7526229 0.7482982 0.7569819
-#&gt; 3  nnet 0.8414034 0.8370168 0.8455970</div><div class='input'>
+#&gt;   model  mean lower upper
+#&gt;   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1 glm   0.790 0.786 0.795
+#&gt; 2 knn   0.753 0.748 0.757
+#&gt; 3 nnet  0.841 0.837 0.846</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -150,7 +159,7 @@ each model.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

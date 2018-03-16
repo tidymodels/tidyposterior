@@ -18,12 +18,19 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  <link href="../extra.css" rel="stylesheet">
+  
+<meta property="og:title" content="Example Data Sets — precise_example" />
 
+<meta property="og:description" content="Example Data Sets" />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -118,18 +125,18 @@ Four regression models were applied to these data.</p></li>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>precise_example</span>)
 <span class='no'>precise_example</span></div><div class='output co'>#&gt; #  10-fold cross-validation using stratification 
 #&gt; # A tibble: 10 x 29
-#&gt;    splits     id glm_Accuracy glm_Kappa   glm_ROC  glm_Sens  glm_Spec glm_PRAUC
-#&gt;     &lt;lgl&gt;  &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
-#&gt;  1     NA Fold01    0.7219789 0.3276231 0.7980770 0.7294282 0.7202908 0.4890519
-#&gt;  2     NA Fold02    0.6964700 0.2896545 0.7779284 0.7196653 0.6912137 0.4559959
-#&gt;  3     NA Fold03    0.7012887 0.2972104 0.7900645 0.7234637 0.6962705 0.4862322
-#&gt;  4     NA Fold04    0.7041999 0.3157213 0.7947942 0.7625698 0.6909953 0.4974863
-#&gt;  5     NA Fold05    0.7210201 0.3235922 0.7972035 0.7224547 0.7206951 0.4807800
-#&gt;  6     NA Fold06    0.7108993 0.3032914 0.7804242 0.7057183 0.7120733 0.4835726
-#&gt;  7     NA Fold07    0.7023963 0.3048452 0.7899755 0.7391911 0.6940582 0.4850924
-#&gt;  8     NA Fold08    0.7175258 0.3211274 0.7838771 0.7290503 0.7149178 0.4765777
-#&gt;  9     NA Fold09    0.7196599 0.3280866 0.7953167 0.7391911 0.7152339 0.4910643
-#&gt; 10     NA Fold10    0.7194022 0.3235179 0.7960815 0.7280335 0.7174463 0.4876692
+#&gt;    splits id     glm_Accuracy glm_Kappa glm_ROC glm_Sens glm_Spec glm_PRAUC
+#&gt;    &lt;lgl&gt;  &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+#&gt;  1 NA     Fold01        0.722     0.328   0.798    0.729    0.720     0.489
+#&gt;  2 NA     Fold02        0.696     0.290   0.778    0.720    0.691     0.456
+#&gt;  3 NA     Fold03        0.701     0.297   0.790    0.723    0.696     0.486
+#&gt;  4 NA     Fold04        0.704     0.316   0.795    0.763    0.691     0.497
+#&gt;  5 NA     Fold05        0.721     0.324   0.797    0.722    0.721     0.481
+#&gt;  6 NA     Fold06        0.711     0.303   0.780    0.706    0.712     0.484
+#&gt;  7 NA     Fold07        0.702     0.305   0.790    0.739    0.694     0.485
+#&gt;  8 NA     Fold08        0.718     0.321   0.784    0.729    0.715     0.477
+#&gt;  9 NA     Fold09        0.720     0.328   0.795    0.739    0.715     0.491
+#&gt; 10 NA     Fold10        0.719     0.324   0.796    0.728    0.717     0.488
 #&gt; # ... with 21 more variables: glm_Precision &lt;dbl&gt;, glm_Recall &lt;dbl&gt;,
 #&gt; #   glm_F &lt;dbl&gt;, knn_Accuracy &lt;dbl&gt;, knn_Kappa &lt;dbl&gt;, knn_ROC &lt;dbl&gt;,
 #&gt; #   knn_Sens &lt;dbl&gt;, knn_Spec &lt;dbl&gt;, knn_PRAUC &lt;dbl&gt;, knn_Precision &lt;dbl&gt;,
@@ -157,7 +164,7 @@ Four regression models were applied to these data.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

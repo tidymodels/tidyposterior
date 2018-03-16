@@ -3,7 +3,7 @@ template:
     bootswatch: united
 
 reference:
-  - title: Bayessian Analysis of Resampling Results
+  - title: Bayesian Analysis of Resampling Results
     contents:
       - perf_mod
       - tidy.perf_mod

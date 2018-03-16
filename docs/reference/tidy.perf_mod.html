@@ -18,12 +18,21 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  <link href="../extra.css" rel="stylesheet">
+  
+<meta property="og:title" content="Extract Posterior Distributions for Models — tidy.perf_mod" />
 
+<meta property="og:description" content="tidy can be used on an object produced by perf_mod()
+to create a data frame with a column for the model name and
+the posterior predictive distribution values." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -129,12 +138,12 @@ resample of the data (which would have greater variability).</p>
 <span class='fu'>head</span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 2
 #&gt;   model posterior
 #&gt; * &lt;chr&gt;     &lt;dbl&gt;
-#&gt; 1   glm 0.7934251
-#&gt; 2   glm 0.7904836
-#&gt; 3   glm 0.7919471
-#&gt; 4   glm 0.7891128
-#&gt; 5   glm 0.7889031
-#&gt; 6   glm 0.7887428</div><div class='input'><span class='fu'>class</span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; [1] "posterior"  "tbl_df"     "tbl"        "data.frame"</div><div class='input'>
+#&gt; 1 glm       0.793
+#&gt; 2 glm       0.790
+#&gt; 3 glm       0.792
+#&gt; 4 glm       0.789
+#&gt; 5 glm       0.789
+#&gt; 6 glm       0.789</div><div class='input'><span class='fu'>class</span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; [1] "posterior"  "tbl_df"     "tbl"        "data.frame"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -158,7 +167,7 @@ resample of the data (which would have greater variability).</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

@@ -8,8 +8,12 @@
 <title>Getting Started • tidyposterior</title>
 <!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/united/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="../jquery.sticky-kit.min.js"></script><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Getting Started">
+<meta property="og:description" content="">
+<meta name="twitter:card" content="summary">
+<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
@@ -57,38 +61,25 @@
     
     
 <div class="contents">
+<p>(These documents take a long time to create, so only the code is shown here. The full version is at <a href="https://topepo.github.io/tidyposterior" class="uri">https://topepo.github.io/tidyposterior</a>.)</p>
 <p>The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clear. For the area under the ROC curve:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyposterior)
-<span class="kw">data</span>(<span class="st">"precise_example"</span>)
-
-<span class="kw">library</span>(tidyverse)
-
-rocs &lt;-<span class="st"> </span>precise_example <span class="op">%&gt;%</span>
-<span class="st">   </span><span class="kw">select</span>(id, <span class="kw">contains</span>(<span class="st">"ROC"</span>)) <span class="op">%&gt;%</span>
-<span class="st">   </span><span class="kw">setNames</span>(<span class="kw">tolower</span>(<span class="kw">gsub</span>(<span class="st">"_ROC$"</span>, <span class="st">""</span>, <span class="kw">names</span>(.)))) 
-rocs</code></pre></div>
-<pre><code>## #  10-fold cross-validation using stratification 
-## # A tibble: 10 x 4
-##        id   glm   knn  nnet
-##     &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1 Fold01 0.798 0.753 0.843
-##  2 Fold02 0.778 0.744 0.827
-##  3 Fold03 0.790 0.743 0.846
-##  4 Fold04 0.795 0.755 0.852
-##  5 Fold05 0.797 0.760 0.838
-##  6 Fold06 0.780 0.747 0.852
-##  7 Fold07 0.790 0.757 0.833
-##  8 Fold08 0.784 0.754 0.832
-##  9 Fold09 0.795 0.764 0.846
-## 10 Fold10 0.796 0.748 0.847</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
-
-rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
-
-<span class="kw">ggplot</span>(rocs_stacked, <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic, <span class="dt">group =</span> id, <span class="dt">col =</span> id)) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">alpha =</span> .<span class="dv">75</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</code></pre></div>
-<p><img src="Getting_Started_files/figure-html/roc-data-1.svg" width="672"></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyposterior)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">data</span>(<span class="st">"precise_example"</span>)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">rocs &lt;-<span class="st"> </span>precise_example <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="st">   </span><span class="kw">select</span>(id, <span class="kw">contains</span>(<span class="st">"ROC"</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="st">   </span><span class="kw">setNames</span>(<span class="kw">tolower</span>(<span class="kw">gsub</span>(<span class="st">"_ROC$"</span>, <span class="st">""</span>, <span class="kw">names</span>(.)))) </a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">rocs</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)</a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(rocs_stacked, <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic, <span class="dt">group =</span> id, <span class="dt">col =</span> id)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_path">geom_line</a></span>(<span class="dt">alpha =</span> <span class="fl">.75</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/theme">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</a></code></pre></div>
 <p>Since the lines are fairly parallel, there is likely to be a strong resample-to-resample effect. Note that the variation is fairly small; the within-model results don’t vary a lot and are not near the ceiling of performance (i.e. an AUC of one). It also seems pretty clear that the models are producing different levels of performance, but we’ll use this package to clarify this. Finally, there seems to be roughly equal variation for each model despite the difference in performance.</p>
 <p>If <code>rocs</code> were produced by the <code>rsample</code> package it is ready to use with <code>tidyposterior</code>, which has a method for <code>rset</code> objects.</p>
 <div id="a-basic-linear-model" class="section level2">
@@ -98,164 +89,28 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <blockquote>
 <p>When looking at resampling results, are the differences between models “real”?</p>
 </blockquote>
-<p>To answer that, a model can be created were the <em>outcome</em> is the resampling statistics (the area under the ROC curve in this example). These values are explained by the model types. In doing this, we can get parameter estimates for each model’s affect on the resampled ROC values and make statistical (and practical) comparisons between models.</p>
+<p>To answer that, a model can be created where the <em>outcome</em> is the resampling statistics (the area under the ROC curve in this example). These values are explained by the model types. In doing this, we can get parameter estimates for each model’s affect on the resampled ROC values and make statistical (and practical) comparisons between models.</p>
 <p>We will try a simple linear model with Gaussian errors that has a random effect for the resamples so that the within-resample correlation can be estimated. Although the outcome is bounded in the interval [0,1], the variability of these estimates might be precise enough to achieve a well-fitting model.</p>
 <p>To fit the model, <code>perf_mod</code> will be used to fit a model using the <code>stan_glmer</code> function in the <code>rstanarm</code> package:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/perf_mod.html">perf_mod</a></span>(rocs, <span class="dt">seed =</span> <span class="dv">2824</span>)</code></pre></div>
-<pre><code>## trying deprecated constructor; please alert package maintainer</code></pre>
-<pre><code>## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
-## 
-## Gradient evaluation took 9.3e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.93 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 3.05561 seconds (Warm-up)
-##                0.199115 seconds (Sampling)
-##                3.25472 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
-## 
-## Gradient evaluation took 3.1e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.31 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 3.59209 seconds (Warm-up)
-##                0.280224 seconds (Sampling)
-##                3.87231 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
-## 
-## Gradient evaluation took 3.3e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.33 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 3.43597 seconds (Warm-up)
-##                0.328846 seconds (Sampling)
-##                3.76482 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
-## 
-## Gradient evaluation took 3.2e-05 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0.32 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:    1 / 2000 [  0%]  (Warmup)
-## Iteration:  200 / 2000 [ 10%]  (Warmup)
-## Iteration:  400 / 2000 [ 20%]  (Warmup)
-## Iteration:  600 / 2000 [ 30%]  (Warmup)
-## Iteration:  800 / 2000 [ 40%]  (Warmup)
-## Iteration: 1000 / 2000 [ 50%]  (Warmup)
-## Iteration: 1001 / 2000 [ 50%]  (Sampling)
-## Iteration: 1200 / 2000 [ 60%]  (Sampling)
-## Iteration: 1400 / 2000 [ 70%]  (Sampling)
-## Iteration: 1600 / 2000 [ 80%]  (Sampling)
-## Iteration: 1800 / 2000 [ 90%]  (Sampling)
-## Iteration: 2000 / 2000 [100%]  (Sampling)
-## 
-##  Elapsed Time: 2.99366 seconds (Warm-up)
-##                0.223201 seconds (Sampling)
-##                3.21686 seconds (Total)</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">roc_model &lt;-<span class="st"> </span><span class="kw"><a href="../reference/perf_mod.html">perf_mod</a></span>(rocs, <span class="dt">seed =</span> <span class="dv">2824</span>)</a></code></pre></div>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$stan</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_model<span class="op">$</span>stan</code></pre></div>
-<pre><code>## stan_glmer
-##  family:       gaussian [identity]
-##  formula:      statistic ~ model + (1 | id)
-##  observations: 30
-## ------
-## 
-## Estimates:
-##             Median MAD_SD
-## (Intercept) 0.8    0.0   
-## modelknn    0.0    0.0   
-## modelnnet   0.1    0.0   
-## sigma       0.0    0.0   
-## 
-## Error terms:
-##  Groups   Name        Std.Dev.
-##  id       (Intercept) 0.0043  
-##  Residual             0.0070  
-## Num. levels: id 10 
-## 
-## Sample avg. posterior predictive 
-## distribution of y (X = xbar):
-##          Median MAD_SD
-## mean_PPD 0.8    0.0   
-## 
-## ------
-## For info on the priors used see help('prior_summary.stanreg').</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">roc_model<span class="op">$</span>stan</a></code></pre></div>
 <p>To evaluate the validity of this fit, the <a href="http://mc-stan.org/users/interfaces/shinystan"><code>shinystan</code></a> package can be used to generate an interactive assessment of the model results. One other thing that we can do it to examine the posterior distributions to see if they make sense in terms of the range of values.</p>
 </div>
 <div id="getting-the-posterior-distributions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-the-posterior-distributions" class="anchor"></a>Getting the Posterior Distributions</h2>
 <p>The <code>tidy</code> function can be used to extract the distributions into a simple data frame:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">roc_post &lt;-<span class="st"> </span><span class="kw">tidy</span>(roc_model)
-<span class="kw">head</span>(roc_post)</code></pre></div>
-<pre><code>## # A tibble: 6 x 2
-##   model posterior
-## * &lt;chr&gt;     &lt;dbl&gt;
-## 1   glm     0.793
-## 2   glm     0.790
-## 3   glm     0.792
-## 4   glm     0.789
-## 5   glm     0.789
-## 6   glm     0.789</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">roc_post &lt;-<span class="st"> </span><span class="kw">tidy</span>(roc_model)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">head</span>(roc_post)</a></code></pre></div>
 <p>There is a basic <code>ggplot</code> method for this object and we can overlay the observed statistics for each model:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(roc_post) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="co"># Add the observed data to check for consistency </span>
-<span class="st">  </span><span class="kw">geom_point</span>(
-    <span class="dt">data =</span> rocs_stacked, 
-    <span class="kw">aes</span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic), 
-    <span class="dt">alpha =</span> .<span class="dv">5</span>, <span class="dt">col =</span> <span class="st">"blue"</span>
-  )</code></pre></div>
-<p><img src="Getting_Started_files/figure-html/linear-model-post-plot-1.svg" width="672"></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(roc_post) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="st">  </span><span class="co"># Add the observed data to check for consistency </span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/geom_point">geom_point</a></span>(</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="dt">data =</span> rocs_stacked, </a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/aes">aes</a></span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic), </a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">    <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">col =</span> <span class="st">"blue"</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">  )</a></code></pre></div>
 <p>These results look fairly reasonable given that we estimated a common variance for each of the models.</p>
 </div>
 <div id="comparing-models" class="section level2">
@@ -263,25 +118,13 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 <a href="#comparing-models" class="anchor"></a>Comparing Models</h2>
 <p>We’ll compare the generalized linear model with the neural network. Before doing so, it helps to specify what a real difference between models would be. Suppose that a 2% increase in accuracy was considered to be a substantive results. We can add this into the analysis.</p>
 <p>First, we can compute the posterior for the difference in RMSE for the two models (parameterized as <code>nnet</code>-<code>glm</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">glm_v_nnet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/contrast_models.html">contrast_models</a></span>(roc_model, <span class="st">"nnet"</span>, <span class="st">"glm"</span>)
-<span class="kw">head</span>(glm_v_nnet)</code></pre></div>
-<pre><code>##   difference model_1 model_2
-## 1     0.0467    nnet     glm
-## 2     0.0490    nnet     glm
-## 3     0.0523    nnet     glm
-## 4     0.0525    nnet     glm
-## 5     0.0536    nnet     glm
-## 6     0.0558    nnet     glm</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">glm_v_nnet &lt;-<span class="st"> </span><span class="kw"><a href="../reference/contrast_models.html">contrast_models</a></span>(roc_model, <span class="st">"nnet"</span>, <span class="st">"glm"</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">head</span>(glm_v_nnet)</a></code></pre></div>
 <p>The <code>summary</code> function can be used to quantify this difference. It has an argument called <code>size</code> where we can add our belief about the size of a true difference.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>
-<pre><code>## # A tibble: 1 x 9
-##      contrast probability   mean  lower  upper  size pract_neg pract_equiv pract_pos
-##         &lt;chr&gt;       &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
-## 1 nnet vs glm           1 0.0511 0.0459 0.0563  0.02         0           0         1</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">summary</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</a></code></pre></div>
 <p>The <code>probability</code> column indicates the proportion of the posterior distribution that is greater than zero. This result indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models.</p>
 <p>Before discussing the ROPE estimates, let’s plot the posterior distribution of the differences:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</code></pre></div>
-<p><img src="Getting_Started_files/figure-html/glm-v-nnet-plot-1.svg" width="672"></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/ggplot2/topics/ggplot">ggplot</a></span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</a></code></pre></div>
 <p>The column <code>pract_neg</code> reflects the area where the posterior distribution is <em>less</em> than -2% (i.e, <em>practically negative</em>). Similarly, the <code>pract_pos</code> shows that most of the area is greater than 2% which leads us to believe that this is a truly a substantial difference in performance. The <code>pract_equiv</code> reflects how much of the posterior is between [-2%, 2%]. If this were near one, it might indicate that the models are not practically different (based on the yardstick of 2%).</p>
 </div>
 </div>
@@ -289,7 +132,8 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#a-basic-linear-model">A Basic Linear Model</a></li>
       <li><a href="#getting-the-posterior-distributions">Getting the Posterior Distributions</a></li>
@@ -306,7 +150,7 @@ rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>

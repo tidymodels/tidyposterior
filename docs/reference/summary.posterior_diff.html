@@ -18,12 +18,21 @@
 <!-- Font Awesome icons -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
+<!-- clipboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+  <link href="../extra.css" rel="stylesheet">
+  
+<meta property="og:title" content="Summarize Posterior Distributions of Model Differences — summary.posterior_diff" />
 
+<meta property="og:description" content="Credible intervals are created for the differences. Also,
+region of practical equivalence (ROPE) statistics are computed
+when the effective size of a difference is given." />
+<meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -135,10 +144,10 @@ unlikely to be practically different relative to <code>size</code>.</p>
 <span class='fu'>load</span>(<span class='no'>file</span>)
 
 <span class='fu'>summary</span>(<span class='no'>glm_v_nnet</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.02</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 9
-#&gt;      contrast probability       mean     lower      upper  size pract_neg
-#&gt;         &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-#&gt; 1 nnet vs glm           1 0.05109196 0.0458887 0.05627764  0.02         0
-#&gt; # ... with 2 more variables: pract_equiv &lt;dbl&gt;, pract_pos &lt;dbl&gt;</div><div class='input'>
+#&gt;   contrast    probability   mean  lower  upper   size pract_neg pract_equiv
+#&gt;   &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1 nnet vs glm          1. 0.0511 0.0459 0.0563 0.0200        0.          0.
+#&gt; # ... with 1 more variable: pract_pos &lt;dbl&gt;</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -162,7 +171,7 @@ unlikely to be practically different relative to <code>size</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
+  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
 
       </footer>
