@@ -1,4 +1,7 @@
-# `tidyposterior`
+
+
+#  <img src="tidyposterior_hex.png" align="center" height = "80px" align = "middle"/> 
+
 
 [![Travis build status](https://travis-ci.org/topepo/tidyposterior.svg?branch=master)](https://travis-ci.org/topepo/tidyposterior)
 [![Coverage status](https://codecov.io/gh/topepo/tidyposterior/branch/master/graph/badge.svg)](https://codecov.io/github/topepo/tidyposterior?branch=master)
