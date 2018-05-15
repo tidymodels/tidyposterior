@@ -7,6 +7,9 @@ cache: packages
 before_install:
   - sudo apt-get -y install libnlopt-dev
 
+r_binary_packages: 
+  - rstan
+
 r:
 - oldrel
 - release
