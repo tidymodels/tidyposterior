@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
   <link href="../extra.css" rel="stylesheet">
   
 <meta property="og:title" content="Visualize the Posterior Distributions of Model Differences — ggplot.posterior_diff" />
@@ -40,8 +43,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -92,11 +93,14 @@
     <div class="page-header">
     <h1>Visualize the Posterior Distributions of Model Differences</h1>
     
+    <div class="hidden name"><code>ggplot.posterior_diff.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>A density is created for each contrast in a facetted grid.</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S3 method for posterior_diff</span>
 <span class='fu'>ggplot</span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
@@ -135,7 +139,7 @@ more contrasts).</p>
 <span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'>system.file</span>(<span class='st'>"examples"</span>, <span class='st'>"glm_v_nnet.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
 <span class='fu'>load</span>(<span class='no'>file</span>)
 
-<span class='fu'>ggplot</span>(<span class='no'>glm_v_nnet</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.02</span>) + <span class='fu'>theme_bw</span>()</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("depth"): no applicable method for 'depth' applied to an object of class "NULL"</span></div><div class='img'><img src='ggplot.posterior_diff-1.png' alt='' width='700' height='433' /></div><div class='input'> 
+<span class='fu'>ggplot</span>(<span class='no'>glm_v_nnet</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.02</span>) + <span class='fu'>theme_bw</span>()</div><div class='img'><img src='ggplot.posterior_diff-1.png' alt='' width='700' height='433' /></div><div class='input'> 
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

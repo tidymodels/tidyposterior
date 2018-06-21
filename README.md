@@ -4,7 +4,7 @@
 
 
 [![Travis build status](https://travis-ci.org/topepo/tidyposterior.svg?branch=master)](https://travis-ci.org/topepo/tidyposterior)
-[![Coverage status](https://codecov.io/gh/topepo/tidyposterior/branch/master/graph/badge.svg)](https://codecov.io/github/topepo/tidyposterior?branch=master)
+[![Coverage status](https://codecov.io/gh/tidymodels/tidyposterior/branch/master/graph/badge.svg)](https://codecov.io/github/tidymodels/tidyposterior?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](http://cran.r-project.org/web/packages/tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](http://cran.rstudio.com/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
@@ -23,7 +23,7 @@ You can install `tidyposterior` from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("topepo/tidyposterior")
+devtools::install_github("tidymodels/tidyposterior")
 ```
 
 ## Example

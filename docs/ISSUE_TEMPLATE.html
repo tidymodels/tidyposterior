@@ -25,6 +25,9 @@
 <link href="pkgdown.css" rel="stylesheet">
 <script src="jquery.sticky-kit.min.js"></script>
 <script src="pkgdown.js"></script>
+
+
+
   <link href="extra.css" rel="stylesheet">
   
 <meta property="og:title" content="NA" />
@@ -37,8 +40,6 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-
-
 
 
   </head>
@@ -122,7 +123,7 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw">data</span>(precise_example)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">accuracy &lt;-<span class="st"> </span>precise_example <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="st">   </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, <span class="kw"><a href="http://dplyr.tidyverse.org/reference/select_helpers.html">contains</a></span>(<span class="st">"Accuracy"</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="st">   </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, <span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"Accuracy"</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="st">   </span><span class="kw">setNames</span>(<span class="kw">tolower</span>(<span class="kw">gsub</span>(<span class="st">"_Accuracy$"</span>, <span class="st">""</span>, <span class="kw">names</span>(.)))) </a>
 <a class="sourceLine" id="cb2-9" data-line-number="9">accuracy</a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"></a>

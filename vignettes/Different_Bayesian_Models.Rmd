@@ -16,7 +16,7 @@ if(!eval_chunks)
   cat(
     "(These documents take a long time to create, so only the code",
     "is shown here. The full version is at",
-    "[https://topepo.github.io/tidyposterior](https://topepo.github.io/tidyposterior).)"
+    "[https://tidymodels.github.io/tidyposterior](https://tidymodels.github.io/tidyposterior).)"
     )
 ```
 
