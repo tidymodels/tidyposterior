@@ -4,8 +4,8 @@
 \alias{summary.posterior}
 \title{Summarize the Posterior Distributions of Model Statistics}
 \usage{
-\method{summary}{posterior}(object, prob = 0.9, seed = sample.int(10000, 1),
-  ...)
+\method{summary}{posterior}(object, prob = 0.9,
+  seed = sample.int(10000, 1), ...)
 }
 \arguments{
 \item{object}{An object produced by \code{\link[=tidy.perf_mod]{tidy.perf_mod()}}.}

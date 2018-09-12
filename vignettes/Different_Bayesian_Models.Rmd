@@ -31,7 +31,7 @@ options(width = 100, digits = 3)
 
 The data set `noisy_example` contains the results for a series of regression models that were created from a small dataset with considerable variability. For resampling, 10 repeats of 10-fold cross-validation were used to estimate performance. We will compare models using the root mean squared error (RMSE) metric.  
 
-```{r rmse-results, eval = eval_chunks, dev = "svg"}
+```{r rmse-results, eval = eval_chunks}
 library(tidyposterior)
 data("noisy_example")
 
@@ -89,7 +89,7 @@ gamma_mean
 
 Are these values consistent with the data? Let's look at the posterior distribution and overlay the observed and predicted mean RMSE values. 
 
-```{r gamma, eval = eval_chunks, dev = "svg"}
+```{r gamma, eval = eval_chunks}
 ggplot(gamma_post) + 
   geom_point(data = gamma_mean, aes(y = mean), alpha = .5) + 
   geom_point(data = mean_rmse, aes(y = statistic), 
@@ -103,13 +103,13 @@ The observed mean is not close to the center of the (skewed) posterior distribut
 Another approach is to transform the RMSE values to something model symmetric and model the data on a different scale. A log transform will be used here using the built-in object `ln_trans`. In using this option, the posterior distributions are computed on the log scale and is automatically back-transformed into the original units. By not passing `family` to the function, we are using a Gaussian model.
 
 
-```{r log-linear-fit, eval = eval_chunks, dev = "svg"}
+```{r log-linear-fit, eval = eval_chunks}
 log_linear_model <- perf_mod(rmses, transform = ln_trans, seed = 74)
 ```
 
 There were some message regarding sampling and divergent transitions. We could use the  `shinystan` or `coda` packages to look into this model. 
 
-```{r log-linear, eval = eval_chunks, dev = "svg"}
+```{r log-linear, eval = eval_chunks}
 log_linear_post <- tidy(log_linear_model, seed = 3750)
 
 log_linear_mean <- summary(log_linear_post)
@@ -127,7 +127,7 @@ The posteriors are a lot less skewed but the observed and estimated means are st
 
 Let's try the easiest model that used a linear function and assumes a Gaussian distirbution for the RMSE estimates. 
 
-```{r linear-linear, eval = eval_chunks, dev = "svg"}
+```{r linear-linear, eval = eval_chunks}
 linear_model <- perf_mod(rmses, seed = 74)
 
 linear_post <- tidy(linear_model, seed = 3750)
@@ -143,7 +143,7 @@ These are right on target. Despite the skewness of the original data, a simple l
 
 We can compare models using the `contrast_models` function. The function has arguments for two sets of models to compare but if these are left to their default (`NULL`), all pair-wise combinations are used. Let's say that an RMSE difference of 1 unit is important. 
 
-```{r gamma-contrast, eval = eval_chunks, dev = "svg"}
+```{r gamma-contrast, eval = eval_chunks}
 all_contrasts <- contrast_models(linear_model, seed = 8967)
 ggplot(all_contrasts, size = 1)
 summary(all_contrasts, size = 1)

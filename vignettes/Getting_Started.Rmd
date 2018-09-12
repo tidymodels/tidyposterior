@@ -29,7 +29,7 @@ options(width = 100, digits = 3)
 
 The example that we will use here is from the analysis of a fairly large classification data set using 10-fold cross-validation with three models. Looking at the accuracy values, the differences are pretty clear. For the area under the ROC curve:
 
-```{r roc-data, eval = eval_chunks, dev = "svg"}
+```{r roc-data, eval = eval_chunks}
 library(tidyposterior)
 data("precise_example")
 
@@ -93,7 +93,7 @@ head(roc_post)
 
 There is a basic `ggplot` method for this object and we can overlay the observed statistics for each model:
 
-```{r linear-model-post-plot, eval = eval_chunks, dev = "svg"}
+```{r linear-model-post-plot, eval = eval_chunks}
 ggplot(roc_post) + 
   # Add the observed data to check for consistency 
   geom_point(
@@ -129,7 +129,7 @@ The `probability` column indicates the proportion of the posterior distribution 
 
 Before discussing the ROPE estimates, let's plot the posterior distribution of the differences:
 
-```{r glm-v-nnet-plot, eval = eval_chunks, dev = "svg"}
+```{r glm-v-nnet-plot, eval = eval_chunks}
 ggplot(glm_v_nnet, size = 0.02)
 ```
 

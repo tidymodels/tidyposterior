@@ -4,8 +4,8 @@
 \alias{ggplot.posterior}
 \title{Visualize the Posterior Distributions of Model Statistics}
 \usage{
-\method{ggplot}{posterior}(data, mapping = NULL, ..., environment = NULL,
-  reorder = TRUE)
+\method{ggplot}{posterior}(data, mapping = NULL, ...,
+  environment = NULL, reorder = TRUE)
 }
 \arguments{
 \item{data}{An object produced by \code{\link[=tidy.perf_mod]{tidy.perf_mod()}}.}

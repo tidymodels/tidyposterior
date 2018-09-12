@@ -10,8 +10,8 @@
 \usage{
 perf_mod(object, ...)
 
-\method{perf_mod}{rset}(object, transform = no_trans, hetero_var = FALSE,
-  ...)
+\method{perf_mod}{rset}(object, transform = no_trans,
+  hetero_var = FALSE, ...)
 
 \method{perf_mod}{vfold_cv}(object, transform = no_trans,
   hetero_var = FALSE, ...)
