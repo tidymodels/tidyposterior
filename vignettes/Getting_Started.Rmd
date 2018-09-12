@@ -59,7 +59,7 @@ The main question is:
 
 > When looking at resampling results, are the differences between models "real"?
 
-To answer that, a model can be created where the _outcome_ is the resampling statistics (the area under the ROC curve in this example). These values are explained by the model types. In doing this, we can get parameter estimates for each model's affect on the resampled ROC values and make statistical (and practical) comparisons between models. 
+To answer that, a model can be created where the _outcome_ is the resampling statistics (the area under the ROC curve in this example). These values are explained by the model types. In doing this, we can get parameter estimates for each model's effect on the resampled ROC values and make statistical (and practical) comparisons between models. 
 
 We will try a simple linear model with Gaussian errors that has a random effect for the resamples so that the within-resample correlation can be estimated. Although the outcome is bounded in the interval [0,1], the variability of these estimates might be precise enough to achieve a well-fitting model. 
 
