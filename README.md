@@ -3,7 +3,7 @@
 #  <img src="tidyposterior_hex.png" align="center" height = "80px" align = "middle"/> 
 
 
-[![Travis build status](https://travis-ci.org/topepo/tidyposterior.svg?branch=master)](https://travis-ci.org/topepo/tidyposterior)
+[![Travis build status](https://travis-ci.org/tidymodels/tidyposterior.svg?branch=master)](https://travis-ci.org/tidymodels/tidyposterior)
 [![Coverage status](https://codecov.io/gh/tidymodels/tidyposterior/branch/master/graph/badge.svg)](https://codecov.io/github/tidymodels/tidyposterior?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](http://cran.r-project.org/web/packages/tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](http://cran.rstudio.com/package=tidyposterior)
@@ -15,7 +15,7 @@ For example, if two models are evaluated with the root mean squared error (RMSE)
 
 There is a rich literature on the analysis of model resampling results such as McLachlan's [_Discriminant Analysis and Statistical Pattern Recognition_](https://books.google.com/books?id=O_qHDLaWpDUC&lpg=PR7&ots=6GJnIREXZM&dq=%22Discriminant%20Analysis%20and%20Statistical%20Pattern%20Recognition%22&lr&pg=PR7#v=onepage&q=%22Discriminant%20Analysis%20and%20Statistical%20Pattern%20Recognition%22&f=false) and the references therein. This package follows _the spirit_ of [Benavoli _et al_ (2017)](http://people.idsia.ch/~marco/papers/2017jmlr-tests.pdf). 
 
-`tidyposterior` uses Bayesian generalized linear models for this purpose and can be considered an upgraded version of the [`caret::resamples`](https://topepo.github.io/caret/model-training-and-tuning.html#exploring-and-comparing-resampling-distributions) function. The package works with [`rsample`](https://topepo.github.io/rsample/index.html) objects natively but any results in a data frame can be used. 
+`tidyposterior` uses Bayesian generalized linear models for this purpose and can be considered an upgraded version of the [`caret::resamples`](https://topepo.github.io/caret/model-training-and-tuning.html#exploring-and-comparing-resampling-distributions) function. The package works with [`rsample`](https://tidymodels.github.io/rsample/index.html) objects natively but any results in a data frame can be used. 
 
 ## Installation
 
