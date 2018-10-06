@@ -7,8 +7,15 @@ cache: packages
 before_install:
   - sudo apt-get -y install libnlopt-dev
 
+
 r_binary_packages: 
-  - rstan
+ - rstan
+ - rstanarm
+ - stringi
+ - StanHeaders
+ - Rcpp
+ - RcppEigen
+
 
 r:
 - oldrel
