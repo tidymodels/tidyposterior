@@ -28,7 +28,6 @@
 #' @export
 #' @importFrom tidyr gather
 #' @importFrom dplyr mutate %>% as_tibble
-#' @importFrom broom tidy
 tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
   post_dat <-
@@ -100,6 +99,7 @@ summary.posterior <- function(object, prob = 0.90,
 #' 
 #' posterior_values <- tidy(roc_model)
 #' 
+#' library(ggplot2)
 #' ggplot(posterior_values) + theme_bw()
 #' @export
 #' @importFrom ggplot2 ggplot geom_violin xlab ylab
@@ -108,18 +108,17 @@ ggplot.posterior <-
   function (data, mapping = NULL, ..., environment = NULL, reorder = TRUE) {
     if(reorder) 
       data$model <- stats::reorder(data$model, data$posterior)
-    ggplot(as.data.frame(data), aes(x = model, y = posterior)) + 
-      geom_violin() +
-      xlab("") + 
-      ylab("Posterior Probability")
+    ggplot2::ggplot(as.data.frame(data), aes(x = model, y = posterior)) + 
+      ggplot2::geom_violin() +
+      ggplot2::xlab("") + ggplot2::ylab("Posterior Probability")
   }
 
 
 #' @importFrom rstanarm posterior_linpred
 get_post <- function(x, seed = sample.int(10000, 1)) {
   new_dat <- data.frame(model = unique(x$names))
-  new_dat <- as.data.frame(lapply(x$ids, 
-                                  function(x) rep(x[1], nrow(new_dat)))) %>%
+  new_dat <- 
+    as.data.frame(lapply(x$ids, function(x) rep(x[1], nrow(new_dat)))) %>%
     bind_cols(new_dat)
   post_data <- 
     rstanarm::posterior_linpred(

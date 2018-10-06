@@ -8,3 +8,4 @@ vignettes/.build.timestamp
 README.*
 ^pkgdown$
 tidyposterior_hex.png
+^.github$
