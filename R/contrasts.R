@@ -138,6 +138,7 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
 #' load(file)
 #' 
+#' library(ggplot2)
 #' ggplot(glm_v_nnet, size = 0.02) + theme_bw()
 #'  
 #' @export
@@ -145,15 +146,15 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' @importFrom stats reorder
 ggplot.posterior_diff <- 
   function (data, mapping = NULL, ..., environment = NULL, size = 0) {
-    out <- ggplot(as.data.frame(data), 
-                  aes(x = difference)) + 
-      geom_line(stat = "density", trim = TRUE) +
-      ylab("Posterior Probability")
+    out <- 
+      ggplot2::ggplot(as.data.frame(data), aes(x = difference)) + 
+      ggplot2::geom_line(stat = "density", trim = TRUE) +
+      ggplot2::ylab("Posterior Probability")
     if(length(unique(paste0(data$model_1, data$model_2))) > 1)
-      out <- out  + facet_grid(model_2 ~ model_1) 
+      out <- out  + ggplot2::facet_grid(model_2 ~ model_1) 
     if(size != 0) 
       out <- out + 
-        geom_vline(xintercept = c(-size, size), lty = 2, alpha = .5)
+        ggplot2::geom_vline(xintercept = c(-size, size), lty = 2, alpha = .5)
     out
   }
 

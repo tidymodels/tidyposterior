@@ -31,6 +31,7 @@ A density is created for each contrast in a facetted grid.
 file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
 load(file)
 
+library(ggplot2)
 ggplot(glm_v_nnet, size = 0.02) + theme_bw()
  
 }

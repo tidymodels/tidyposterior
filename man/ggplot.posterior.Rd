@@ -31,5 +31,6 @@ load(file)
 
 posterior_values <- tidy(roc_model)
 
+library(ggplot2)
 ggplot(posterior_values) + theme_bw()
 }

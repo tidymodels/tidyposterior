@@ -15,8 +15,6 @@ ByteCompile: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.0.9000
 Depends:
-    ggplot2,
-    broom,
     R (>= 2.10)
 Imports: 
     rsample (>= 0.0.2),
@@ -26,8 +24,12 @@ Imports:
     rlang,
     utils,
     purrr,
-    tibble
+    tibble,
+    generics,
+    ggplot2,
 Suggests: 
     knitr,
     testthat,
     covr
+Remotes:
+    r-lib/generics
