@@ -7,8 +7,16 @@ sudo: true
 cache:
   packages: true
 
+
+env:
+  global:
+  - MAKEFLAGS="-j 2"
+
 before_install:
   - sudo apt-get -y install libnlopt-dev
+  - mkdir -p ~/.R
+  - echo "CXX14FLAGS=-O3 -mtune=native -march=native -Wno-unused-variable -Wno-unused-function  -Wno-macro-redefined" >> ~/.R/Makevars
+  - echo "CXX14=g++ -std=c++1y -fPIC" >> ~/.R/Makevars  
 
 r_binary_packages: 
  - rstan
@@ -26,6 +34,7 @@ r:
 
 after_success:
   - Rscript -e 'covr::codecov()'
+  - travis_wait 59 Rscript -e 'covr::coveralls(line_exclusions="src/init.cpp")'
 
 # circa 2018-06-21, oldrel takes 45m+ to build and causes timeout error
 
