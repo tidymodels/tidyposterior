@@ -35,7 +35,7 @@ ex_dat <- "https://bit.ly/2OJdvl1"
 
 # load(load(url(ex_dat))
 
-posterior_values <- tidy(roc_model)
-summary(posterior_values)
+# posterior_values <- tidy(roc_model)
+# summary(posterior_values)
 
 }

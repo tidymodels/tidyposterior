@@ -31,8 +31,8 @@ ex_dat <- "https://bit.ly/2OJdvl1"
 
 # load(load(url(ex_dat))
 
-posterior_values <- tidy(roc_model)
+# posterior_values <- tidy(roc_model)
 
-library(ggplot2)
-ggplot(posterior_values) + theme_bw()
+# library(ggplot2)
+# ggplot(posterior_values) + theme_bw()
 }
