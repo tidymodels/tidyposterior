@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate the Difference Between Models — contrast_models • tidyposterior</title>
+<title>Simple Transformation Functions — no_trans • tidyposterior</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -29,15 +29,22 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<meta property="og:title" content="Estimate the Difference Between Models — contrast_models" />
+<meta property="og:title" content="Simple Transformation Functions — no_trans" />
 
-<meta property="og:description" content="The posterior distributions created by perf_mod() can
-be used to obtain the posterior distribution of the difference(s)
-between models. One or more comparisons can be computed at
-the same time." />
+<meta property="og:description" content="A set of objects are contained here to easily facilitate the
+use of outcome transformations for modeling. For example, if
+there is a large amount of variability in the resampling results
+for the Kappa statistics, which lies between -1 and 1, assuming
+normality may produce posterior estimates outside of the natural
+bound. One way to solve this is to use a link function or assume
+a prior that is appropriately bounded. Another approach is to
+transform the outcome values prior to modeling using a Gaussian
+prior and reverse-transforming the posterior estimates prior to
+visualization and summarization. These object can help
+facilitate this last approach." />
 <meta name="twitter:card" content="summary" />
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -74,8 +81,8 @@ the same time." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">tidyposterior</a>
         <div class="info">
-          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.1.9000</span>
         </div>
       </div>
     </div>
@@ -103,77 +110,62 @@ the same time." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate the Difference Between Models</h1>
+    <h1>Simple Transformation Functions</h1>
     
-    <div class="hidden name"><code>contrast_models.Rd</code></div>
+    <div class="hidden name"><code>transformations.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The posterior distributions created by <code><a href='perf_mod.html'>perf_mod()</a></code> can
-be used to obtain the posterior distribution of the difference(s)
-between models. One or more comparisons can be computed at
-the same time.</p>
+    <p>A set of objects are contained here to easily facilitate the
+use of outcome transformations for modeling. For example, if
+there is a large amount of variability in the resampling results
+for the Kappa statistics, which lies between -1 and 1, assuming
+normality may produce posterior estimates outside of the natural
+bound. One way to solve this is to use a link function or assume
+a prior that is appropriately bounded. Another approach is to
+transform the outcome values prior to modeling using a Gaussian
+prior and reverse-transforming the posterior estimates prior to
+visualization and summarization. These object can help
+facilitate this last approach.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>contrast_models</span>(<span class='no'>x</span>, <span class='kw'>list_1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>list_2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample.int</a></span>(<span class='fl'>10000</span>, <span class='fl'>1</span>))</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>An object produced by <code><a href='perf_mod.html'>perf_mod()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>list_1, list_2</th>
-      <td><p>Character vectors of equal length that
-specify the specific pairwise contrasts. The contrast is
-parameterized as <code><a href='https://www.rdocumentation.org/packages/base/topics/Arithmetic'>list_1[i] - list_2[i]</a></code>. If the defaults
-are left to <code>NULL</code>, all combinations are evaluated.</p></td>
-    </tr>
-    <tr>
-      <th>seed</th>
-      <td><p>A single integer for sampling from the posterior.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <pre class="usage"><span class='no'>no_trans</span>
 
-    <p>A data frame of the posterior distribution(s) of the
-difference(s). The object has an extra class of
-<code>"posterior_diff"</code>.</p>
+<span class='no'>logit_trans</span>
+
+<span class='no'>Fisher_trans</span>
+
+<span class='no'>ln_trans</span>
+
+<span class='no'>inv_trans</span></pre>
+        
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>An object of class <code>list</code> of length 2.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>If a transformation was used when <code>x</code> was created, the
-inverse is applied <em>before</em> the difference is computed.</p>
+    <p>The <code>logit_trans</code> object is useful for model
+performance statistics bounds in zero and one, such as accuracy
+or the area under the ROC curve.</p>
+<p><code>ln_trans</code> and <code>inv_trans</code> can be useful when the statistics
+are right-skewed and strictly positive.</p>
+<p><code>Fisher_trans</code> was originally used for correlation statistics
+but can be used here for an metrics falling between -1 and 1,
+such as Kappa.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Example objects from the "Getting Started" vignette at</span>
-<span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
-
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"glm_v_nnet.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/load'>load</a></span>(<span class='no'>file</span>)
-
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>glm_v_nnet</span>)</div><div class='output co'>#&gt;   difference model_1 model_2
-#&gt; 1 0.04669174    nnet     glm
-#&gt; 2 0.04897076    nnet     glm
-#&gt; 3 0.05226163    nnet     glm
-#&gt; 4 0.05251462    nnet     glm
-#&gt; 5 0.05363919    nnet     glm
-#&gt; 6 0.05582835    nnet     glm</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>logit_trans</span>$<span class='fu'>func</span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='no'>logit_trans</span>$<span class='fu'>inv</span>(<span class='fl'>0</span>)</div><div class='output co'>#&gt; [1] 0.5</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#format">Format</a></li>
 
       <li><a href="#details">Details</a></li>
       
@@ -185,7 +177,7 @@ inverse is applied <em>before</em> the difference is computed.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>tidyposterior is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><code>tidyposterior</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
 </div>
 
 <div class="author">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Estimate the Difference Between Models — contrast_models • tidyposterior</title>
+<title>Visualize the Posterior Distributions of Model Differences — ggplot.posterior_diff • tidyposterior</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -29,15 +29,12 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<meta property="og:title" content="Estimate the Difference Between Models — contrast_models" />
+<meta property="og:title" content="Visualize the Posterior Distributions of Model Differences — ggplot.posterior_diff" />
 
-<meta property="og:description" content="The posterior distributions created by perf_mod() can
-be used to obtain the posterior distribution of the difference(s)
-between models. One or more comparisons can be computed at
-the same time." />
+<meta property="og:description" content="A density is created for each contrast in a facetted grid." />
 <meta name="twitter:card" content="summary" />
 
-
+<meta name="robots" content="noindex">
 
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -74,8 +71,8 @@ the same time." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">tidyposterior</a>
         <div class="info">
-          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.1.9000</span>
         </div>
       </div>
     </div>
@@ -103,53 +100,45 @@ the same time." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Estimate the Difference Between Models</h1>
+    <h1>Visualize the Posterior Distributions of Model Differences</h1>
     
-    <div class="hidden name"><code>contrast_models.Rd</code></div>
+    <div class="hidden name"><code>ggplot.posterior_diff.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The posterior distributions created by <code><a href='perf_mod.html'>perf_mod()</a></code> can
-be used to obtain the posterior distribution of the difference(s)
-between models. One or more comparisons can be computed at
-the same time.</p>
+    <p>A density is created for each contrast in a facetted grid.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>contrast_models</span>(<span class='no'>x</span>, <span class='kw'>list_1</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>list_2</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample.int</a></span>(<span class='fl'>10000</span>, <span class='fl'>1</span>))</pre>
+    <pre class="usage"><span class='co'># S3 method for posterior_diff</span>
+<span class='fu'>ggplot</span>(<span class='no'>data</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>,
+  <span class='kw'>environment</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>An object produced by <code><a href='perf_mod.html'>perf_mod()</a></code>.</p></td>
+      <th>data</th>
+      <td><p>An object produced by <code><a href='contrast_models.html'>contrast_models()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>list_1, list_2</th>
-      <td><p>Character vectors of equal length that
-specify the specific pairwise contrasts. The contrast is
-parameterized as <code><a href='https://www.rdocumentation.org/packages/base/topics/Arithmetic'>list_1[i] - list_2[i]</a></code>. If the defaults
-are left to <code>NULL</code>, all combinations are evaluated.</p></td>
+      <th>mapping, ..., environment</th>
+      <td><p>Not currently used.</p></td>
     </tr>
     <tr>
-      <th>seed</th>
-      <td><p>A single integer for sampling from the posterior.</p></td>
+      <th>size</th>
+      <td><p>The size of an effective difference. For example, a
+5% increase in accuracy between two models might be considered a
+"real" difference.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame of the posterior distribution(s) of the
-difference(s). The object has an extra class of
-<code>"posterior_diff"</code>.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>If a transformation was used when <code>x</code> was created, the
-inverse is applied <em>before</em> the difference is computed.</p>
+    <p>A <code><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot2::ggplot()</a></code> object using <code>geom_density</code>
+facetted by the models being contrasted (when there are 2 or
+more contrasts).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -159,13 +148,8 @@ inverse is applied <em>before</em> the difference is computed.</p>
 <span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"glm_v_nnet.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/load'>load</a></span>(<span class='no'>file</span>)
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>glm_v_nnet</span>)</div><div class='output co'>#&gt;   difference model_1 model_2
-#&gt; 1 0.04669174    nnet     glm
-#&gt; 2 0.04897076    nnet     glm
-#&gt; 3 0.05226163    nnet     glm
-#&gt; 4 0.05251462    nnet     glm
-#&gt; 5 0.05363919    nnet     glm
-#&gt; 6 0.05582835    nnet     glm</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
+<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>glm_v_nnet</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.02</span>) + <span class='fu'><a href='ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='ggplot.posterior_diff-1.png' alt='' width='768' height='552' /></div><div class='input'> 
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -174,8 +158,6 @@ inverse is applied <em>before</em> the difference is computed.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
@@ -185,7 +167,7 @@ inverse is applied <em>before</em> the difference is computed.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>tidyposterior is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><code>tidyposterior</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
 </div>
 
 <div class="author">

@@ -139,7 +139,7 @@ ggplot(linear_post) +
              col = "red", pch = 4, cex= 3)
 ```
 
-These are right on target. Despite the skewness of the original data, a simple linear model did best here. 
+These are right on target. Despite the skewness of the original data, a simple linear model did best here. In hindsight, this makes sense since we are modeling _summary statistics_ as our outcome. Even if we believe these to be potentially skewed distributions, the central limit theorem is kicking in here and the estimates are tending to normality. 
 
 We can compare models using the `contrast_models` function. The function has arguments for two sets of models to compare but if these are left to their default (`NULL`), all pair-wise combinations are used. Let's say that an RMSE difference of 1 unit is important. 
 
