@@ -41,6 +41,6 @@ ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples
 
 # load(load(url(ex_dat))
 
-head(glm_v_nnet)
+# head(glm_v_nnet)
 
 }

@@ -35,5 +35,5 @@ ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples
 
 # library(ggplot2)
 # ggplot(glm_v_nnet, size = 0.02) + theme_bw()
- 
+
 }
