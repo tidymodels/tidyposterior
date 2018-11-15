@@ -24,8 +24,10 @@
 #' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
-#' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
-#' load(file)
+#' # File for pre-run model is at
+#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
+#' 
+#' # load(load(url(ex_dat))
 #' 
 #' head(glm_v_nnet)
 #' 
@@ -84,10 +86,12 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
-#' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
-#' load(file)
+#' # File for pre-run model is at
+#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
 #' 
-#' summary(glm_v_nnet, size = 0.02)
+#' # load(load(url(ex_dat))
+#' 
+#' # summary(glm_v_nnet, size = 0.02)
 #' 
 summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
   object <- object %>% 
@@ -135,11 +139,13 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
-#' file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
-#' load(file)
+#' # File for pre-run model is at
+#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
 #' 
-#' library(ggplot2)
-#' ggplot(glm_v_nnet, size = 0.02) + theme_bw()
+#' # load(load(url(ex_dat))
+#' 
+#' # library(ggplot2)
+#' # ggplot(glm_v_nnet, size = 0.02) + theme_bw()
 #'  
 #' @export
 #' @importFrom ggplot2 ggplot geom_line xlab ylab facet_grid geom_vline

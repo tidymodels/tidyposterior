@@ -10,3 +10,4 @@ README.*
 tidyposterior_hex.png
 ^.github$
 ^revdep$
+^inst/examples$

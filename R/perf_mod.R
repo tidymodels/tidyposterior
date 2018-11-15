@@ -64,13 +64,15 @@
 #' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
-#' file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
-#' load(file)
+#' # File for pre-run model is at
+#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/roc_model.RData?raw=true"
 #' 
-#' roc_model
+#' # load(load(url(ex_dat))
+#' 
+#' # roc_model
 #' 
 #' # Summary method shows the underlying `stan` model
-#' summary(roc_model)
+#' # summary(roc_model)
 #' @export
 perf_mod <- function(object, ...)
   UseMethod("perf_mod")

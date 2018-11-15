@@ -41,9 +41,11 @@ unlikely to be practically different relative to \code{size}.
 # Example objects from the "Getting Started" vignette at
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
-file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
-load(file)
+# File for pre-run model is at
+ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
 
-summary(glm_v_nnet, size = 0.02)
+# load(load(url(ex_dat))
+
+# summary(glm_v_nnet, size = 0.02)
 
 }

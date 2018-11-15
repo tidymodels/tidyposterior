@@ -17,13 +17,15 @@
 #' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #' 
-#' file <- system.file("examples", "roc_model.RData", package = "tidyposterior")
-#' load(file)
+#' # File for pre-run model is at
+#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/roc_model.RData?raw=true"
 #' 
-#' roc_model
-#' posterior_values <- tidy(roc_model)
-#' head(posterior_values)
-#' class(posterior_values)
+#' # load(load(url(ex_dat))
+#' 
+#' # roc_model
+#' # posterior_values <- tidy(roc_model)
+#' # head(posterior_values)
+#' # class(posterior_values)
 #' 
 #' @export
 #' @export tidy.perf_mod
