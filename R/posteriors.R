@@ -26,6 +26,7 @@
 #' class(posterior_values)
 #' 
 #' @export
+#' @export tidy.perf_mod
 #' @importFrom tidyr gather
 #' @importFrom dplyr mutate %>% as_tibble
 tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
