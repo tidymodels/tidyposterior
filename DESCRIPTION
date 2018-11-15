@@ -31,5 +31,3 @@ Suggests:
     knitr,
     testthat,
     covr
-Remotes:
-    r-lib/generics

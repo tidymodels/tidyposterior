@@ -9,3 +9,4 @@ README.*
 ^pkgdown$
 tidyposterior_hex.png
 ^.github$
+^revdep$
