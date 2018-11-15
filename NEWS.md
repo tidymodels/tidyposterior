@@ -3,6 +3,8 @@
 
 A small, maintenance release. 
 
+## Minor bug fixes and improvements
+
 * Moved from the `broom` package to the `generics` package to get the `tidy` generic. 
 
 * `ggplot2` was moved to Suggests

@@ -3,3 +3,6 @@
 docs/articles/.DS_Store
 docs/.DS_Store
 .DS_Store
+revdep/library.noindex/*
+revdep/data.sqlite
+revdep/checks.noindex/*
