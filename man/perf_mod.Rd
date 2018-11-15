@@ -106,7 +106,7 @@ the \code{family} argument to \code{perf_mod} as one might with the
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
 # File for pre-run model is at
-ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/roc_model.RData?raw=true"
+ex_dat <- "https://bit.ly/2OJdvl1"
 
 # load(load(url(ex_dat))
 

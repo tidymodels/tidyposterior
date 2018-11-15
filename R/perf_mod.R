@@ -13,7 +13,7 @@
 #'  [rsample::vfold_cv()]) containing the `id` column(s) and at least
 #'  two numeric columns of model performance statistics (e.g.
 #'  accuracy). Additionally, an object from `caret::resamples`
-#'  can be used. 
+#'  can be used.
 #' @param ... Additonal arguments to pass to [rstanarm::stan_glmer()]
 #'  such as `verbose`, `prior`, `seed`, `family`, etc.
 #' @return An object of class `perf_mod`.
@@ -21,7 +21,7 @@
 #'  matched resampling statistics from different models using a
 #'  Bayesian generalized linear model with effects for the model and
 #'  the resamples.
-#' 
+#'
 #' By default, a generalized linear model with Gaussian error and
 #'  an identity link is fit to the data and has terms for the
 #'  predictive model grouping variable. In this way, the performance
@@ -60,17 +60,17 @@
 #'  model computational complexity. This can be achieved by passing
 #'  the `family` argument to `perf_mod` as one might with the
 #'  `glm` function.
-#' @examples 
+#' @examples
 #' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#' 
+#'
 #' # File for pre-run model is at
-#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/roc_model.RData?raw=true"
-#' 
+#' ex_dat <- "https://bit.ly/2OJdvl1"
+#'
 #' # load(load(url(ex_dat))
-#' 
+#'
 #' # roc_model
-#' 
+#'
 #' # Summary method shows the underlying `stan` model
 #' # summary(roc_model)
 #' @export
@@ -157,16 +157,16 @@ perf_mod.vfold_cv <-
 
     resamples <- gather(object) %>%
       dplyr::mutate(statistic = transform$func(statistic))
-    
+
     model_names <- unique(as.character(resamples$model))
-    
+
     if(attributes(object)$repeats > 1) {
       if (hetero_var) {
-        mod <- stan_glmer(statistic ~  model + 
+        mod <- stan_glmer(statistic ~  model +
                             (model + 0 | id2/id),
                           data = resamples, ...)
       } else {
-        mod <- stan_glmer(statistic ~  model + 
+        mod <- stan_glmer(statistic ~  model +
                             (1 | id2/id),
                           data = resamples, ...)
       }
@@ -180,7 +180,7 @@ perf_mod.vfold_cv <-
       }
     }
 
-    
+
     res <- list(stan = mod,
                 hetero_var = hetero_var,
                 names = model_names,
@@ -218,7 +218,7 @@ summary.perf_mod <- function(object, ...) {
 #' @importFrom purrr map_chr
 #' @rdname perf_mod
 #' @param metric A single character value for the statstic from
-#'  the `resamples` object that should be analyzed. 
+#'  the `resamples` object that should be analyzed.
 perf_mod.resamples <-
   function(object,
            transform = no_trans,
@@ -232,7 +232,7 @@ perf_mod.resamples <-
     object$values <- object$values %>%
       dplyr::select(Resample,!!metric_cols) %>%
       setNames(gsub(suffix, "", names(.)))
-    
+
     if(is_repeated_cv(object)) {
       split_up <- strsplit(as.character(object$values$Resample), "\\.")
       object$values <- object$values %>%
@@ -240,8 +240,8 @@ perf_mod.resamples <-
                       id2 = map_chr(split_up, function(x) x[1])) %>%
         dplyr::select(-Resample)
       class(object$values) <- c("vfold_cv", "rset", class(object$values))
-      cv_att <- list(v = length(unique(object$values$id2)), 
-                     repeats = length(unique(object$values$id)), 
+      cv_att <- list(v = length(unique(object$values$id2)),
+                     repeats = length(unique(object$values$id)),
                      strata = FALSE)
       for (i in names(cv_att)) attr(object$values, i) <- cv_att[[i]]
     } else {
@@ -249,9 +249,9 @@ perf_mod.resamples <-
         dplyr::rename(id = Resample)
       class(object$values) <- c("rset", class(object$values))
     }
-    
-    
-    perf_mod(object$values, transform = transform, 
+
+
+    perf_mod(object$values, transform = transform,
              hetero_var = hetero_var, ...)
   }
 
@@ -279,9 +279,9 @@ perf_mod.data.frame <-
         object[, i] <- NULL
       object$id <- tmp
     }
-    
+
     class(object) <- c("rset", class(object))
-    
-    perf_mod(object, transform = transform, 
+
+    perf_mod(object, transform = transform,
              hetero_var = hetero_var, ...)
   }

@@ -25,7 +25,7 @@
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #'
 #' # File for pre-run model is at
-#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
+#' ex_dat <- "https://bit.ly/2S1v6H9"
 #'
 #' # load(load(url(ex_dat))
 #'
@@ -87,7 +87,7 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #'
 #' # File for pre-run model is at
-#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
+#' ex_dat <- "https://bit.ly/2S1v6H9"
 #'
 #' # load(load(url(ex_dat))
 #'
@@ -140,7 +140,7 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 #'
 #' # File for pre-run model is at
-#' ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
+#' ex_dat <- "https://bit.ly/2S1v6H9"
 #'
 #' # load(load(url(ex_dat))
 #'

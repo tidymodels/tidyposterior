@@ -37,7 +37,7 @@ inverse is applied \emph{before} the difference is computed.
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
 # File for pre-run model is at
-ex_dat <- "https://github.com/tidymodels/tidyposterior/blob/master/inst/examples/glm_v_nnet.RData?raw=true"
+ex_dat <- "https://bit.ly/2S1v6H9"
 
 # load(load(url(ex_dat))
 
