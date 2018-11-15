@@ -11,6 +11,8 @@ A small, maintenance release.
 
 * The sole `tidy` method was more explicitly exported so that the `generics` man files show the method. 
 
+* The large RData objects containing the examples have been removed from the package and are accessible via a link to the GitHub repo. 
+
 # `tidyposterior` 0.0.1
 
 * First CRAN submission

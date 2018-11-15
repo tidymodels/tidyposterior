@@ -28,10 +28,12 @@ A density is created for each contrast in a facetted grid.
 # Example objects from the "Getting Started" vignette at
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
 
-file <- system.file("examples", "glm_v_nnet.RData", package = "tidyposterior")
-load(file)
+# File for pre-run model is at
+ex_dat <- "https://bit.ly/2S1v6H9"
 
-library(ggplot2)
-ggplot(glm_v_nnet, size = 0.02) + theme_bw()
- 
+# load(load(url(ex_dat))
+
+# library(ggplot2)
+# ggplot(glm_v_nnet, size = 0.02) + theme_bw()
+
 }
