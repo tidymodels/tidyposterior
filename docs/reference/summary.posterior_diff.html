@@ -73,8 +73,8 @@ when the effective size of a difference is given." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">tidyposterior</a>
         <div class="info">
-          <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.2</span>
         </div>
       </div>
     </div>
@@ -163,15 +163,12 @@ unlikely to be practically different relative to <code>size</code>.</p>
     <pre class="examples"><div class='input'><span class='co'># Example objects from the "Getting Started" vignette at</span>
 <span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
 
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"glm_v_nnet.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/load'>load</a></span>(<span class='no'>file</span>)
+<span class='co'># File for pre-run model is at</span>
+<span class='no'>ex_dat</span> <span class='kw'>&lt;-</span> <span class='st'>"https://bit.ly/2S1v6H9"</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>glm_v_nnet</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.02</span>)</div><div class='output co'>#&gt; [38;5;246m# A tibble: 1 x 9[39m
-#&gt;   contrast probability   mean  lower  upper  size pract_neg pract_equiv
-#&gt;   [3m[38;5;246m&lt;chr&gt;[39m[23m          [3m[38;5;246m&lt;dbl&gt;[39m[23m  [3m[38;5;246m&lt;dbl&gt;[39m[23m  [3m[38;5;246m&lt;dbl&gt;[39m[23m  [3m[38;5;246m&lt;dbl&gt;[39m[23m [3m[38;5;246m&lt;dbl&gt;[39m[23m     [3m[38;5;246m&lt;dbl&gt;[39m[23m       [3m[38;5;246m&lt;dbl&gt;[39m[23m
-#&gt; [38;5;250m1[39m nnet vs…           1 0.051[4m1[24m 0.045[4m9[24m 0.056[4m3[24m  0.02         0           0
-#&gt; [38;5;246m# ... with 1 more variable: pract_pos [3m[38;5;246m&lt;dbl&gt;[38;5;246m[23m[39m</div><div class='input'>
-</div></pre>
+<span class='co'># load(load(url(ex_dat))</span>
+
+<span class='co'># summary(glm_v_nnet, size = 0.02)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -190,7 +187,7 @@ unlikely to be practically different relative to <code>size</code>.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>tidyposterior is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
+  <p><code>tidyposterior</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>
 </div>
 
 <div class="author">
