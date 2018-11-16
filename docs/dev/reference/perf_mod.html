@@ -79,7 +79,7 @@ between models." />
         <a class="navbar-brand" href="../index.html">tidyposterior</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.1.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.2.9000</span>
         </div>
       </div>
     </div>
@@ -228,66 +228,15 @@ the <code>family</code> argument to <code>perf_mod</code> as one might with the
     <pre class="examples"><div class='input'><span class='co'># Example objects from the "Getting Started" vignette at</span>
 <span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
 
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"roc_model.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/load'>load</a></span>(<span class='no'>file</span>)
+<span class='co'># File for pre-run model is at</span>
+<span class='no'>ex_dat</span> <span class='kw'>&lt;-</span> <span class='st'>"https://bit.ly/2OJdvl1"</span>
 
-<span class='no'>roc_model</span></div><div class='output co'>#&gt; Bayesian Analysis of Resampling Results
-#&gt; Original data: 10-fold cross-validation using stratification
-#&gt; </div><div class='input'>
+<span class='co'># load(load(url(ex_dat))</span>
+
+<span class='co'># roc_model</span>
+
 <span class='co'># Summary method shows the underlying `stan` model</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>roc_model</span>)</div><div class='output co'>#&gt; 
-#&gt; Model Info:
-#&gt; 
-#&gt;  function:     stan_glmer
-#&gt;  family:       gaussian [identity]
-#&gt;  formula:      statistic ~ model + (1 | id)
-#&gt;  algorithm:    sampling
-#&gt;  priors:       see help('prior_summary')
-#&gt;  sample:       4000 (posterior sample size)
-#&gt;  observations: 30
-#&gt;  groups:       id (10)
-#&gt; 
-#&gt; Estimates:
-#&gt;                                     mean   sd   2.5%   25%   50%   75%   97.5%
-#&gt; (Intercept)                        0.8    0.0  0.8    0.8   0.8   0.8   0.8   
-#&gt; modelknn                           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; modelnnet                          0.1    0.0  0.0    0.0   0.1   0.1   0.1   
-#&gt; b[(Intercept) id:Fold01]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold02]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold03]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold04]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold05]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold06]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold07]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold08]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold09]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; b[(Intercept) id:Fold10]           0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; sigma                              0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; Sigma[id:(Intercept),(Intercept)]  0.0    0.0  0.0    0.0   0.0   0.0   0.0   
-#&gt; mean_PPD                           0.8    0.0  0.8    0.8   0.8   0.8   0.8   
-#&gt; log-posterior                     83.9    4.3 75.0   81.0  84.1  87.1  91.4   
-#&gt; 
-#&gt; Diagnostics:
-#&gt;                                   mcse Rhat n_eff
-#&gt; (Intercept)                       0.0  1.0  2681 
-#&gt; modelknn                          0.0  1.0  2970 
-#&gt; modelnnet                         0.0  1.0  3314 
-#&gt; b[(Intercept) id:Fold01]          0.0  1.0  4000 
-#&gt; b[(Intercept) id:Fold02]          0.0  1.0  1162 
-#&gt; b[(Intercept) id:Fold03]          0.0  1.0  4000 
-#&gt; b[(Intercept) id:Fold04]          0.0  1.0  2008 
-#&gt; b[(Intercept) id:Fold05]          0.0  1.0  4000 
-#&gt; b[(Intercept) id:Fold06]          0.0  1.0  4000 
-#&gt; b[(Intercept) id:Fold07]          0.0  1.0  3259 
-#&gt; b[(Intercept) id:Fold08]          0.0  1.0  1952 
-#&gt; b[(Intercept) id:Fold09]          0.0  1.0  2016 
-#&gt; b[(Intercept) id:Fold10]          0.0  1.0  3219 
-#&gt; sigma                             0.0  1.0  1390 
-#&gt; Sigma[id:(Intercept),(Intercept)] 0.0  1.0  1342 
-#&gt; mean_PPD                          0.0  1.0  4000 
-#&gt; log-posterior                     0.2  1.0   688 
-#&gt; 
-#&gt; For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).</div></pre>
+<span class='co'># summary(roc_model)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
