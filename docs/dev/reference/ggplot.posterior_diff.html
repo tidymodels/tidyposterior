@@ -72,7 +72,7 @@
         <a class="navbar-brand" href="../index.html">tidyposterior</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.1.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.2.9000</span>
         </div>
       </div>
     </div>
@@ -145,12 +145,13 @@ more contrasts).</p>
     <pre class="examples"><div class='input'><span class='co'># Example objects from the "Getting Started" vignette at</span>
 <span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
 
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"glm_v_nnet.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/load'>load</a></span>(<span class='no'>file</span>)
+<span class='co'># File for pre-run model is at</span>
+<span class='no'>ex_dat</span> <span class='kw'>&lt;-</span> <span class='st'>"https://bit.ly/2S1v6H9"</span>
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>glm_v_nnet</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>0.02</span>) + <span class='fu'><a href='ggplot2.tidyverse.org/reference/ggtheme.html'>theme_bw</a></span>()</div><div class='img'><img src='ggplot.posterior_diff-1.png' alt='' width='768' height='552' /></div><div class='input'> 
-</div></pre>
+<span class='co'># load(load(url(ex_dat))</span>
+
+<span class='co'># library(ggplot2)</span>
+<span class='co'># ggplot(glm_v_nnet, size = 0.02) + theme_bw()</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
