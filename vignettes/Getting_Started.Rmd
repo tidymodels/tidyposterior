@@ -42,7 +42,7 @@ rocs
 
 library(ggplot2)
 
-rocs_stacked <- gather(rocs)
+rocs_stacked <- gather(rocs, "model", "statistic", -id)
 
 ggplot(rocs_stacked, aes(x = model, y = statistic, group = id, col = id)) + 
   geom_line(alpha = .75) + 
