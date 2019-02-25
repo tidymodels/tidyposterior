@@ -42,6 +42,7 @@ rocs
 
 library(ggplot2)
 
+# The rocs object is not a real `rset` object so use basic `gather()`
 rocs_stacked <- gather(rocs, "model", "statistic", -id)
 
 ggplot(rocs_stacked, aes(x = model, y = statistic, group = id, col = id)) + 
