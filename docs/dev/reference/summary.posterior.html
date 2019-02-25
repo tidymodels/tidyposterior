@@ -74,7 +74,7 @@ uncertainty intervals)." />
         <a class="navbar-brand" href="../index.html">tidyposterior</a>
         <div class="info">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.1.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.2.9000</span>
         </div>
       </div>
     </div>
@@ -151,17 +151,13 @@ each model.</p>
     <pre class="examples"><div class='input'><span class='co'># Example objects from the "Getting Started" vignette at</span>
 <span class='co'>#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html</span>
 
-<span class='no'>file</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"roc_model.RData"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"tidyposterior"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/load'>load</a></span>(<span class='no'>file</span>)
+<span class='co'># File for pre-run model is at</span>
+<span class='no'>ex_dat</span> <span class='kw'>&lt;-</span> <span class='st'>"https://bit.ly/2OJdvl1"</span>
 
-<span class='no'>posterior_values</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/generics/topics/tidy'>tidy</a></span>(<span class='no'>roc_model</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>posterior_values</span>)</div><div class='output co'>#&gt; [38;5;246m# A tibble: 3 x 4[39m
-#&gt;   model  mean lower upper
-#&gt;   [3m[38;5;246m&lt;chr&gt;[39m[23m [3m[38;5;246m&lt;dbl&gt;[39m[23m [3m[38;5;246m&lt;dbl&gt;[39m[23m [3m[38;5;246m&lt;dbl&gt;[39m[23m
-#&gt; [38;5;250m1[39m glm   0.790 0.786 0.795
-#&gt; [38;5;250m2[39m knn   0.753 0.748 0.757
-#&gt; [38;5;250m3[39m nnet  0.841 0.837 0.846</div><div class='input'>
-</div></pre>
+<span class='co'># load(load(url(ex_dat))</span>
+
+<span class='co'># posterior_values &lt;- tidy(roc_model)</span>
+<span class='co'># summary(posterior_values)</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
