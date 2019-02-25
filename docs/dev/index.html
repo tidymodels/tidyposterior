@@ -95,7 +95,7 @@
 <a class="sourceLine" id="cb2-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb2-8" data-line-number="8">accuracy &lt;-<span class="st"> </span>precise_example <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="st">   </span><span class="kw"><a href="http://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, <span class="kw"><a href="http://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"Accuracy"</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="st">   </span><span class="kw"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(id, <span class="kw"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"Accuracy"</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb2-10" data-line-number="10"><span class="st">   </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/setNames">setNames</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/chartr">tolower</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub</a></span>(<span class="st">"_Accuracy$"</span>, <span class="st">""</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(.)))) </a>
 <a class="sourceLine" id="cb2-11" data-line-number="11">accuracy</a>
 <a class="sourceLine" id="cb2-12" data-line-number="12"></a>
@@ -111,7 +111,7 @@
 </div>
   </div>
 
-  <div class="col-md-3" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
@@ -137,7 +137,6 @@
 
   </div>
 </div>
-
 
       <footer><div class="tidyverse">
   <p><code>tidyposterior</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.</p>

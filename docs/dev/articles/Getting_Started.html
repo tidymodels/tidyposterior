@@ -89,8 +89,7 @@
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="st">   </span><span class="kw">select</span>(id, <span class="kw">contains</span>(<span class="st">"ROC"</span>)) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-8" data-line-number="8"><span class="st">   </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/setNames">setNames</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/chartr">tolower</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub</a></span>(<span class="st">"_ROC$"</span>, <span class="st">""</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/names">names</a></span>(.)))) </a>
 <a class="sourceLine" id="cb1-9" data-line-number="9">rocs</a></code></pre></div>
-<pre><code>## #  10-fold cross-validation using stratification 
-## # A tibble: 10 x 4
+<pre><code>## # A tibble: 10 x 4
 ##    id       glm   knn  nnet
 ##    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 ##  1 Fold01 0.798 0.753 0.843
@@ -105,11 +104,12 @@
 ## 10 Fold10 0.796 0.748 0.847</code></pre>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs)</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="kw"><a href="ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(rocs_stacked, <span class="kw"><a href="ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic, <span class="dt">group =</span> id, <span class="dt">col =</span> id)) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="dt">alpha =</span> <span class="fl">.75</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># The rocs object is not a real `rset` object so use basic `gather()`</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">rocs_stacked &lt;-<span class="st"> </span><span class="kw">gather</span>(rocs, <span class="st">"model"</span>, <span class="st">"statistic"</span>, <span class="op">-</span>id)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(rocs_stacked, <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic, <span class="dt">group =</span> id, <span class="dt">col =</span> id)) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span>(<span class="dt">alpha =</span> <span class="fl">.75</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span>(<span class="dt">legend.position =</span> <span class="st">"none"</span>)</a></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/roc-data-1.png" width="768"></p>
 <p>Since the lines are fairly parallel, there is likely to be a strong resample-to-resample effect. Note that the variation is fairly small; the within-model results don’t vary a lot and are not near the ceiling of performance (i.e. an AUC of one). It also seems pretty clear that the models are producing different levels of performance, but we’ll use this package to clarify this. Finally, there seems to be roughly equal variation for each model despite the difference in performance.</p>
 <p>If <code>rocs</code> were produced by the <code>rsample</code> package it is ready to use with <code>tidyposterior</code>, which has a method for <code>rset</code> objects.</p>
@@ -202,8 +202,8 @@
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 1.7e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
+## Chain 4: Gradient evaluation took 1.6e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -224,7 +224,7 @@
 ## Chain 4:                0.206217 seconds (Sampling)
 ## Chain 4:                2.92921 seconds (Total)
 ## Chain 4:</code></pre>
-<p>The <code>stan_glmer</code> model is contained in the element <code><a href="https://www.rdocumentation.org/packages/base/topics/Extract">roc_model$stan</a></code>:</p>
+<p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$stan</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">roc_model<span class="op">$</span>stan</a></code></pre></div>
 <pre><code>## stan_glmer
 ##  family:       gaussian [identity]
@@ -271,11 +271,11 @@
 ## 5 glm       0.789
 ## 6 glm       0.789</code></pre>
 <p>There is a basic <code>ggplot</code> method for this object and we can overlay the observed statistics for each model:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(roc_post) <span class="op">+</span><span class="st"> </span></a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(roc_post) <span class="op">+</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="co"># Add the observed data to check for consistency </span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span>(</a>
 <a class="sourceLine" id="cb10-4" data-line-number="4">    <span class="dt">data =</span> rocs_stacked, </a>
-<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="kw"><a href="ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic), </a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="kw"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span>(<span class="dt">x =</span> model, <span class="dt">y =</span> statistic), </a>
 <a class="sourceLine" id="cb10-6" data-line-number="6">    <span class="dt">alpha =</span> <span class="fl">.5</span>, <span class="dt">col =</span> <span class="st">"blue"</span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7">  )</a></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/linear-model-post-plot-1.png" width="768"></p>
@@ -303,7 +303,7 @@
 ## 1 nnet vs glm           1 0.0511 0.0459 0.0563  0.02         0           0         1</code></pre>
 <p>The <code>probability</code> column indicates the proportion of the posterior distribution that is greater than zero. This result indicates that the entire distribution is larger than one. The credible intervals reflect the large difference in the area under the ROC curves for these models.</p>
 <p>Before discussing the ROPE estimates, let’s plot the posterior distribution of the differences:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span>(glm_v_nnet, <span class="dt">size =</span> <span class="fl">0.02</span>)</a></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/glm-v-nnet-plot-1.png" width="768"></p>
 <p>The column <code>pract_neg</code> reflects the area where the posterior distribution is <em>less</em> than -2% (i.e, <em>practically negative</em>). Similarly, the <code>pract_pos</code> shows that most of the area is greater than 2% which leads us to believe that this is a truly a substantial difference in performance. The <code>pract_equiv</code> reflects how much of the posterior is between [-2%, 2%]. If this were near one, it might indicate that the models are not practically different (based on the yardstick of 2%).</p>
 </div>

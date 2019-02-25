@@ -41,7 +41,9 @@ rmses <- noisy_example %>%
    select(id, id2, contains("RMSE")) %>%
    setNames(tolower(gsub("_RMSE$", "", names(.))))
 
-stacked_rmse <- gather(rmses)
+# By removing the `splits` column, `rmses` is a basic data frame instead of
+# an `rset` object. 
+stacked_rmse <- gather(rmses, key = model, value = statistic, -id, -id2)
 
 mean_rmse <- stacked_rmse %>%
   group_by(model) %>%
