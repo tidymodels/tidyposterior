@@ -3,8 +3,8 @@
 #  <img src="tidyposterior_hex.png" align="center" height = "80px" align = "middle"/> 
 
 
-[![Travis build status](https://travis-ci.org/tidymodels/tidyposterior.svg?branch=master)](https://travis-ci.org/tidymodels/tidyposterior)
-[![Coverage status](https://codecov.io/gh/tidymodels/tidyposterior/branch/master/graph/badge.svg)](https://codecov.io/github/tidymodels/tidyposterior?branch=master)
+[![R build status](https://github.com/tidymodels/tidyposterior/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/tidyposterior/actions)
+[![Codecov test coverage](https://codecov.io/gh/tidymodels/tidyposterior/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/tidyposterior?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](http://cran.r-project.org/web/packages/tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](http://cran.rstudio.com/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
