@@ -1,8 +1,10 @@
+url: https://tidyposterior.tidymodels.org
+
 template:
   package: tidytemplate
   params:
-    part_of: <a href="https://github.com/tidymodels">tidymodels</a>
-    footer: <code>tidyposterior</code> is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
+    part_of: <a href="https://tidymodels.org">tidymodels</a>
+    footer: tidyposterior is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
 
 # https://github.com/tidyverse/tidytemplate for css
 
@@ -30,16 +32,16 @@ reference:
 
   - title: Data
     contents:
-      - precise_example   
+      - precise_example
       - noisy_example
-      - concrete_example 
+      - concrete_example
 
 navbar:
-  left:  
+  left:
   - text: Getting Started
-    href: articles/Getting_Started.html    
+    href: articles/Getting_Started.html
   - text: Different Bayesian Models
-    href: articles/Different_Bayesian_Models.html         
+    href: articles/Different_Bayesian_Models.html
   - text: Reference
     href: reference/index.html
 

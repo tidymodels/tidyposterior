@@ -1,7 +1,11 @@
-pandoc: 2.0.5
-pkgdown: 1.1.0.9000
+pandoc: 2.9.2.1
+pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   Different_Bayesian_Models: Different_Bayesian_Models.html
   Getting_Started: Getting_Started.html
+last_built: 2020-05-12T14:45Z
+urls:
+  reference: https://tidyposterior.tidymodels.org/reference
+  article: https://tidyposterior.tidymodels.org/articles
 
