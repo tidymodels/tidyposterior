@@ -4,5 +4,8 @@ pkgdown_sha: ~
 articles:
   Different_Bayesian_Models: Different_Bayesian_Models.html
   Getting_Started: Getting_Started.html
-last_built: 2020-05-12T15:45Z
+last_built: 2020-05-12T15:55Z
+urls:
+  reference: https://tidyposterior.tidymodels.org/reference
+  article: https://tidyposterior.tidymodels.org/articles
 
