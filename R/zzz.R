@@ -8,7 +8,7 @@
     register_s3_method("dplyr", "select", "posterior")
     register_s3_method("dplyr", "slice", "posterior")
   } else {
-
+    vctrs::s3_register("dplyr::dplyr_reconstruct", "posterior", method = posterior_reconstruct)
   }
 
 }
