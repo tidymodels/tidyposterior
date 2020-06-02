@@ -11,6 +11,8 @@
 #'  [rsample::vfold_cv()]) containing the `id` column(s) and at least two
 #'  numeric columns of model performance statistics (e.g. accuracy).
 #'  Additionally, an object from `caret::resamples` can be used.
+#' @param formula An optional model formula to use for the Bayesian hierarchical model
+#' (see Details below).
 #' @param ... Additional arguments to pass to [rstanarm::stan_glmer()] such as
 #'  `verbose`, `prior`, `seed`, `family`, etc.
 #' @return An object of class `perf_mod`.
@@ -37,6 +39,31 @@
 #'  `hetero_var = TRUE`, the variance structure uses random intercepts for each
 #'  model term. This may produce more realistic posterior distributions but may
 #'  take more time to converge.
+#'
+#'  Examples of the default formulas are:
+#'
+#'  \preformatted{
+#'  # One ID field and common variance:
+#'    statistic ~ model + (model | id)
+#'
+#'  # One ID field and heterogeneous variance:
+#'    statistic ~ model + (model + 0 | id)
+#'
+#'  # Repeated CV (id = repeat, id2 = fold within repeat)
+#'  # with a common variance:
+#'   statistic ~ model + (model | id2/id)
+#'
+#'  # Repeated CV (id = repeat, id2 = fold within repeat)
+#'  # with a heterogeneous variance:
+#'   statistic ~ model + (model + 0| id2/id)
+#'
+#'  # Default for unknown resampling method and
+#'  # multiple ID fields:
+#'   statistic ~ model + (model | idN/../id)
+#'  }
+#'
+#'  Custom formulas should use `statistic` as the outcome variable and `model`
+#'  as the factor variable with the model names.
 #'
 #'   Also, as shown in the package vignettes, the Gaussian assumption make be
 #'  unrealistic. In this case, there are at least two approaches that can be
@@ -83,7 +110,7 @@ perf_mod.default <- function(object, ...)
 
 #' @rdname perf_mod
 #' @param transform An named list of transformation and inverse
-#'  transformation fuctions. See [logit_trans()] as an example.
+#'  transformation functions. See [logit_trans()] as an example.
 #' @param hetero_var A logical; if `TRUE`, then different
 #'  variances are estimated for each model group. Otherwise, the
 #'  same variance is used for each group. Estimating heterogeneous
@@ -91,7 +118,7 @@ perf_mod.default <- function(object, ...)
 #' @export
 
 perf_mod.rset <-
-  function(object, transform = no_trans, hetero_var = FALSE, ...) {
+  function(object, transform = no_trans, hetero_var = FALSE, formula = NULL, ...) {
     check_trans(transform)
     rset_type <- try(pretty(object), silent = TRUE)
     if(inherits(rset_type, "try-error"))
@@ -109,16 +136,12 @@ perf_mod.rset <-
 
     ## Make a formula based on resampling type (repeatedcv, rof),
     ## This could be done with more specific classes
+    id_cols <- grep("(^id)|(^id[1-9]$)", names(object), value = TRUE)
+    formula <- make_formula(id_cols, hetero_var, formula)
 
     model_names <- unique(as.character(resamples$model))
 
-    if (hetero_var) {
-      mod <- stan_glmer(statistic ~  model + (model + 0 | id),
-                        data = resamples, ...)
-    } else {
-      mod <- stan_glmer(statistic ~  model + (1 | id),
-                        data = resamples, ...)
-    }
+    mod <- stan_glmer(formula, data = resamples, ...)
 
     res <- list(stan = mod,
                 hetero_var = hetero_var,
@@ -129,6 +152,41 @@ perf_mod.rset <-
     class(res) <- "perf_mod"
     res
   }
+
+make_formula <- function (ids, hetero_var, formula) {
+  if (is.null(formula)) {
+    ids <- sort(ids)
+    p <- length(ids)
+    if(p > 1) {
+      msg <-
+        paste0("There were multiple resample ID columns in the data. It is ",
+               "unclear what the model formula should be for the hierarchical ",
+               "model. This analysis used the formula: ")
+      nested <- paste0(rev(ids), collapse = "/")
+      if (hetero_var) {
+        f_chr <- paste0("statistic ~  model + (model + 0 |", nested, ")")
+        f <- as.formula(f_chr)
+      } else {
+        f_chr <- paste0("statistic ~  model + (1 |", nested, ")")
+        f <- as.formula(f_chr)
+      }
+      msg <- paste0(msg, rlang::expr_label(f),
+                    " The `formula` arg can be used to change this value.")
+      rlang::warn(msg)
+    } else {
+      if (hetero_var) {
+        f <- statistic ~  model + (model + 0 | id)
+      } else {
+        f <- statistic ~  model + (1 | id)
+      }
+    }
+  } else {
+    f <- formula
+  }
+  attr(f, ".Environment") <- rlang::base_env()
+  f
+}
+
 
 #' @export
 #' @rdname perf_mod
@@ -238,27 +296,14 @@ perf_mod.data.frame <-
   function(object,
            transform = no_trans,
            hetero_var = FALSE,
+           formula = NULL,
            ...) {
-    id_cols <- grep("(^id)|(^id[1-9]$)",
-                    names(object),
-                    value = TRUE)
+    id_cols <- grep("(^id)|(^id[1-9]$)", names(object), value = TRUE)
     if (length(id_cols) == 0)
       stop("One or more `id` columns are required.", call. = FALSE)
-
-    if (length(id_cols) > 1) {
-      warning(
-        "Since no specific resampling method is known,",
-        "the ID variables are collapsed into one column.",
-        call. = FALSE
-      )
-      tmp <- apply(object[, id_cols], 1, paste0, collapse = "-")
-      for (i in id_cols)
-        object[, i] <- NULL
-      object$id <- tmp
-    }
 
     class(object) <- c("rset", class(object))
 
     perf_mod(object, transform = transform,
-             hetero_var = hetero_var, ...)
+             hetero_var = hetero_var, formula = formula, ...)
   }

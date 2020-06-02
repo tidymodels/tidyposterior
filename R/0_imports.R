@@ -6,7 +6,7 @@
 #' @importFrom rsample pretty.loo_cv pretty.vfold_cv vfold_cv
 #' @importFrom rstanarm stan_glmer posterior_linpred posterior_interval
 #' @importFrom rlang !! is_string na_dbl
-#' @importFrom stats setNames reorder
+#' @importFrom stats setNames reorder as.formula
 #' @importFrom purrr map_chr map map2 map_df
 #' @importFrom tidyr gather
 #' @importFrom ggplot2 ggplot geom_violin xlab ylab geom_line geom_vline

@@ -6,6 +6,8 @@
 
 * The plot methods are now deprecated and will be removed in the next version. They are not very good and can be replaced with simple `ggplot` code.  
 
+* An optional formula argument was added to `perf_mod.rset()` and `perf_mod.data.frame()`. When the resampling method has multiple ID columns, a nested data structure is assumed (with a warning). The new `formula` argument can be used to over-ride the nesting.  
+
 # `tidyposterior` 0.0.2
 
 A small, maintenance release. 

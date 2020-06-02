@@ -10,7 +10,7 @@
 \usage{
 perf_mod(object, ...)
 
-\method{perf_mod}{rset}(object, transform = no_trans, hetero_var = FALSE, ...)
+\method{perf_mod}{rset}(object, transform = no_trans, hetero_var = FALSE, formula = NULL, ...)
 
 \method{perf_mod}{vfold_cv}(object, transform = no_trans, hetero_var = FALSE, ...)
 
@@ -22,7 +22,7 @@ perf_mod(object, ...)
   ...
 )
 
-\method{perf_mod}{data.frame}(object, transform = no_trans, hetero_var = FALSE, ...)
+\method{perf_mod}{data.frame}(object, transform = no_trans, hetero_var = FALSE, formula = NULL, ...)
 }
 \arguments{
 \item{object}{A data frame or an \code{rset} object (such as
@@ -34,12 +34,15 @@ Additionally, an object from \code{caret::resamples} can be used.}
 \code{verbose}, \code{prior}, \code{seed}, \code{family}, etc.}
 
 \item{transform}{An named list of transformation and inverse
-transformation fuctions. See \code{\link[=logit_trans]{logit_trans()}} as an example.}
+transformation functions. See \code{\link[=logit_trans]{logit_trans()}} as an example.}
 
 \item{hetero_var}{A logical; if \code{TRUE}, then different
 variances are estimated for each model group. Otherwise, the
 same variance is used for each group. Estimating heterogeneous
 variances may slow or prevent convergence.}
+
+\item{formula}{An optional model formula to use for the Bayesian hierarchical model
+(see Details below).}
 
 \item{metric}{A single character value for the statistic from
 the \code{resamples} object that should be analyzed.}
@@ -79,6 +82,31 @@ variance is highest when the accuracy is near 50 percent. When the argument
 \code{hetero_var = TRUE}, the variance structure uses random intercepts for each
 model term. This may produce more realistic posterior distributions but may
 take more time to converge.
+
+Examples of the default formulas are:
+
+\preformatted{
+ # One ID field and common variance:
+   statistic ~ model + (model | id)
+
+ # One ID field and heterogeneous variance:
+   statistic ~ model + (model + 0 | id)
+
+ # Repeated CV (id = repeat, id2 = fold within repeat)
+ # with a common variance:
+  statistic ~ model + (model | id2/id)
+
+ # Repeated CV (id = repeat, id2 = fold within repeat)
+ # with a heterogeneous variance:
+  statistic ~ model + (model + 0| id2/id)
+
+ # Default for unknown resampling method and
+ # multiple ID fields:
+  statistic ~ model + (model | idN/../id)
+ }
+
+Custom formulas should use \code{statistic} as the outcome variable and \code{model}
+as the factor variable with the model names.
 
 Also, as shown in the package vignettes, the Gaussian assumption make be
 unrealistic. In this case, there are at least two approaches that can be
