@@ -44,6 +44,12 @@ tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat
 }
 
+#' @export
+print.posterior <- function(x, ...) {
+  cat("# Posterior samples of performance\n")
+  print(tibble::as_tibble(x), ...)
+}
+
 #' Summarize the Posterior Distributions of Model Statistics
 #'
 #' Numerical summaries are created for each model including the
