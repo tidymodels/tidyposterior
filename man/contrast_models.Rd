@@ -4,8 +4,7 @@
 \alias{contrast_models}
 \title{Estimate the Difference Between Models}
 \usage{
-contrast_models(x, list_1 = NULL, list_2 = NULL,
-  seed = sample.int(10000, 1))
+contrast_models(x, list_1 = NULL, list_2 = NULL, seed = sample.int(10000, 1))
 }
 \arguments{
 \item{x}{An object produced by \code{\link[=perf_mod]{perf_mod()}}.}

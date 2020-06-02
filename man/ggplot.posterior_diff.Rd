@@ -4,8 +4,7 @@
 \alias{ggplot.posterior_diff}
 \title{Visualize the Posterior Distributions of Model Differences}
 \usage{
-\method{ggplot}{posterior_diff}(data, mapping = NULL, ...,
-  environment = NULL, size = 0)
+\method{ggplot}{posterior_diff}(data, mapping = NULL, ..., environment = NULL, size = 0)
 }
 \arguments{
 \item{data}{An object produced by \code{\link[=contrast_models]{contrast_models()}}.}
@@ -13,7 +12,7 @@
 \item{mapping, ..., environment}{Not currently used.}
 
 \item{size}{The size of an effective difference. For example, a
-5\% increase in accuracy between two models might be considered a
+5\\% increase in accuracy between two models might be considered a
 "real" difference.}
 }
 \value{

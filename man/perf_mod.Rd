@@ -10,17 +10,19 @@
 \usage{
 perf_mod(object, ...)
 
-\method{perf_mod}{rset}(object, transform = no_trans,
-  hetero_var = FALSE, ...)
+\method{perf_mod}{rset}(object, transform = no_trans, hetero_var = FALSE, ...)
 
-\method{perf_mod}{vfold_cv}(object, transform = no_trans,
-  hetero_var = FALSE, ...)
+\method{perf_mod}{vfold_cv}(object, transform = no_trans, hetero_var = FALSE, ...)
 
-\method{perf_mod}{resamples}(object, transform = no_trans,
-  hetero_var = FALSE, metric = object$metrics[1], ...)
+\method{perf_mod}{resamples}(
+  object,
+  transform = no_trans,
+  hetero_var = FALSE,
+  metric = object$metrics[1],
+  ...
+)
 
-\method{perf_mod}{data.frame}(object, transform = no_trans,
-  hetero_var = FALSE, ...)
+\method{perf_mod}{data.frame}(object, transform = no_trans, hetero_var = FALSE, ...)
 }
 \arguments{
 \item{object}{A data frame or an \code{rset} object (such as

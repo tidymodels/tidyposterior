@@ -51,7 +51,9 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
       obj = x$stan,
       trans = x$transform,
       seed = seed
-    )
+    ) %>%
+    dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs. "))
+  diffs <- tibble::as_tibble(diffs)
   class(diffs) <- c("posterior_diff", class(diffs))
   diffs
 }

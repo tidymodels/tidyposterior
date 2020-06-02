@@ -1,3 +1,8 @@
+# `tidyposterior` 0.0.3
+
+* Methods for compatability with `dplyr` 1.0.0
+
+* `contrast_models()` now returns a tibble and has an extra column called `constrast`. 
 
 # `tidyposterior` 0.0.2
 
