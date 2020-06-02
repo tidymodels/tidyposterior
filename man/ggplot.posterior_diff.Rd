@@ -17,7 +17,7 @@
 }
 \value{
 A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object using \code{geom_density}
-facetted by the models being contrasted (when there are 2 or
+faceted by the models being contrasted (when there are 2 or
 more contrasts).
 }
 \description{
@@ -27,15 +27,8 @@ A density is created for each contrast in a faceted grid.
 \lifecycle{deprecated}
 }
 \examples{
-# Example objects from the "Getting Started" vignette at
-#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-
-# File for pre-run model is at
-ex_dat <- "https://bit.ly/2S1v6H9"
-
-# load(load(url(ex_dat))
-
-# library(ggplot2)
-# ggplot(glm_v_nnet, size = 0.02) + theme_bw()
+data(ex_objects)
+library(ggplot2)
+ggplot(contrast_samples)
 
 }

@@ -25,16 +25,7 @@ A simple violin plot is created by the function.
 \lifecycle{deprecated}
 }
 \examples{
-# Example objects from the "Getting Started" vignette at
-#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-
-# File for pre-run model is at
-ex_dat <- "https://bit.ly/2OJdvl1"
-
-# load(load(url(ex_dat))
-
-# posterior_values <- tidy(roc_model)
-
-# library(ggplot2)
-# ggplot(posterior_values) + theme_bw()
+data(ex_objects)
+library(ggplot2)
+ggplot(posterior_samples)
 }

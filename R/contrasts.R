@@ -131,24 +131,17 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #'  5\% increase in accuracy between two models might be considered a
 #'  "real" difference.
 #' @return A [ggplot2::ggplot()] object using `geom_density`
-#'  facetted by the models being contrasted (when there are 2 or
+#'  faceted by the models being contrasted (when there are 2 or
 #'  more contrasts).
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2S1v6H9"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # library(ggplot2)
-#' # ggplot(glm_v_nnet, size = 0.02) + theme_bw()
+#' data(ex_objects)
+#' library(ggplot2)
+#' ggplot(contrast_samples)
 #'
 #' @export
 ggplot.posterior_diff <-
   function (data, mapping = NULL, ..., environment = NULL, size = 0) {
-    lifecycle::deprecate_warn("1.0.0", "ggplot.posterior_diff")
+    lifecycle::deprecate_warn("0.1.0", "ggplot.posterior_diff()")
     out <-
       ggplot2::ggplot(as.data.frame(data), aes(x = difference)) +
       ggplot2::geom_line(stat = "density", trim = TRUE) +

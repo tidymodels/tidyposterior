@@ -131,7 +131,6 @@ perf_mod.rset <-
   }
 
 #' @export
-#' @exportMethod perf_mod vfold_cv
 #' @rdname perf_mod
 perf_mod.vfold_cv <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {

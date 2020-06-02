@@ -6,9 +6,12 @@
 \alias{noisy_example}
 \alias{concrete_example}
 \alias{ts_example}
+\alias{ex_object}
+\alias{posterior_samples}
+\alias{contrast_samples}
 \title{Example Data Sets}
 \value{
-Tibbles with the additonal class \code{rset}
+Tibbles with the additional class \code{rset}
 }
 \description{
 Example Data Sets
@@ -42,6 +45,12 @@ resampling was used. Each assessment set is the summary of 14
 observations (i.e. 2 weeks). The analysis set consisted of a
 base of about 5,500 samples plus the previous assessment sets.
 Four regression models were applied to these data.}
+
+\item{\code{ex_object} objects were generated from the \code{two_class_dat} data in
+the \code{modeldata} package. Basic 10-fold cross validation was used to evaluate
+the models. The \code{posterior_samples} object is samples of the posterior
+distribution of the model ROC values while \code{contrast_samples} are posterior
+probabilities form the differences in ROC values.}
 }
 }
 \examples{

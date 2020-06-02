@@ -28,12 +28,18 @@
 #'  observations (i.e. 2 weeks). The analysis set consisted of a
 #'  base of about 5,500 samples plus the previous assessment sets.
 #'  Four regression models were applied to these data.}
+#'
+#'  \item{`ex_object` objects were generated from the `two_class_dat` data in
+#'  the `modeldata` package. Basic 10-fold cross validation was used to evaluate
+#'  the models. The `posterior_samples` object is samples of the posterior
+#'  distribution of the model ROC values while `contrast_samples` are posterior
+#'  probabilities form the differences in ROC values.}
 #' }
 #'
 #' @name precise_example
 #' @aliases precise_example
 #' @docType data
-#' @return Tibbles with the additonal class `rset`
+#' @return Tibbles with the additional class `rset`
 #' @keywords datasets
 #' @examples
 #' data(precise_example)
@@ -57,6 +63,14 @@ NULL
 #' @name ts_example
 #' @rdname precise_example
 #' @aliases ts_example
+#' @docType data
+#' @keywords datasets
+NULL
+
+#' @name ex_object
+#' @rdname precise_example
+#' @aliases posterior_samples
+#' @aliases contrast_samples
 #' @docType data
 #' @keywords datasets
 NULL

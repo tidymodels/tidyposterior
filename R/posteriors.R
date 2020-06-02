@@ -96,22 +96,13 @@ summary.posterior <- function(object, prob = 0.90,
 #' @return A [ggplot2::ggplot()] object using
 #'  [ggplot2::geom_violin()] for the posteriors.
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2OJdvl1"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # posterior_values <- tidy(roc_model)
-#'
-#' # library(ggplot2)
-#' # ggplot(posterior_values) + theme_bw()
+#' data(ex_objects)
+#' library(ggplot2)
+#' ggplot(posterior_samples)
 #' @export
 ggplot.posterior <-
   function (data, mapping = NULL, ..., environment = NULL, reorder = TRUE) {
-    lifecycle::deprecate_warn("1.0.0", "ggplot.posterior")
+    lifecycle::deprecate_warn("0.1.0", "ggplot.posterior()")
     if(reorder)
       data$model <- stats::reorder(data$model, data$posterior)
     ggplot2::ggplot(as.data.frame(data), aes(x = model, y = posterior)) +
