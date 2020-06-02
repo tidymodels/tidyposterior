@@ -10,7 +10,7 @@ keep_diff <- function(x) inherits(x, "posterior_diff")
 # ------------------------------------------------------------------------------
 
 test_that('keep posterior class', {
-  skip_if(tidyposterior:::dplyr_pre_1.0.0())
+  # skip_if(tidyposterior:::dplyr_pre_1.0.0())
   expect_true(keep_post(posterior_samples %>% dplyr::select(posterior, model)))
   expect_true(keep_post(posterior_samples %>% dplyr::filter(posterior > median(posterior_samples$posterior))))
   expect_true(keep_post(posterior_samples %>% mutate(hey = "you")))
@@ -24,7 +24,7 @@ test_that('keep posterior class', {
 })
 
 test_that('drop posterior class', {
-  skip_if(tidyposterior:::dplyr_pre_1.0.0())
+  # skip_if(tidyposterior:::dplyr_pre_1.0.0())
   expect_false(keep_post(posterior_samples %>% select(-model)  ))
   expect_false(keep_post(posterior_samples[, -2]))
 })
@@ -32,7 +32,7 @@ test_that('drop posterior class', {
 # ------------------------------------------------------------------------------
 
 test_that('keep posterior_diff class', {
-  skip_if(tidyposterior:::dplyr_pre_1.0.0())
+  # skip_if(tidyposterior:::dplyr_pre_1.0.0())
   expect_true(keep_diff(contrast_samples %>% dplyr::select(difference, model_1, model_2, contrast)))
   expect_true(keep_diff(contrast_samples %>% dplyr::filter(difference > median(contrast_samples$difference))))
   expect_true(keep_diff(contrast_samples %>% mutate(hey = "you")))
@@ -46,7 +46,7 @@ test_that('keep posterior_diff class', {
 })
 
 test_that('drop posterior_diff class', {
-  skip_if(tidyposterior:::dplyr_pre_1.0.0())
+  # skip_if(tidyposterior:::dplyr_pre_1.0.0())
   expect_false(keep_diff(contrast_samples %>% select(-model_2)  ))
   expect_false(keep_diff(contrast_samples[, -2]))
 })
