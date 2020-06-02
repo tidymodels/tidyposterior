@@ -136,8 +136,8 @@
 <pre><code>## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 ## Chain 1: 
-## Chain 1: Gradient evaluation took 8.5e-05 seconds
-## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.85 seconds.
+## Chain 1: Gradient evaluation took 7.9e-05 seconds
+## Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.79 seconds.
 ## Chain 1: Adjust your expectations accordingly!
 ## Chain 1: 
 ## Chain 1: 
@@ -154,15 +154,15 @@
 ## Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 1: 
-## Chain 1:  Elapsed Time: 2.3001 seconds (Warm-up)
-## Chain 1:                0.151429 seconds (Sampling)
-## Chain 1:                2.45153 seconds (Total)
+## Chain 1:  Elapsed Time: 2.20835 seconds (Warm-up)
+## Chain 1:                0.140982 seconds (Sampling)
+## Chain 1:                2.34933 seconds (Total)
 ## Chain 1: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 ## Chain 2: 
-## Chain 2: Gradient evaluation took 1.5e-05 seconds
-## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.15 seconds.
+## Chain 2: Gradient evaluation took 1.7e-05 seconds
+## Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.17 seconds.
 ## Chain 2: Adjust your expectations accordingly!
 ## Chain 2: 
 ## Chain 2: 
@@ -179,15 +179,15 @@
 ## Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 2: 
-## Chain 2:  Elapsed Time: 2.63566 seconds (Warm-up)
-## Chain 2:                0.206929 seconds (Sampling)
-## Chain 2:                2.84259 seconds (Total)
+## Chain 2:  Elapsed Time: 2.53967 seconds (Warm-up)
+## Chain 2:                0.196882 seconds (Sampling)
+## Chain 2:                2.73655 seconds (Total)
 ## Chain 2: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 ## Chain 3: 
-## Chain 3: Gradient evaluation took 1.5e-05 seconds
-## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.15 seconds.
+## Chain 3: Gradient evaluation took 1.6e-05 seconds
+## Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
 ## Chain 3: Adjust your expectations accordingly!
 ## Chain 3: 
 ## Chain 3: 
@@ -204,15 +204,15 @@
 ## Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 3: 
-## Chain 3:  Elapsed Time: 2.58764 seconds (Warm-up)
-## Chain 3:                0.245773 seconds (Sampling)
-## Chain 3:                2.83341 seconds (Total)
+## Chain 3:  Elapsed Time: 2.48674 seconds (Warm-up)
+## Chain 3:                0.23328 seconds (Sampling)
+## Chain 3:                2.72002 seconds (Total)
 ## Chain 3: 
 ## 
 ## SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 ## Chain 4: 
-## Chain 4: Gradient evaluation took 1.6e-05 seconds
-## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.16 seconds.
+## Chain 4: Gradient evaluation took 1.8e-05 seconds
+## Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.18 seconds.
 ## Chain 4: Adjust your expectations accordingly!
 ## Chain 4: 
 ## Chain 4: 
@@ -229,9 +229,9 @@
 ## Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 ## Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 ## Chain 4: 
-## Chain 4:  Elapsed Time: 2.23369 seconds (Warm-up)
-## Chain 4:                0.159725 seconds (Sampling)
-## Chain 4:                2.39341 seconds (Total)
+## Chain 4:  Elapsed Time: 2.10677 seconds (Warm-up)
+## Chain 4:                0.158419 seconds (Sampling)
+## Chain 4:                2.26519 seconds (Total)
 ## Chain 4:</code></pre>
 <p>The <code>stan_glmer</code> model is contained in the element <code>roc_model$stan</code>:</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">roc_model</span>$<span class="no">stan</span></pre></body></html></div>
@@ -266,9 +266,10 @@
 <p>The <code>tidy</code> function can be used to extract the distributions into a simple data frame:</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">roc_post</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/generics/man/tidy.html">tidy</a></span>(<span class="no">roc_model</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">roc_post</span>)</pre></body></html></div>
-<pre><code>## # A tibble: 6 x 2
+<pre><code>## # Posterior samples of performance
+## # A tibble: 6 x 2
 ##   model posterior
-## * &lt;chr&gt;     &lt;dbl&gt;
+##   &lt;chr&gt;     &lt;dbl&gt;
 ## 1 glm       0.793
 ## 2 glm       0.790
 ## 3 glm       0.792

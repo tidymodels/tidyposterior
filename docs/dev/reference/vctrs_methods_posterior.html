@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • tidyposterior</title>
+<title>Extra methods for the posterior class to work with dplyr verbs — vec_restore.posterior • tidyposterior</title>
 
 
 <!-- jquery -->
@@ -42,7 +42,11 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Extra methods for the posterior class to work with dplyr verbs — vec_restore.posterior" />
+<meta property="og:description" content="Objects with class posterior are defined to be tibbles with required
+columns model (character) and posterior (numeric). If operations on these
+objects break those rules, they are down-cast to basic tibbles." />
+<meta name="twitter:card" content="summary" />
 
 
 <meta name="robots" content="noindex">
@@ -69,7 +73,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -119,56 +123,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/tidymodels/tidyposterior/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Extra methods for the posterior class to work with dplyr verbs</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/tidyposterior/blob/master/R/posteriors-compat.R'><code>R/posteriors-compat.R</code></a></small>
+    <div class="hidden name"><code>vctrs_methods_posterior.Rd</code></div>
     </div>
 
-    <div id="tidyposterior-003" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.3">
-<a href="#tidyposterior-003" class="anchor"></a><small> Unreleased </small><code>tidyposterior</code> 0.0.3</h1>
-<ul>
-<li><p><code><a href="../reference/contrast_models.html">contrast_models()</a></code> now returns a tibble and has an extra column called <code>contrast</code>.</p></li>
-<li><p>The plot methods are now deprecated and will be removed in the next version. They are not very good and can be replaced with simple <code>ggplot</code> code.</p></li>
-<li><p>An optional formula argument was added to <code><a href="../reference/perf_mod.html">perf_mod.rset()</a></code> and <code><a href="../reference/perf_mod.html">perf_mod.data.frame()</a></code>. When the resampling method has multiple ID columns, a nested data structure is assumed (with a warning). The new <code>formula</code> argument can be used to over-ride the nesting.</p></li>
-</ul>
-<div id="breaking-changes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#breaking-changes" class="anchor"></a>Breaking Changes</h2>
-<ul>
-<li>Methods for compatibility with <code>dplyr</code> 1.0.0. For the newer <code>dplyr</code> version, if critical columns for <code>posterior</code> or <code>posterior_diff</code> objects are removed, the objects is down-graded to a tibble. For earlier versions of <code>dplyr</code>, the object is not down-cast.</li>
-</ul>
-</div>
-</div>
-    <div id="tidyposterior-002" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.2">
-<a href="#tidyposterior-002" class="anchor"></a><small> 2018-11-15 </small><code>tidyposterior</code> 0.0.2</h1>
-<p>A small, maintenance release.</p>
-<div id="minor-bug-fixes-and-improvements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#minor-bug-fixes-and-improvements" class="anchor"></a>Minor bug fixes and improvements</h2>
-<ul>
-<li><p>Moved from the <code>broom</code> package to the <code>generics</code> package to get the <code>tidy</code> generic.</p></li>
-<li><p><code>ggplot2</code> was moved to Suggests</p></li>
-<li><p>The sole <code>tidy</code> method was more explicitly exported so that the <code>generics</code> man files show the method.</p></li>
-<li><p>The large RData objects containing the examples have been removed from the package and are accessible via a link to the GitHub repo.</p></li>
-</ul>
-</div>
-</div>
-    <div id="tidyposterior-001" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.1">
-<a href="#tidyposterior-001" class="anchor"></a><small> 2017-11-14 </small><code>tidyposterior</code> 0.0.1</h1>
-<ul>
-<li>First CRAN submission</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Objects with class <code>posterior</code> are defined to be tibbles with required
+columns <code>model</code> (character) and <code>posterior</code> (numeric). If operations on these
+objects break those rules, they are down-cast to basic tibbles.</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>vec_restore.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>)
+
+<span class='fu'>vec_proxy.posterior</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>vec_ptype2.posterior.posterior</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_ptype2.posterior.tbl_df</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_ptype2.tbl_df.posterior</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_ptype2.posterior.data.frame</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_ptype2.data.frame.posterior</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.posterior.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.posterior.tbl_df</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.tbl_df.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.posterior.data.frame</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.data.frame.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
+
+
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 
