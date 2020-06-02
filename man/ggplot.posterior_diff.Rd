@@ -21,7 +21,10 @@ facetted by the models being contrasted (when there are 2 or
 more contrasts).
 }
 \description{
-A density is created for each contrast in a facetted grid.
+A density is created for each contrast in a faceted grid.
+}
+\details{
+\lifecycle{deprecated}
 }
 \examples{
 # Example objects from the "Getting Started" vignette at

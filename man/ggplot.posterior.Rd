@@ -21,6 +21,9 @@ A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object using
 \description{
 A simple violin plot is created by the function.
 }
+\details{
+\lifecycle{deprecated}
+}
 \examples{
 # Example objects from the "Getting Started" vignette at
 #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html

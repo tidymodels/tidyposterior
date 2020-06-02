@@ -1,8 +1,10 @@
 # `tidyposterior` 0.0.3
 
-* Methods for compatability with `dplyr` 1.0.0
+* Methods for compatibility with `dplyr` 1.0.0
 
-* `contrast_models()` now returns a tibble and has an extra column called `constrast`. 
+* `contrast_models()` now returns a tibble and has an extra column called `contrast`. 
+
+* The plot methods are now deprecated and will be removed in the next version. They are not very good and can be replaced with simple `ggplot` code.  
 
 # `tidyposterior` 0.0.2
 

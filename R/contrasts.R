@@ -121,7 +121,9 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 
 #' Visualize the Posterior Distributions of Model Differences
 #'
-#' A density is created for each contrast in a facetted grid.
+#' A density is created for each contrast in a faceted grid.
+#'
+#' \lifecycle{deprecated}
 #'
 #' @param data An object produced by [contrast_models()].
 #' @param mapping,...,environment Not currently used.
@@ -146,6 +148,7 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #' @export
 ggplot.posterior_diff <-
   function (data, mapping = NULL, ..., environment = NULL, size = 0) {
+    lifecycle::deprecate_warn("1.0.0", "ggplot.posterior_diff")
     out <-
       ggplot2::ggplot(as.data.frame(data), aes(x = difference)) +
       ggplot2::geom_line(stat = "density", trim = TRUE) +

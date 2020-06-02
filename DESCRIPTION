@@ -27,8 +27,10 @@ Imports:
     tibble,
     generics,
     ggplot2,
-    vctrs
+    vctrs,
+    lifecycle
 Suggests: 
     knitr,
     testthat,
     covr
+RdMacros: lifecycle

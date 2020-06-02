@@ -87,6 +87,8 @@ summary.posterior <- function(object, prob = 0.90,
 #'
 #' A simple violin plot is created by the function.
 #'
+#' \lifecycle{deprecated}
+#'
 #' @param data An object produced by [tidy.perf_mod()].
 #' @param mapping,...,environment Not currently used.
 #' @param reorder A logical; should the `model` column be reordered
@@ -109,6 +111,7 @@ summary.posterior <- function(object, prob = 0.90,
 #' @export
 ggplot.posterior <-
   function (data, mapping = NULL, ..., environment = NULL, reorder = TRUE) {
+    lifecycle::deprecate_warn("1.0.0", "ggplot.posterior")
     if(reorder)
       data$model <- stats::reorder(data$model, data$posterior)
     ggplot2::ggplot(as.data.frame(data), aes(x = model, y = posterior)) +
