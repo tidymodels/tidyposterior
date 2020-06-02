@@ -1,3 +1,4 @@
+# nocov
 .onLoad <- function(libname, pkgname) {
 
   if (utils::packageVersion("dplyr") <= "0.8.5") {
@@ -13,3 +14,5 @@
   }
 
 }
+
+# nocov end

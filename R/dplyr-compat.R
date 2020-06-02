@@ -1,3 +1,4 @@
+# nocov
 ## adapted from
 ## https://github.com/hadley/dtplyr/blob/2308ff25e88bb81fe84f9051e37ddd9d572189ee/R/compat-dplyr-0.6.0.R
 ## and based on
@@ -28,13 +29,3 @@ register_s3_method <- function(pkg, generic, class, fun = NULL) { # nocov start
   )
 } # nocov end
 
-new_posterior <- function(x) {
-  stopifnot(inherits(x, "data.frame"))
-  structure(x, class = c("posterior", "tbl_df", "tbl", "data.frame"))
-}
-
-
-is_posterior <- function(x) {
-  is_tibble(x) &&
-    all(c("model", "posterior") %in% names(x))
-}
