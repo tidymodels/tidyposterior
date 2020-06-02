@@ -16,7 +16,7 @@ is_repeated_cv <- function(x) {
   all(grepl("^Fold", x$values$Resample) & grepl("\\.Rep", x$values$Resample))
 }
 
-#' @importFrom purrr map
+
 get_id_vals <- function(x) {
   id_vars <- grep("(^id$)|(^id[1-9]$)", names(x), value = TRUE)
   map(x[, id_vars, drop = FALSE], function(x) unique(as.character(x)))

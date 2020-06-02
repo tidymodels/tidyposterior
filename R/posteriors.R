@@ -29,8 +29,7 @@
 #'
 #' @export
 #' @export tidy.perf_mod
-#' @importFrom tidyr gather
-#' @importFrom dplyr mutate %>% as_tibble
+
 tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
   post_dat <-
@@ -71,7 +70,6 @@ tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
 #' # summary(posterior_values)
 #'
 #' @export
-#' @importFrom dplyr group_by do summarise full_join
 summary.posterior <- function(object, prob = 0.90,
                               seed = sample.int(10000, 1), ...) {
   post_int <- object %>%
@@ -109,8 +107,6 @@ summary.posterior <- function(object, prob = 0.90,
 #' # library(ggplot2)
 #' # ggplot(posterior_values) + theme_bw()
 #' @export
-#' @importFrom ggplot2 ggplot geom_violin xlab ylab
-#' @importFrom stats reorder
 ggplot.posterior <-
   function (data, mapping = NULL, ..., environment = NULL, reorder = TRUE) {
     if(reorder)
@@ -120,8 +116,6 @@ ggplot.posterior <-
       ggplot2::xlab("") + ggplot2::ylab("Posterior Probability")
   }
 
-
-#' @importFrom rstanarm posterior_linpred
 get_post <- function(x, seed = sample.int(10000, 1)) {
   new_dat <- data.frame(model = unique(x$names))
   new_dat <-
@@ -142,7 +136,7 @@ get_post <- function(x, seed = sample.int(10000, 1)) {
 
 postint <- function(object, ...) UseMethod("postint")
 
-#' @importFrom rstanarm posterior_interval
+
 postint.numeric <- function(object, prob = 0.90,
                             seed = sample.int(10000, 1), ...) {
   object <- matrix(object, ncol = 1)
@@ -154,6 +148,3 @@ postint.numeric <- function(object, prob = 0.90,
 postint.data.frame <- function(object, prob = 0.90,
                                seed = sample.int(10000, 1), ...)
   postint(getElement(object, "posterior"), prob = prob, seed = seed)
-
-#' @importFrom utils globalVariables
-utils::globalVariables(c(".", "aes", "posterior"))

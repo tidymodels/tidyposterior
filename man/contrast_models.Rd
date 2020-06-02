@@ -9,27 +9,25 @@ contrast_models(x, list_1 = NULL, list_2 = NULL, seed = sample.int(10000, 1))
 \arguments{
 \item{x}{An object produced by \code{\link[=perf_mod]{perf_mod()}}.}
 
-\item{list_1, list_2}{Character vectors of equal length that
-specify the specific pairwise contrasts. The contrast is
-parameterized as \code{list_1[i] - list_2[i]}. If the defaults
-are left to \code{NULL}, all combinations are evaluated.}
+\item{list_1, list_2}{Character vectors of equal length that specify the
+specific pairwise contrasts. The contrast is parameterized as
+\code{list_1[i] - list_2[i]}. If the defaults are left to \code{NULL}, all
+combinations are evaluated.}
 
 \item{seed}{A single integer for sampling from the posterior.}
 }
 \value{
-A data frame of the posterior distribution(s) of the
-difference(s). The object has an extra class of
-\code{"posterior_diff"}.
+A data frame of the posterior distribution(s) of the difference(s).
+The object has an extra class of \code{"posterior_diff"}.
 }
 \description{
-The posterior distributions created by \code{\link[=perf_mod]{perf_mod()}} can
-be used to obtain the posterior distribution of the difference(s)
-between models. One or more comparisons can be computed at
-the same time.
+The posterior distributions created by \code{\link[=perf_mod]{perf_mod()}} can be used to obtain
+the posterior distribution of the difference(s) between models. One or more
+comparisons can be computed at the same time.
 }
 \details{
-If a transformation was used when \code{x} was created, the
-inverse is applied \emph{before} the difference is computed.
+If a transformation was used when \code{x} was created, the inverse is
+applied \emph{before} the difference is computed.
 }
 \examples{
 # Example objects from the "Getting Started" vignette at

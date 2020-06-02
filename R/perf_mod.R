@@ -1,65 +1,57 @@
 #' Bayesian Analysis of Resampling Statistics
 #'
-#' Bayesian analysis used here to answer the question: "when
-#'  looking at resampling results, are the differences between
-#'  models 'real?'" To answer this, a model can be created were the
-#'  _outcome_ is the resampling statistics (e.g. accuracy or RMSE).
-#'  These values are explained by the model types. In doing this, we
-#'  can get parameter estimates for each model's affect on
-#'  performance and make statistical (and practical) comparisons
-#'  between models.
+#'   Bayesian analysis used here to answer the question: "when looking at
+#'  resampling results, are the differences between models 'real?'" To answer
+#'  this, a model can be created were the _outcome_ is the resampling statistics
+#'  (e.g. accuracy or RMSE). These values are explained by the model types. In
+#'  doing this, we can get parameter estimates for each model's affect on
+#'  performance and make statistical (and practical) comparisons between models.
 #'
 #' @param object A data frame or an `rset` object (such as
-#'  [rsample::vfold_cv()]) containing the `id` column(s) and at least
-#'  two numeric columns of model performance statistics (e.g.
-#'  accuracy). Additionally, an object from `caret::resamples`
-#'  can be used.
-#' @param ... Additonal arguments to pass to [rstanarm::stan_glmer()]
-#'  such as `verbose`, `prior`, `seed`, `family`, etc.
+#'  [rsample::vfold_cv()]) containing the `id` column(s) and at least two
+#'  numeric columns of model performance statistics (e.g. accuracy).
+#'  Additionally, an object from `caret::resamples` can be used.
+#' @param ... Additional arguments to pass to [rstanarm::stan_glmer()] such as
+#'  `verbose`, `prior`, `seed`, `family`, etc.
 #' @return An object of class `perf_mod`.
-#' @details These functions can be used to process and analyze
-#'  matched resampling statistics from different models using a
-#'  Bayesian generalized linear model with effects for the model and
-#'  the resamples.
+#' @details These functions can be used to process and analyze matched
+#'  resampling statistics from different models using a Bayesian generalized
+#'  linear model with effects for the model and the resamples.
 #'
-#' By default, a generalized linear model with Gaussian error and
-#'  an identity link is fit to the data and has terms for the
-#'  predictive model grouping variable. In this way, the performance
-#'  metrics can be compared between models.
+#'   By default, a generalized linear model with Gaussian error and an identity
+#'  link is fit to the data and has terms for the predictive model grouping
+#'  variable. In this way, the performance metrics can be compared between
+#'  models.
 #'
-#' Additionally, random effect terms are also used. For most
-#'  resampling methods (except repeated _V_-fold cross-validation),
-#'  a simple random intercept model its used with an exchangeable
-#'  (i.e. compound-symmetric) variance structure. In the case of
-#'  repeated cross-validation, two random intercept terms are used;
-#'  one for the repeat and another for the fold within repeat. These
-#'  also have exchangeable correlation structures.
+#'   Additionally, random effect terms are also used. For most resampling
+#'  methods (except repeated _V_-fold cross-validation), a simple random
+#'  intercept model its used with an exchangeable (i.e. compound-symmetric)
+#'  variance structure. In the case of repeated cross-validation, two random
+#'  intercept terms are used; one for the repeat and another for the fold within
+#'  repeat. These also have exchangeable correlation structures.
 #'
-#' The above model specification assumes that the variance in the
-#'  performance metrics is the same across models. However, this is
-#'  unlikely to be true in some cases. For example, for simple
-#'  binomial accuracy, it well know that the variance is highest
-#'  when the accuracy is near 50 percent. When the argument
-#'  `hetero_var = TRUE`, the variance structure uses random
-#'  intercepts for each model term. This may produce more realistic
-#'  posterior distributions but may take more time to converge.
+#'   The above model specification assumes that the variance in the performance
+#'  metrics is the same across models. However, this is unlikely to be true in
+#'  some cases. For example, for simple binomial accuracy, it well know that the
+#'  variance is highest when the accuracy is near 50 percent. When the argument
+#'  `hetero_var = TRUE`, the variance structure uses random intercepts for each
+#'  model term. This may produce more realistic posterior distributions but may
+#'  take more time to converge.
 #'
-#' Also, as shown in the package vignettes, the Gaussian assumption
-#'  make be unrealistic. In this case, there are at least two
-#'  approaches that can be used. First, the outcome statistics can
-#'  be transformed prior to fitting the model. For example, for
-#'  accuracy, the logit transformation can be used to convert the
-#'  outcome values to be on the real line and a model is fit to
-#'  these data. Once the posterior distributions are computed, the
-#'  inverse transformation can be used to put them back into the
-#'  original units. The `transform` argument can be used to do this.
+#'   Also, as shown in the package vignettes, the Gaussian assumption make be
+#'  unrealistic. In this case, there are at least two approaches that can be
+#'  used. First, the outcome statistics can be transformed prior to fitting the
+#'  model. For example, for accuracy, the logit transformation can be used to
+#'  convert the outcome values to be on the real line and a model is fit to
+#'  these data. Once the posterior distributions are computed, the inverse
+#'  transformation can be used to put them back into the original units. The
+#'  `transform` argument can be used to do this.
 #'
-#' The second approach would be to use a different error
-#'  distribution from the exponential family. For RMSE values, the
-#'  Gamma distribution may produce better results at the expense of
-#'  model computational complexity. This can be achieved by passing
-#'  the `family` argument to `perf_mod` as one might with the
-#'  `glm` function.
+#'   The second approach would be to use a different error distribution from the
+#'  exponential family. For RMSE values, the Gamma distribution may produce
+#'  better results at the expense of model computational complexity. This can be
+#'  achieved by passing the `family` argument to `perf_mod` as one might with
+#'  the `glm` function.
 #' @examples
 #' # Example objects from the "Getting Started" vignette at
 #' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
@@ -97,13 +89,7 @@ perf_mod.default <- function(object, ...)
 #'  same variance is used for each group. Estimating heterogeneous
 #'  variances may slow or prevent convergence.
 #' @export
-#' @importFrom dplyr filter select mutate %>%
-#' @importFrom rsample gather.rset pretty.group_vfold_cv
-#' @importFrom rsample pretty.bootstraps pretty.nested_cv
-#' @importFrom rsample pretty.mc_cv pretty.rolling_origin
-#' @importFrom rsample pretty.loo_cv pretty.vfold_cv
-#' @importFrom rstanarm stan_glmer
-#' @importFrom rlang !!
+
 perf_mod.rset <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {
     check_trans(transform)
@@ -146,7 +132,6 @@ perf_mod.rset <-
 
 #' @export
 #' @exportMethod perf_mod vfold_cv
-#' @importFrom rsample vfold_cv
 #' @rdname perf_mod
 perf_mod.vfold_cv <-
   function(object, transform = no_trans, hetero_var = FALSE, ...) {
@@ -191,11 +176,6 @@ perf_mod.vfold_cv <-
     res
   }
 
-
-
-#' @importFrom utils globalVariables
-utils::globalVariables(c("id", "model", "splits", "statistic", "Resample"))
-
 #' @export
 print.perf_mod <- function(x, ...) {
   cat("Bayesian Analysis of Resampling Results\n")
@@ -214,10 +194,8 @@ summary.perf_mod <- function(object, ...) {
 
 
 #' @export
-#' @importFrom stats setNames
-#' @importFrom purrr map_chr
 #' @rdname perf_mod
-#' @param metric A single character value for the statstic from
+#' @param metric A single character value for the statistic from
 #'  the `resamples` object that should be analyzed.
 perf_mod.resamples <-
   function(object,

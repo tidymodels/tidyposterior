@@ -1,10 +1,9 @@
 ## adapted from
 ## https://github.com/hadley/dtplyr/blob/2308ff25e88bb81fe84f9051e37ddd9d572189ee/R/compat-dplyr-0.6.0.R
-## and based on 
+## and based on
 ## https://github.com/tidyverse/googledrive/commit/95455812d2e0d6bdf92b5f6728e3265bf65d8467#diff-ba61d4f2ccd992868e27305a9ab68a3c
 
 ## function is called in .onLoad()
-#' @importFrom rlang is_string
 register_s3_method <- function(pkg, generic, class, fun = NULL) { # nocov start
   stopifnot(is_string(pkg))
   envir <- asNamespace(pkg)
@@ -34,9 +33,9 @@ new_posterior <- function(x) {
   structure(x, class = c("posterior", "tbl_df", "tbl", "data.frame"))
 }
 
-#' @importFrom tibble is_tibble
+
 is_posterior <- function(x) {
-  is_tibble(x) && 
+  is_tibble(x) &&
     all(c("model", "posterior") %in% names(x))
 }
 
@@ -45,7 +44,6 @@ is_posterior <- function(x) {
   maybe_posterior(NextMethod())
 }
 
-#' @importFrom dplyr as_tibble
 maybe_posterior <- function(x) {
   if (is_posterior(x)) {
     new_posterior(x)
@@ -55,9 +53,9 @@ maybe_posterior <- function(x) {
 }
 
 ## tidyposterior does not import any generics from dplyr,
-## but if dplyr is loaded and main verbs are used on a `posterior` 
-## object generated from `tidy.perf_mod`, we want to retain 
-## the `posterior`` class if it is proper to do so therefore these 
+## but if dplyr is loaded and main verbs are used on a `posterior`
+## object generated from `tidy.perf_mod`, we want to retain
+## the `posterior`` class if it is proper to do so therefore these
 ## S3 methods are registered manually in .onLoad()
 
 arrange.posterior <- function(.data, ...) {
