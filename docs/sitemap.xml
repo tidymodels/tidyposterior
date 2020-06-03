@@ -34,6 +34,12 @@
     <loc>https://tidyposterior.tidymodels.org/reference/transformations.html</loc>
   </url>
   <url>
+    <loc>https://tidyposterior.tidymodels.org/reference/vctrs_methods_posterior.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/reference/vctrs_methods_posterior_diff.html</loc>
+  </url>
+  <url>
     <loc>https://tidyposterior.tidymodels.org/articles/Different_Bayesian_Models.html</loc>
   </url>
   <url>

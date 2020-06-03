@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simple Transformation Functions — no_trans • tidyposterior</title>
+<title>Extra methods for the posterior class to work with dplyr verbs — vec_restore.posterior • tidyposterior</title>
 
 
 <!-- jquery -->
@@ -42,18 +42,10 @@
 
 
 
-<meta property="og:title" content="Simple Transformation Functions — no_trans" />
-<meta property="og:description" content="A set of objects are contained here to easily facilitate the
-use of outcome transformations for modeling. For example, if
-there is a large amount of variability in the resampling results
-for the Kappa statistics, which lies between -1 and 1, assuming
-normality may produce posterior estimates outside of the natural
-bound. One way to solve this is to use a link function or assume
-a prior that is appropriately bounded. Another approach is to
-transform the outcome values prior to modeling using a Gaussian
-prior and reverse-transforming the posterior estimates prior to
-visualization and summarization. These object can help
-facilitate this last approach." />
+<meta property="og:title" content="Extra methods for the posterior class to work with dplyr verbs — vec_restore.posterior" />
+<meta property="og:description" content="Objects with class posterior are defined to be tibbles with required
+columns model (character) and posterior (numeric). If operations on these
+objects break those rules, they are down-cast to basic tibbles." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -131,57 +123,43 @@ facilitate this last approach." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Simple Transformation Functions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/tidyposterior/blob/master/R/transformations.R'><code>R/transformations.R</code></a></small>
-    <div class="hidden name"><code>transformations.Rd</code></div>
+    <h1>Extra methods for the posterior class to work with dplyr verbs</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/tidyposterior/blob/master/R/posteriors-compat.R'><code>R/posteriors-compat.R</code></a></small>
+    <div class="hidden name"><code>vctrs_methods_posterior.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A set of objects are contained here to easily facilitate the
-use of outcome transformations for modeling. For example, if
-there is a large amount of variability in the resampling results
-for the Kappa statistics, which lies between -1 and 1, assuming
-normality may produce posterior estimates outside of the natural
-bound. One way to solve this is to use a link function or assume
-a prior that is appropriately bounded. Another approach is to
-transform the outcome values prior to modeling using a Gaussian
-prior and reverse-transforming the posterior estimates prior to
-visualization and summarization. These object can help
-facilitate this last approach.</p>
+    <p>Objects with class <code>posterior</code> are defined to be tibbles with required
+columns <code>model</code> (character) and <code>posterior</code> (numeric). If operations on these
+objects break those rules, they are down-cast to basic tibbles.</p>
     </div>
 
-    <pre class="usage"><span class='no'>no_trans</span>
+    <pre class="usage"><span class='fu'>vec_restore.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>)
 
-<span class='no'>logit_trans</span>
+<span class='fu'>vec_proxy.posterior</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
-<span class='no'>Fisher_trans</span>
+<span class='fu'>vec_ptype2.posterior.posterior</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
 
-<span class='no'>ln_trans</span>
+<span class='fu'>vec_ptype2.posterior.tbl_df</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
 
-<span class='no'>inv_trans</span></pre>
+<span class='fu'>vec_ptype2.tbl_df.posterior</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_ptype2.posterior.data.frame</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_ptype2.data.frame.posterior</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>y_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.posterior.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.posterior.tbl_df</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.tbl_df.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.posterior.data.frame</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)
+
+<span class='fu'>vec_cast.data.frame.posterior</span>(<span class='no'>x</span>, <span class='no'>to</span>, <span class='no'>...</span>, <span class='kw'>x_arg</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>to_arg</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>An object of class <code>list</code> of length 2.</p>
-<p>An object of class <code>list</code> of length 2.</p>
-<p>An object of class <code>list</code> of length 2.</p>
-<p>An object of class <code>list</code> of length 2.</p>
-<p>An object of class <code>list</code> of length 2.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The <code>logit_trans</code> object is useful for model
-performance statistics bounds in zero and one, such as accuracy
-or the area under the ROC curve.</p>
-<p><code>ln_trans</code> and <code>inv_trans</code> can be useful when the statistics
-are right-skewed and strictly positive.</p>
-<p><code>Fisher_trans</code> was originally used for correlation statistics
-but can be used here for an metrics falling between -1 and 1,
-such as Kappa.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>logit_trans</span>$<span class='fu'>func</span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; [1] 0</div><div class='input'><span class='no'>logit_trans</span>$<span class='fu'>inv</span>(<span class='fl'>0</span>)</div><div class='output co'>#&gt; [1] 0.5</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
