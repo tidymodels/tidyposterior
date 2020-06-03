@@ -38,14 +38,8 @@ better when larger or smaller. \code{pract_equiv} integrates between
 unlikely to be practically different relative to \code{size}.
 }
 \examples{
-# Example objects from the "Getting Started" vignette at
-#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+data("ex_objects")
 
-# File for pre-run model is at
-ex_dat <- "https://bit.ly/2S1v6H9"
-
-# load(load(url(ex_dat))
-
-# summary(glm_v_nnet, size = 0.02)
-
+summary(contrast_samples)
+summary(contrast_samples, size = 0.025)
 }

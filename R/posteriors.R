@@ -13,20 +13,6 @@
 #'  question of which model is best _for this data set_. If does not
 #'  answer the question of which model would be best on a new
 #'  resample of the data (which would have greater variability).
-#' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2OJdvl1"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # roc_model
-#' # posterior_values <- tidy(roc_model)
-#' # head(posterior_values)
-#' # class(posterior_values)
-#'
 #' @export
 #' @export tidy.perf_mod
 
@@ -64,17 +50,9 @@ print.posterior <- function(x, ...) {
 #' @return A data frame with summary statistics and a row for
 #'  each model.
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' data("ex_objects")
 #'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2OJdvl1"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # posterior_values <- tidy(roc_model)
-#' # summary(posterior_values)
-#'
+#' summary(posterior_samples)
 #' @export
 summary.posterior <- function(object, prob = 0.90,
                               seed = sample.int(10000, 1), ...) {

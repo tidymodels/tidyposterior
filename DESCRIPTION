@@ -27,7 +27,7 @@ Imports:
     tibble,
     generics,
     ggplot2,
-    vctrs,
+    vctrs  (>= 0.3.0),
     lifecycle
 Suggests: 
     knitr,

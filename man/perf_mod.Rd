@@ -123,17 +123,3 @@ better results at the expense of model computational complexity. This can be
 achieved by passing the \code{family} argument to \code{perf_mod} as one might with
 the \code{glm} function.
 }
-\examples{
-# Example objects from the "Getting Started" vignette at
-#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-
-# File for pre-run model is at
-ex_dat <- "https://bit.ly/2OJdvl1"
-
-# load(load(url(ex_dat))
-
-# roc_model
-
-# Summary method shows the underlying `stan` model
-# summary(roc_model)
-}

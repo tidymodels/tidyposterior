@@ -15,18 +15,6 @@
 #' @details If a transformation was used when `x` was created, the inverse is
 #'  applied _before_ the difference is computed.
 #' @export
-#' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2S1v6H9"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # head(glm_v_nnet)
-#
-#'
 contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
                             seed = sample.int(10000, 1)) {
   if (is.null(list_1) & is.null(list_2)) {
@@ -54,6 +42,14 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
   diffs
 }
 
+
+#' @export
+print.posterior_diff <- function(x, ...) {
+  cat("# Posterior samples of performance differences\n")
+  print(tibble::as_tibble(x), ...)
+}
+
+
 #' Summarize Posterior Distributions of Model Differences
 #'
 #' Credible intervals are created for the differences. Also,
@@ -79,16 +75,10 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #'  unlikely to be practically different relative to `size`.
 #' @export
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' data("ex_objects")
 #'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2S1v6H9"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # summary(glm_v_nnet, size = 0.02)
-#'
+#' summary(contrast_samples)
+#' summary(contrast_samples, size = 0.025)
 summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
   object <- object %>%
     dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs ")) %>%

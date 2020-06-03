@@ -26,15 +26,7 @@ posterior mean and upper and lower credible intervals (aka
 uncertainty intervals).
 }
 \examples{
-# Example objects from the "Getting Started" vignette at
-#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+data("ex_objects")
 
-# File for pre-run model is at
-ex_dat <- "https://bit.ly/2OJdvl1"
-
-# load(load(url(ex_dat))
-
-# posterior_values <- tidy(roc_model)
-# summary(posterior_values)
-
+summary(posterior_samples)
 }
