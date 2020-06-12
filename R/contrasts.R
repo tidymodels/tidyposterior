@@ -1,36 +1,20 @@
 #' Estimate the Difference Between Models
 #'
-#' The posterior distributions created by [perf_mod()] can
-#'  be used to obtain the posterior distribution of the difference(s)
-#'  between models. One or more comparisons can be computed at
-#'  the same time.
+#' The posterior distributions created by [perf_mod()] can be used to obtain
+#'  the posterior distribution of the difference(s) between models. One or more
+#'  comparisons can be computed at the same time.
 #'
 #' @param x An object produced by [perf_mod()].
-#' @param list_1,list_2 Character vectors of equal length that
-#'  specify the specific pairwise contrasts. The contrast is
-#'  parameterized as `list_1[i] - list_2[i]`. If the defaults
-#'  are left to `NULL`, all combinations are evaluated.
+#' @param list_1,list_2 Character vectors of equal length that specify the
+#'  specific pairwise contrasts. The contrast is parameterized as
+#'  `list_1[i] - list_2[i]`. If the defaults are left to `NULL`, all
+#'  combinations are evaluated.
 #' @param seed A single integer for sampling from the posterior.
-#' @return A data frame of the posterior distribution(s) of the
-#'  difference(s). The object has an extra class of
-#'  `"posterior_diff"`.
-#'
-#' @details If a transformation was used when `x` was created, the
-#'  inverse is applied _before_ the difference is computed.
+#' @return A data frame of the posterior distribution(s) of the difference(s).
+#'  The object has an extra class of `"posterior_diff"`.
+#' @details If a transformation was used when `x` was created, the inverse is
+#'  applied _before_ the difference is computed.
 #' @export
-#' @importFrom purrr map2 map_df
-#' @importFrom utils combn
-#' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2S1v6H9"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # head(glm_v_nnet)
-#'
 contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
                             seed = sample.int(10000, 1)) {
   if (is.null(list_1) & is.null(list_2)) {
@@ -51,10 +35,20 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
       obj = x$stan,
       trans = x$transform,
       seed = seed
-    )
+    ) %>%
+    dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs. "))
+  diffs <- tibble::as_tibble(diffs)
   class(diffs) <- c("posterior_diff", class(diffs))
   diffs
 }
+
+
+#' @export
+print.posterior_diff <- function(x, ...) {
+  cat("# Posterior samples of performance differences\n")
+  print(tibble::as_tibble(x), ...)
+}
+
 
 #' Summarize Posterior Distributions of Model Differences
 #'
@@ -80,19 +74,11 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
 #'  `[-size, size]`. If this is close to one, the two models are
 #'  unlikely to be practically different relative to `size`.
 #' @export
-#' @importFrom dplyr mutate rename group_by summarise full_join %>%
-#' @importFrom rlang na_dbl
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' data("ex_objects")
 #'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2S1v6H9"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # summary(glm_v_nnet, size = 0.02)
-#'
+#' summary(contrast_samples)
+#' summary(contrast_samples, size = 0.025)
 summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
   object <- object %>%
     dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs ")) %>%
@@ -125,7 +111,9 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 
 #' Visualize the Posterior Distributions of Model Differences
 #'
-#' A density is created for each contrast in a facetted grid.
+#' A density is created for each contrast in a faceted grid.
+#'
+#' \lifecycle{deprecated}
 #'
 #' @param data An object produced by [contrast_models()].
 #' @param mapping,...,environment Not currently used.
@@ -133,25 +121,17 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #'  5\% increase in accuracy between two models might be considered a
 #'  "real" difference.
 #' @return A [ggplot2::ggplot()] object using `geom_density`
-#'  facetted by the models being contrasted (when there are 2 or
+#'  faceted by the models being contrasted (when there are 2 or
 #'  more contrasts).
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2S1v6H9"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # library(ggplot2)
-#' # ggplot(glm_v_nnet, size = 0.02) + theme_bw()
+#' data(ex_objects)
+#' library(ggplot2)
+#' ggplot(contrast_samples)
 #'
 #' @export
-#' @importFrom ggplot2 ggplot geom_line xlab ylab facet_grid geom_vline
-#' @importFrom stats reorder
 ggplot.posterior_diff <-
   function (data, mapping = NULL, ..., environment = NULL, size = 0) {
+    lifecycle::deprecate_warn("0.1.0", "ggplot.posterior_diff()")
     out <-
       ggplot2::ggplot(as.data.frame(data), aes(x = difference)) +
       ggplot2::geom_line(stat = "density", trim = TRUE) +
@@ -164,7 +144,6 @@ ggplot.posterior_diff <-
     out
   }
 
-#' @importFrom dplyr bind_cols
 make_df <- function(a, b, id_vals = NULL) {
   new_dat <- data.frame(model = c(a, b))
   as.data.frame(lapply(id_vals, function(x) rep(x[1], nrow(new_dat)))) %>%
@@ -194,8 +173,3 @@ make_diffs <- function(spec, obj, trans, seed) {
                     stringsAsFactors = FALSE)
   res
 }
-
-
-#' @importFrom utils globalVariables
-utils::globalVariables(c("contrast", "difference", "model_1", "model_2"))
-

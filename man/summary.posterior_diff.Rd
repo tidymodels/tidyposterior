@@ -13,7 +13,7 @@
 probability mass to include in the intervals.}
 
 \item{size}{The size of an effective difference. For example, a
-5\% increase in accuracy between two models might be considered a
+5\\% increase in accuracy between two models might be considered a
 "real" difference.}
 
 \item{...}{Not currently used}
@@ -34,18 +34,12 @@ integrates the portion of the posterior below \code{-size} (and
 \code{pract_pos} is the upper integral starting at \code{size}). The
 interpretation depends on whether the metric being analyzed is
 better when larger or smaller. \code{pract_equiv} integrates between
-\code{[-size, size]}. If this is close to one, the two models are
+\verb{[-size, size]}. If this is close to one, the two models are
 unlikely to be practically different relative to \code{size}.
 }
 \examples{
-# Example objects from the "Getting Started" vignette at
-#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+data("ex_objects")
 
-# File for pre-run model is at
-ex_dat <- "https://bit.ly/2S1v6H9"
-
-# load(load(url(ex_dat))
-
-# summary(glm_v_nnet, size = 0.02)
-
+summary(contrast_samples)
+summary(contrast_samples, size = 0.025)
 }

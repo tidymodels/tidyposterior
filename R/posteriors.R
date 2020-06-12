@@ -13,24 +13,9 @@
 #'  question of which model is best _for this data set_. If does not
 #'  answer the question of which model would be best on a new
 #'  resample of the data (which would have greater variability).
-#' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2OJdvl1"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # roc_model
-#' # posterior_values <- tidy(roc_model)
-#' # head(posterior_values)
-#' # class(posterior_values)
-#'
 #' @export
 #' @export tidy.perf_mod
-#' @importFrom tidyr gather
-#' @importFrom dplyr mutate %>% as_tibble
+
 tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
   post_dat <-
@@ -43,6 +28,12 @@ tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- as_tibble(post_dat)
   class(post_dat) <- c("posterior", class(post_dat))
   post_dat
+}
+
+#' @export
+print.posterior <- function(x, ...) {
+  cat("# Posterior samples of performance\n")
+  print(tibble::as_tibble(x), ...)
 }
 
 #' Summarize the Posterior Distributions of Model Statistics
@@ -59,19 +50,10 @@ tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
 #' @return A data frame with summary statistics and a row for
 #'  each model.
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
+#' data("ex_objects")
 #'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2OJdvl1"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # posterior_values <- tidy(roc_model)
-#' # summary(posterior_values)
-#'
+#' summary(posterior_samples)
 #' @export
-#' @importFrom dplyr group_by do summarise full_join
 summary.posterior <- function(object, prob = 0.90,
                               seed = sample.int(10000, 1), ...) {
   post_int <- object %>%
@@ -89,6 +71,8 @@ summary.posterior <- function(object, prob = 0.90,
 #'
 #' A simple violin plot is created by the function.
 #'
+#' \lifecycle{deprecated}
+#'
 #' @param data An object produced by [tidy.perf_mod()].
 #' @param mapping,...,environment Not currently used.
 #' @param reorder A logical; should the `model` column be reordered
@@ -96,23 +80,13 @@ summary.posterior <- function(object, prob = 0.90,
 #' @return A [ggplot2::ggplot()] object using
 #'  [ggplot2::geom_violin()] for the posteriors.
 #' @examples
-#' # Example objects from the "Getting Started" vignette at
-#' #  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-#'
-#' # File for pre-run model is at
-#' ex_dat <- "https://bit.ly/2OJdvl1"
-#'
-#' # load(load(url(ex_dat))
-#'
-#' # posterior_values <- tidy(roc_model)
-#'
-#' # library(ggplot2)
-#' # ggplot(posterior_values) + theme_bw()
+#' data(ex_objects)
+#' library(ggplot2)
+#' ggplot(posterior_samples)
 #' @export
-#' @importFrom ggplot2 ggplot geom_violin xlab ylab
-#' @importFrom stats reorder
 ggplot.posterior <-
   function (data, mapping = NULL, ..., environment = NULL, reorder = TRUE) {
+    lifecycle::deprecate_warn("0.1.0", "ggplot.posterior()")
     if(reorder)
       data$model <- stats::reorder(data$model, data$posterior)
     ggplot2::ggplot(as.data.frame(data), aes(x = model, y = posterior)) +
@@ -120,8 +94,6 @@ ggplot.posterior <-
       ggplot2::xlab("") + ggplot2::ylab("Posterior Probability")
   }
 
-
-#' @importFrom rstanarm posterior_linpred
 get_post <- function(x, seed = sample.int(10000, 1)) {
   new_dat <- data.frame(model = unique(x$names))
   new_dat <-
@@ -142,7 +114,7 @@ get_post <- function(x, seed = sample.int(10000, 1)) {
 
 postint <- function(object, ...) UseMethod("postint")
 
-#' @importFrom rstanarm posterior_interval
+
 postint.numeric <- function(object, prob = 0.90,
                             seed = sample.int(10000, 1), ...) {
   object <- matrix(object, ncol = 1)
@@ -154,6 +126,3 @@ postint.numeric <- function(object, prob = 0.90,
 postint.data.frame <- function(object, prob = 0.90,
                                seed = sample.int(10000, 1), ...)
   postint(getElement(object, "posterior"), prob = prob, seed = seed)
-
-#' @importFrom utils globalVariables
-utils::globalVariables(c(".", "aes", "posterior"))

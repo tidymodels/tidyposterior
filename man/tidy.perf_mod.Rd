@@ -28,18 +28,3 @@ question of which model is best \emph{for this data set}. If does not
 answer the question of which model would be best on a new
 resample of the data (which would have greater variability).
 }
-\examples{
-# Example objects from the "Getting Started" vignette at
-#  https://topepo.github.io/tidyposterior/articles/Getting_Started.html
-
-# File for pre-run model is at
-ex_dat <- "https://bit.ly/2OJdvl1"
-
-# load(load(url(ex_dat))
-
-# roc_model
-# posterior_values <- tidy(roc_model)
-# head(posterior_values)
-# class(posterior_values)
-
-}

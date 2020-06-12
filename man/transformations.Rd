@@ -8,7 +8,17 @@
 \alias{ln_trans}
 \alias{inv_trans}
 \title{Simple Transformation Functions}
-\format{An object of class \code{list} of length 2.}
+\format{
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 2.
+
+An object of class \code{list} of length 2.
+}
 \usage{
 no_trans
 
