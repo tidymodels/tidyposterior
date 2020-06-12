@@ -1,3 +1,5 @@
+# tidyposterior (development version)
+
 # `tidyposterior` 0.0.3
 
 * `contrast_models()` now returns a tibble and has an extra column called `contrast`. 
