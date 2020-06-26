@@ -12,3 +12,4 @@ tidyposterior_hex.png
 ^revdep$
 ^inst/examples$
 ^\.github$
+^CODE_OF_CONDUCT\.md$
