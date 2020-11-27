@@ -6,6 +6,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](http://cran.r-project.org/web/packages/tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](http://cran.rstudio.com/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+[![R-CMD-check](https://github.com/tidymodels/tidyposterior/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/tidyposterior/actions)
 <!-- badges: end -->
 
 ## Introduction
