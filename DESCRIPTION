@@ -13,14 +13,14 @@ Encoding: UTF-8
 LazyData: true
 ByteCompile: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1.9000
 Depends:
     R (>= 2.10)
 Imports: 
     rsample (>= 0.0.2),
     tidyr (>= 0.7.1),
     dplyr,
-    rstanarm (>= 2.15.3),
+    rstanarm (>= 2.21.1),
     rlang,
     utils,
     purrr,
