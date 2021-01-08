@@ -2,6 +2,8 @@
 
 * The `ggplot()` methods are now removed in factor of `autoplot()` methods. 
 
+* `perf_mod()` method added for tuning parameter objects form `tune` and `finetune`. 
+
 # `tidyposterior` 0.0.3
 
 * `contrast_models()` now returns a tibble and has an extra column called `contrast`. 
