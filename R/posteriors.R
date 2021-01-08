@@ -69,30 +69,35 @@ summary.posterior <- function(object, prob = 0.90,
 
 #' Visualize the Posterior Distributions of Model Statistics
 #'
-#' A simple violin plot is created by the function.
+#' A simple plot of posterior distributions.
 #'
-#' \lifecycle{deprecated}
-#'
-#' @param data An object produced by [tidy.perf_mod()].
-#' @param mapping,...,environment Not currently used.
-#' @param reorder A logical; should the `model` column be reordered
-#'  by the average of the posterior distribution?
-#' @return A [ggplot2::ggplot()] object using
-#'  [ggplot2::geom_violin()] for the posteriors.
+#' @param object An object produced by [perf_mod()] or  [tidy.perf_mod()].
+#' @return A [ggplot2::ggplot()] object using `geom_line(stat = "density", ...)`
+#' for the posteriors.
+#' @param ... Options passed to `geom_line(stat = "density", ...)`.
 #' @examples
 #' data(ex_objects)
-#' library(ggplot2)
-#' ggplot(posterior_samples)
+#' autoplot(posterior_samples)
 #' @export
-ggplot.posterior <-
-  function (data, mapping = NULL, ..., environment = NULL, reorder = TRUE) {
-    lifecycle::deprecate_warn("0.1.0", "ggplot.posterior()")
-    if(reorder)
-      data$model <- stats::reorder(data$model, data$posterior)
-    ggplot2::ggplot(as.data.frame(data), aes(x = model, y = posterior)) +
-      ggplot2::geom_violin() +
-      ggplot2::xlab("") + ggplot2::ylab("Posterior Probability")
+autoplot.posterior <-
+  function (object, ...) {
+    ggplot2::ggplot(as.data.frame(object), ggplot2::aes(x = posterior, col = model)) +
+      ggplot2::geom_line(stat = "density", ...)
   }
+
+
+#' @rdname autoplot.posterior
+#' @export
+autoplot.perf_mod <- function (object, ...) {
+  samples <- tidy(object)
+  res <- autoplot(samples, ...)
+  if (any(names(object) == "metric") && !is.na(object$metric$name)) {
+    res <- res + ggplot2::xlab(object$metric$name)
+  }
+  res
+}
+
+
 
 get_post <- function(x, seed = sample.int(10000, 1)) {
   new_dat <- data.frame(model = unique(x$names))

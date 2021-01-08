@@ -113,36 +113,38 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
 #'
 #' A density is created for each contrast in a faceted grid.
 #'
-#' \lifecycle{deprecated}
-#'
-#' @param data An object produced by [contrast_models()].
-#' @param mapping,...,environment Not currently used.
+#' @param object An object produced by [contrast_models()].
 #' @param size The size of an effective difference. For example, a
 #'  5\% increase in accuracy between two models might be considered a
 #'  "real" difference.
+#' @param ... Options passed to `geom_line(stat = "density", ...)`.
 #' @return A [ggplot2::ggplot()] object using `geom_density`
 #'  faceted by the models being contrasted (when there are 2 or
 #'  more contrasts).
 #' @examples
 #' data(ex_objects)
 #' library(ggplot2)
-#' ggplot(contrast_samples)
+#' autoplot(contrast_samples)
 #'
 #' @export
-ggplot.posterior_diff <-
-  function (data, mapping = NULL, ..., environment = NULL, size = 0) {
-    lifecycle::deprecate_warn("0.1.0", "ggplot.posterior_diff()")
+autoplot.posterior_diff <-
+  function (object, size = 0, ...) {
+    object <- as.data.frame(object)
     out <-
-      ggplot2::ggplot(as.data.frame(data), aes(x = difference)) +
-      ggplot2::geom_line(stat = "density", trim = TRUE) +
+      ggplot2::ggplot(object, ggplot2::aes(x = difference)) +
+      ggplot2::geom_line(stat = "density", ...) +
       ggplot2::ylab("Posterior Probability")
-    if(length(unique(paste0(data$model_1, data$model_2))) > 1)
+    if (length(unique(paste0(object$model_1, object$model_2))) > 1) {
       out <- out  + ggplot2::facet_grid(model_2 ~ model_1)
-    if(size != 0)
+    }
+    if (size != 0) {
       out <- out +
-        ggplot2::geom_vline(xintercept = c(-size, size), lty = 2, alpha = .5)
+      ggplot2::geom_vline(xintercept = c(-size, size), lty = 2, alpha = .5)
+    }
     out
   }
+
+
 
 make_df <- function(a, b, id_vals = NULL) {
   new_dat <- data.frame(model = c(a, b))

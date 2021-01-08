@@ -17,5 +17,5 @@
 # ------------------------------------------------------------------------------
 
 utils::globalVariables(c("contrast", "difference", "model_1", "model_2"))
-utils::globalVariables(c(".", "aes", "posterior"))
+utils::globalVariables(c(".", "aes", "posterior", ".metric"))
 utils::globalVariables(c("id", "model", "splits", "statistic", "Resample"))

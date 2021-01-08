@@ -1,5 +1,7 @@
 # tidyposterior (development version)
 
+* The `ggplot()` methods are now removed in factor of `autoplot()` methods. 
+
 # `tidyposterior` 0.0.3
 
 * `contrast_models()` now returns a tibble and has an extra column called `contrast`. 
