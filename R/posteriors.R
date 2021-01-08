@@ -105,12 +105,11 @@ get_post <- function(x, seed = sample.int(10000, 1)) {
     as.data.frame(lapply(x$ids, function(x) rep(x[1], nrow(new_dat)))) %>%
     bind_cols(new_dat)
   post_data <-
-    rstanarm::posterior_linpred(
+    rstanarm::posterior_epred(
       x$stan,
       newdata = new_dat,
       seed = seed,
-      re.form = NA,
-      transform = TRUE
+      re.form = NA
       )
   post_data <- as.data.frame(post_data)
   names(post_data) <- x$names

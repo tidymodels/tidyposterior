@@ -4,6 +4,8 @@
 
 * `perf_mod()` method added for tuning parameter objects form `tune` and `finetune`. 
 
+* `rstanarm` version 2.21.1 or higher is now required due to changes to their APIs.
+
 # `tidyposterior` 0.0.3
 
 * `contrast_models()` now returns a tibble and has an extra column called `contrast`. 
