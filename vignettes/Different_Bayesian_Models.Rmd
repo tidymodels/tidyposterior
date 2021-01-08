@@ -9,4 +9,4 @@ output:
     toc: yes
 ---
 
-This vignette has been deprecated. See the documnetion at []()
+This vignette has been deprecated. See the documentation at [`https://tidymodels.github.io/tidyposterior/dev/articles/articles/Getting_Started.html`](https://tidymodels.github.io/tidyposterior/dev/articles/articles/Getting_Started.html)

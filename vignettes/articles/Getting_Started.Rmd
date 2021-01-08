@@ -18,7 +18,7 @@ theme_set(theme_bw() + theme(legend.position = "top"))
 ```
 
 
-To show how `tidyposterior` compares models, let's look at a small data set. The `modeldata` package has a data set called `two_class_dat` that has `nrow(two_class_dat)` data points on to predictors. The outcome is a two-level factor. There is some linear-ish separation between the classes but hints that a nonlinear class boundary might do slightly better. 
+To show how `tidyposterior` compares models, let's look at a small data set. The `modeldata` package has a data set called `two_class_dat` that has `r nrow(two_class_dat)` data points on to predictors. The outcome is a two-level factor. There is some linear-ish separation between the classes but hints that a nonlinear class boundary might do slightly better. 
 
 ```{r class-plot}
 library(tidymodels)

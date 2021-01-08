@@ -8,4 +8,4 @@ output:
     toc: yes
 ---
 
-A new version of this vignette can be found at []()
+A new version of this vignette can be found at [`https://tidymodels.github.io/tidyposterior/dev/articles/articles/Getting_Started.html`](https://tidymodels.github.io/tidyposterior/dev/articles/articles/Getting_Started.html)
