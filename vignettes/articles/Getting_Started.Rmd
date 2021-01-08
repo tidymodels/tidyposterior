@@ -1,0 +1,314 @@
+---
+title: "Getting Started"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Getting Started}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+library(tidymodels)
+library(tidyposterior)
+data(two_class_dat)
+theme_set(theme_bw() + theme(legend.position = "top"))
+```
+
+
+To show how `tidyposterior` compares models, let's look at a small data set. The `modeldata` package has a data set called `two_class_dat` that has `nrow(two_class_dat)` data points on to predictors. The outcome is a two-level factor. There is some linear-ish separation between the classes but hints that a nonlinear class boundary might do slightly better. 
+
+```{r class-plot}
+library(tidymodels)
+library(tidyposterior)
+
+data(two_class_dat)
+
+ggplot(two_class_dat, aes(x = A, y = B, col = Class)) + 
+  geom_point(alpha = 0.3, cex = 2) +
+  coord_fixed()
+```
+
+`tidyposterior` models performance statistics produced by models, such as RMSE, accuracy, or the area under the ROC curve. It relies on resampling to produce replicates of these performance statistics so that they can be modeled. 
+
+We'll use simple 10-fold cross-validation here. Any other resampling method from `rsample`, except a simple validation set, would also be appropriate. 
+
+```{r resampling}
+set.seed(1)
+cv_folds <- vfold_cv(two_class_dat)
+cv_folds
+```
+
+We'll use a logistic regression model for these data and initially consider two different preprocessing methods that might help the fit. Let's define a model specification: 
+
+```{r logistic}
+logistic_spec <- logistic_reg() %>% set_engine("glm")
+```
+
+## Comparing modeling/prepreocessing methods
+
+One way to incorporate nonlinearity into the class boundary is to use a spline basis expansion for the predictors. A `recipe` step using `step_ns` will will encode the predictors in this way. The degrees of freedom will be hard-coded to produce two additional feature columns per predictor: 
+
+```{r splines}
+spline_rec <- 
+  recipe(Class ~ ., data = two_class_dat) %>% 
+  step_ns(A, B, deg_free = 3)
+
+spline_wflow <- 
+  workflow() %>% 
+  add_recipe(spline_rec) %>% 
+  add_model(logistic_spec)
+```
+
+Binding the model and recipe into a workflow creates a simple interface when we `fit()` and `predict()` the data (but isn't required by `tidypredict`). 
+
+An alternate preprocessing method is to normalize the data using a spatial sign transformation. This projects the predictors on to a unit circle and can sometimes mitigate the effect of collinearity or outliers. A recipe is also used. Here is a visual representation of the data after the transformation: 
+
+```{r class-plot-spatial-sign}
+spatial_sign_rec <- 
+  recipe(Class ~ ., data = two_class_dat) %>% 
+  step_normalize(A, B) %>% 
+  step_spatialsign(A, B)
+
+spatial_sign_rec %>% 
+  prep() %>% 
+  bake(new_data = NULL) %>% 
+  ggplot(aes(x = A, y = B, col = Class)) + 
+  geom_point(alpha = 0.3, cex = 2) +
+  coord_fixed()
+```
+Another workflow is created for this method: 
+
+```{r spatial-sign}
+spatial_sign_wflow <- 
+  workflow() %>% 
+  add_recipe(spatial_sign_rec) %>% 
+  add_model(logistic_spec)
+```
+
+`tidyposterior` does not require the user to create their models using tidymodels packages, `caret`, or any other method (although there are advantages to using those tools). In the end a data frame format with resample identifiers and columns for performance statistics are needed. 
+
+To produce this format with our tidymodels objects, this small convenience function will create a model on the 90% of the data allocated by cross-validation, predict the other 10%, then calculate the area under the ROC curve. If you use tidymodels, there are high-level interfaces (shown below) that don't require such a function. 
+
+```{r compute-roc-values}
+compute_roc <- function(split, wflow) {
+  # Fit the model to 90% of the data
+  mod <- fit(wflow, data = analysis(split))
+  # Predict the other 10%
+  pred <- predict(mod, new_data = assessment(split), type = "prob")
+  # Compute the area under the ROC curve
+  pred %>% 
+    bind_cols(assessment(split)) %>% 
+    roc_auc(Class, .pred_Class1) %>% 
+    pull(.estimate)
+}
+```
+
+For our `rsample` object `cv_folds`, let's create two columns of ROC statistics using this function in conjunction with `purrr::map` and `dplyr::mutate`: 
+
+```{r roc-values}
+roc_values <- 
+  cv_folds %>% 
+  mutate(
+    spatial_sign = map_dbl(splits, compute_roc, spatial_sign_wflow),
+    splines      = map_dbl(splits, compute_roc, spline_wflow)
+  )
+
+roc_values
+
+# Overall ROC statistics per workflow:
+summarize(
+  roc_values,
+  splines = mean(splines),
+  spatial_sign = mean(spatial_sign)
+)
+```
+There is the suggestion that using splines is better than the spatial sign. It would be nice to have some inferential analysis that could tell us if the size of this difference is create than the experimental noise in the data. 
+
+`tidyposterior` uses a Bayesian ANOVA model to compute posterior distributions for the performance statistic of each modeling method.  This tells use the probabilistic distribution of the model performance metrics and allows us to make more formal statements about the superiority (or equivalence) of different models. [_Tidy Models with R_]() has a good explanation of how the Bayesian ANOVA model works. 
+
+The main function to conduct the analysis is `perf_mod()`. The main argument is for the object containing the resampling information and at least two numeric columns of performance statistics (measuring the same metric). As described in `?perf_mod`, there are a variety of other object types that can be used for this argument. 
+
+There are also options for statistical parameters of the analysis, such as any transformation of the output statistics that should be used and so on. 
+
+The main options in our analysis are passed through to the `rstanarm` function `stan_glmer()`. These include: 
+
+* `seed`: An integer that controls the random numbers used in the Bayesian model.
+
+* `iter`: The total number of Montre Carlo iterations used (including the burn-in samples). 
+
+* `chains`: The number of independent Markov Chain Monte Carlo analyses to compute. 
+
+* `refresh`: How often to update the log (a value of zero means no output). 
+
+Other options that can be helpful (but we'll use their defaults): 
+
+* `prior_intercept`: The main argument in this analysis for specifying the prior distribution of the parameters. 
+
+* `family`: The exponential family distribution for the performance statistics. 
+
+* `cores`: The number of parallel workers to use to speed-up computations. 
+
+Our call to this function is:
+
+```{r preproc-bayes-analysis}
+rset_mod <- perf_mod(roc_values, seed = 2, iter = 5000, chains = 5, refresh = 0)
+```
+
+The `summary()` function for this type of object shows the output from `stan_glmer()`. It's long, so we show some of the initial output: 
+
+```{r preproc-bayes-summary, eval = FALSE}
+print(summary(rset_mod), digits = 3)
+```
+```{r preproc-bayes-summary-print, echo = FALSE}
+res <- capture.output(print(summary(rset_mod), digits = 3))
+cat(c(res[1:16], "", "<snip>\n"), sep = "\n")
+```
+
+Assuming that our assumptions are appropriate, one of the main things that we'd like to get out of the object are samples of the posterior distributions for the performance metrics (per modeling method). The `tidy()` method will produce a data frame with such samples: 
+
+```{r preproc-bayes-tidy}
+tidy(rset_mod, seed = 3)
+```
+
+We require a `seed` value since it is a sample. 
+
+There is a simple plotting method for the object too: 
+
+```{r preproc-bayes-plot}
+autoplot(rset_mod)
+```
+
+There is some overlap but, again, it would be better if we could quantify this. 
+
+To compare models, the `contrast_models()` function computes the posterior distributions of differences in performance statistics between models. For example, what does the posterior look like for the difference in performance for these two preprocessing methods? By default, the function computes all possible differences (a single contrast for this example). There are also `summary()` and plot methods:  
+
+```{r preproc-contrast}
+preproc_diff <- contrast_models(rset_mod, seed = 4)
+summary(preproc_diff, seed = 5)
+autoplot(preproc_diff) + 
+  xlab("Difference in ROC (spatial sign - splines)")
+```
+Since the difference is negative, the spline model appears better than the spatial sign method. The summary output quantifies this by producing a simple credible interval for the difference. The probability column also reflects this since it is the probability that the spline ROC scores are greater than the analogous statistics from the spatial sign model. A value of 0.5 would indicate no difference. 
+
+There is an additional analysis that can be used. The ROPE method, short for _Region of Practical Equivalence_, is a method for understanding the differences in models in less subjective way. For this analysis, we would specify a practical effect size (usually before the analysis). This quantity reflects what difference in the metric is considered practically meaning full in the context of our problem. In our example, if we saw two models with a difference in their ROC statistics of 0.02, we might consider them effectually different (your beliefs may differ). 
+
+Once we have settled on a value of this effect size (in the units of the statistic), we can compute how much of the difference is within this region of practical equivalence (in our example, this is `[-0.02, 0.02]`). If the difference is mostly within these bounds, the models might be significantly different but not practically different. Alternatively, if the differences are beyond this, they would be different in both senses. 
+
+The summary and plot methods have optional arguments called `size.` The `summary()` function computes the probability of the posterior differences that fall inside and outside of this region. The plot method shows it visually: 
+
+
+```{r preproc-rope}
+summary(preproc_diff, size = 0.02) %>% 
+  select(contrast, starts_with("pract"))
+autoplot(preproc_diff, size = 0.02)
+```
+
+For this analysis, there are about even odds that the difference between these models is not practically important (since the `pract_equiv` is near 0.5).
+
+### About our assumptions
+
+Previously, the expression "assuming that our assumptions are appropriate" was used. This is an inferential analysis and the validity of our assumptions matter a great deal. There are a few assumptions for this analysis. The main one is that we've specified the outcome distribution well. We've models the area under the ROC curve. This is a statistic bounded (effectively) between 0.5 and 1.0. The variance of the statistic is probably related to the mean; there is likely less variation in scores near 1.0 than those near 0.5. 
+
+The default family for `stan_glmer()` is Gaussian.  Given the characteristics of this metric, that assumption might seem problematic. 
+
+However, Gaussian seems like a good first approach for this assumption. The rationale is based on the Central Limit Theorem.  As the sample size increases, the sample mean statistic converges to normality despite the distribution of the individual data points.  Our performance estimates are summary statistics and, if the training set size is "large enough", they will exhibit behavior consistent with normality. 
+
+As a simple (and approximate) example/diagnostics, suppose we used a simple ANOVA for the ROC statistics using `lm()`. This is not the same analysis as the one used by `tidyposterior`, but the regression parameter estimates should be fairly similar. For that analysis, we can assess the normality of the residuals and see that they are pretty consistent with the normality assumption:  
+
+```{r roc_dist}
+roc_longer <- 
+  roc_values %>% 
+  select(-splits) %>% 
+  pivot_longer(cols = c(-id), names_to = "preprocessor", values_to = "roc")
+
+roc_fit <- lm(roc ~ preprocessor, roc_longer)
+
+roc_fit %>% 
+  augment() %>% 
+  ggplot(aes(sample = .resid)) + 
+  geom_qq() + 
+  geom_qq_line(lty = 2) +
+  coord_fixed(ratio  = 20)
+```
+
+If this were not the case there are a few things that we can do.
+
+The easiest approach would be to use a variance stabilizing transformation of the metrics and keep the Gaussian assumption. `perf_mod()` has a `transform` argument that will transform the outcome but still produce the posterior distributions in the original units.  This will help if the variation within each model significantly changes over the range of the values. When transformed back to the original units, the posteriors will have different variances. 
+
+Another option that can help with heterogeneous variances is `hetero_var.` This fits a difference variance for each modeling method. However, this may make convergence of the model more difficult. 
+
+Finally, a different distribution can be assumed using the family argument to `stan_glmer()`. Since our metrics are numeric, there are not many families to choose from. 
+
+## Evaluating sub-models
+
+The previous example was a between-model comparison (where "model" really means statistical model plus preprocessing method). If the model must be tuned, there is also the issue of within-model comparisons. 
+
+For our spline analysis, we assumed that three degrees of freedom were appropriate. However, we might tune the model over that parameter to see what the best degrees of freedom should be. 
+
+The previous spline recipe is altered so that the degrees of freedom parameter doesn't have an actual value. Instead, using a value of `tune()` will mark this parameter for optimization. There are a few different approaches for tuning this parameter; we'll use simpe grid search. 
+
+```{r tune-rec}
+spline_rec <- 
+  recipe(Class ~ ., data = two_class_dat) %>% 
+  step_ns(A, B, deg_free = tune())
+```
+
+The `tune` package function `tune_grid()` is used to evaluate several values of the parameter. For each value, the resampled area under the ROC curve is computed.  
+
+```{r tune-grid}
+spline_tune <-
+  logistic_spec %>%
+  tune_grid(
+    spline_rec,
+    resamples = cv_folds,
+    grid = tibble(deg_free = c(1, 3, 5, 10)),
+    metrics = metric_set(roc_auc)
+  )
+collect_metrics(spline_tune) %>% 
+  arrange(desc(mean))
+```
+
+There is a `perf_mod()` method for this type of object. The computations are conducted in the same manner but, in this instance, four sub-models are compared. 
+
+```{r tune-grid-bayes}
+grid_mod <- perf_mod(spline_tune, seed = 6, iter = 5000, chains = 5, refresh = 0)
+autoplot(grid_mod)
+```
+
+When the object given to perf_mod is from a model tuning function, the `model` column corresponds to the `.config` column in the results. 
+
+There is a lot of overlap. The results do call into question the overall utility of using splines. A single degree of freedom model corresponds to a linear effect. Let's compare the linear class boundaries to the other sub-models to see if splines are even improving the model. 
+
+The contrast_model function can take two lists of model identifiers and compute their differences. Again, for tuning objects, this should include values of `.config`. This specification compute the difference `{1 df - X df}` so positive differences indicate that the linear model is better. 
+
+```{r tune-grid-bayes-contrast}
+grid_diff <-
+  contrast_models(
+    grid_mod,
+    list_1 = rep("Preprocessor1_Model1", 3),
+    list_2 = c(
+      "Preprocessor2_Model1", # <-  3 df spline
+      "Preprocessor3_Model1", # <-  5 df spline
+      "Preprocessor4_Model1"  # <- 10 df spline
+    ),
+    seed = 7
+  )
+```
+
+
+```{r tune-grid-bayes-contrast-plot}
+summary(grid_diff)
+autoplot(grid_diff)
+```
+
+The results indicate that a lot of degrees of freedom might make the model worse. At best, there is a limited difference in performance when more than one spline term is used. 
+
+The ROPE analysis is more definitive; there is no sense of practical differences within the previously used effect size: 
+
+```{r tune-grid-rope}
+autoplot(grid_diff, size = 0.02)
+```
+

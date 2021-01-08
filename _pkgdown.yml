@@ -40,7 +40,7 @@ reference:
 navbar:
   left:
   - text: Getting Started
-    href: articles/Getting_Started.html
+    href: articles/articles/Getting_Started.html
   - text: Different Bayesian Models
     href: articles/Different_Bayesian_Models.html
   - text: Reference
