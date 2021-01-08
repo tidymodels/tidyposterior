@@ -80,15 +80,17 @@
 #'  achieved by passing the `family` argument to `perf_mod` as one might with
 #'  the `glm` function.
 #' @export
-perf_mod <- function(object, ...)
+perf_mod <- function(object, ...) {
   UseMethod("perf_mod")
+}
 
 
 #' @export
-perf_mod.default <- function(object, ...)
+perf_mod.default <- function(object, ...) {
   stop("`object` should have at least one of these classes: ",
        "'rset', 'data.frame', 'resamples', or 'vfold_cv'. ",
        "See ?perf_mod")
+}
 
 # Make a general data.frame method, maybe `gather` methods for
 # `rset` and `rsample` objects instead of having the `gather`
