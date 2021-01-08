@@ -43,3 +43,20 @@ test_that('reproducibility', {
 
 # TODO test for dplyr compatability
 
+# ------------------------------------------------------------------------------
+
+test_that('autoplot for contrasts', {
+  p_1 <- autoplot(contrast_models(fit_bt, seed = 3666))
+  expect_s3_class(p_1, "ggplot")
+  expect_equal(
+    names(p_1$data),
+    c("difference", "model_1", "model_2", "contrast")
+  )
+  expect_equal(rlang::get_expr(p_1$mapping$x), rlang::expr(difference))
+  expect_equal(rlang::get_expr(p_1$mapping$y), NULL)
+  expect_true("model_1" %in% names(as.list(p_1$facet)$params$cols))
+  expect_true("model_2" %in% names(as.list(p_1$facet)$params$rows))
+  expect_equal(as.character(p_1$labels$y), "Posterior Probability")
+  expect_equal(as.character(p_1$labels$x), "difference")
+})
+
