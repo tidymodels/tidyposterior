@@ -6,3 +6,4 @@ docs/.DS_Store
 revdep/library.noindex/*
 revdep/data.sqlite
 revdep/checks.noindex/*
+docs

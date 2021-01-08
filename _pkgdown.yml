@@ -24,7 +24,7 @@ reference:
       - tidy.perf_mod
       - contrast_models
       - matches("summary")
-      - matches("ggplot")
+      - matches("autoplot")
       - no_trans
       - logit_trans
       - ln_trans
