@@ -42,3 +42,6 @@ Suggests:
     covr,
     parsnip,
     yardstick
+Remotes: 
+    tidymodels/workflowsets
+    
