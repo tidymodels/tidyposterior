@@ -44,5 +44,6 @@ Suggests:
     yardstick
 Remotes: 
     tidymodels/workflowsets,
-    tidymodels/tune
+    tidymodels/tune,
+    tidymodels/rsample
     
