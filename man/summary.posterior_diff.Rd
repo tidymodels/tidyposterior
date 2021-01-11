@@ -12,9 +12,9 @@
 \item{prob}{A number p (0 < p < 1) indicating the desired
 probability mass to include in the intervals.}
 
-\item{size}{The size of an effective difference. For example, a
-5\\% increase in accuracy between two models might be considered a
-"real" difference.}
+\item{size}{The size of an effective difference in the units of the chosen
+metric. For example, a 5 percent increase in accuracy (\code{size = 0.05})
+between two models might be considered a "real" difference.}
 
 \item{...}{Not currently used}
 }

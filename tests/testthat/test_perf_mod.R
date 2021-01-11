@@ -1,6 +1,9 @@
 library(tidyposterior)
 library(rsample)
+library(parsnip)
+library(workflowsets)
 library(testthat)
+library(yardstick)
 
 set.seed(4633)
 test_bt <- bootstraps(mtcars, times = 10)
@@ -32,20 +35,24 @@ rs_rcv$values$Resample <-
 
 obj_1 <- perf_mod(test_bt, seed = 781,
                   chains = 2, iter = 50,
+                  refresh = 0,
                   verbose = FALSE)
 
 test_df <- as.data.frame(test_bt[, -1])
 obj_2 <- perf_mod(test_df, seed = 781,
+                  refresh = 0,
                   chains = 2, iter = 50,
                   verbose = FALSE)
 
 obj_3 <- perf_mod(test_bt, seed = 781,
                   chains = 2, iter = 50,
+                  refresh = 0,
                   verbose = FALSE,
                   hetero_var = TRUE)
 
 obj_4 <- perf_mod(rs_obj, seed = 781,
                   chains = 2, iter = 50,
+                  refresh = 0,
                   verbose = FALSE)
 
 obj_5 <- perf_mod(rs_rcv, seed = 781,
@@ -54,6 +61,7 @@ obj_5 <- perf_mod(rs_rcv, seed = 781,
 
 obj_6 <- perf_mod(test_rcv, seed = 781,
                   chains = 2, iter = 50,
+                  refresh = 0,
                   verbose = FALSE)
 
 # ------------------------------------------------------------------------------
@@ -162,8 +170,6 @@ test_that('postint', {
   )
 })
 
-
-
 test_that('autoplots', {
   p_1 <- autoplot(obj_1)
   expect_s3_class(p_1, "ggplot")
@@ -193,3 +199,76 @@ test_that('autoplots', {
   expect_equal(as.character(p_2$labels$x), "posterior")
 })
 
+# ------------------------------------------------------------------------------
+
+test_that('workflow sets', {
+  lm_spec <- linear_reg() %>% set_engine("lm")
+  set.seed(10)
+  bt <- bootstraps(mtcars, times = 10)
+  wset <-
+    workflow_set(
+      list(one = mpg ~ I(1/sqrt(disp)),
+           half = mpg ~ cyl + I(1/sqrt(disp)) + hp + drat + wt,
+           all = mpg ~ .),
+      list(lm = lm_spec)
+    ) %>%
+    workflow_map("fit_resamples", resamples = bt, seed = 1)
+
+  expect_error(
+    rsq_mod <- perf_mod(wset, seed = 3, refresh = 0, metric = "rsq"),
+    regex = NA
+  )
+  expect_equal(
+    colnames(coef(rsq_mod$stan)$id),
+    c("(Intercept)", "modelhalf_lm", "modelone_lm")
+  )
+  expect_equal(
+    unique(tidy(rsq_mod)$model),
+    c("one_lm", "half_lm", "all_lm")
+  )
+
+  p_tidy <- autoplot(rsq_mod, type = "posteriors")
+  expect_s3_class(p_tidy, "ggplot")
+  expect_equal(
+    names(p_tidy$data),
+    c("model", "posterior")
+  )
+  expect_equal(rlang::get_expr(p_tidy$mapping$x), rlang::expr(posterior))
+  expect_equal(rlang::get_expr(p_tidy$mapping$colour), rlang::expr(model))
+  expect_equal(as.list(p_tidy$facet$params), list())
+  expect_equal(as.character(p_tidy$labels$x), "rsq")
+  expect_equal(as.character(p_tidy$labels$colour), "model")
+  expect_equal(as.character(p_tidy$labels$y), "density")
+  expect_equal(as.character(p_tidy$labels$fill), "fill")
+  expect_equal(as.character(p_tidy$labels$weight), "weight")
+
+  p_int <- autoplot(rsq_mod, type = "intervals")
+  expect_s3_class(p_int, "ggplot")
+  expect_equal(
+    names(p_int$data),
+    c("workflow", ".lower", ".estimate", ".upper", "rank")
+  )
+  expect_equal(rlang::get_expr(p_int$mapping$x), rlang::expr(rank))
+  expect_equal(rlang::get_expr(p_int$mapping$y), rlang::expr(.estimate))
+  expect_equal(rlang::get_expr(p_int$mapping$colour), rlang::expr(workflow))
+  expect_equal(as.list(p_tidy$facet$params), list())
+  expect_equal(as.character(p_int$labels$x), "Workflow Rank")
+  expect_equal(as.character(p_int$labels$y), "rsq")
+  expect_equal(as.character(p_int$labels$colour), "workflow")
+  expect_equal(as.character(p_int$labels$ymin), ".lower")
+  expect_equal(as.character(p_int$labels$ymax), ".upper")
+
+  p_rope <- autoplot(rsq_mod, type = "ROPE", size = .1)
+  expect_s3_class(p_rope, "ggplot")
+  expect_equal(
+    names(p_rope$data),
+    c("model", "pract_equiv", "rank", "workflow")
+  )
+  expect_equal(rlang::get_expr(p_rope$mapping$x), rlang::expr(rank))
+  expect_equal(rlang::get_expr(p_rope$mapping$y), rlang::expr(pract_equiv))
+  expect_equal(as.list(p_tidy$facet$params), list())
+  expect_equal(as.character(p_rope$labels$x), "Workflow Rank")
+  expect_equal(as.character(p_rope$labels$y), "Probability of Practical Equivalence")
+  expect_equal(as.character(p_rope$labels$colour), "workflow")
+
+})
