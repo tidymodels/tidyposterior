@@ -43,7 +43,9 @@
 
 
 <meta property="og:title" content="Visualize the Posterior Distributions of Model Statistics — autoplot.posterior" />
-<meta property="og:description" content="A simple plot of posterior distributions." />
+<meta property="og:description" content="For objects of classes posterior and perf_mod, autoplot() produces a
+simple plot of posterior distributions. For workflow set objects, there are
+several types of plots that can be produced." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,32 +129,55 @@
     </div>
 
     <div class="ref-description">
-    <p>A simple plot of posterior distributions.</p>
+    <p>For objects of classes <code>posterior</code> and <code>perf_mod</code>, <code><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot()</a></code> produces a
+simple plot of posterior distributions. For workflow set objects, there are
+several types of plots that can be produced.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for posterior</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S3 method for perf_mod</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for perf_mod_workflow_set</span>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/autoplot.html'>autoplot</a></span><span class='op'>(</span><span class='va'>object</span>, type <span class='op'>=</span> <span class='st'>"intervals"</span>, prob <span class='op'>=</span> <span class='fl'>0.9</span>, size <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An object produced by <code><a href='perf_mod.html'>perf_mod()</a></code> or  <code><a href='tidy.perf_mod.html'>tidy.perf_mod()</a></code>.</p></td>
+      <td><p>An object produced by <code><a href='perf_mod.html'>perf_mod()</a></code>, <code><a href='tidy.perf_mod.html'>tidy.perf_mod()</a></code>, or a
+workflow set with computed results.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>Options passed to <code>geom_line(stat = "density", ...)</code>.</p></td>
     </tr>
+    <tr>
+      <th>type</th>
+      <td><p>A value of one of: <code>"intervals"</code> (for model rank versus posterior
+probability using interval estimation), <code>"posteriors"</code> (density plots for
+each model), or <code>"ROPE"</code> (for practical equivalence probabilities versus
+workflow rank).</p></td>
+    </tr>
+    <tr>
+      <th>prob</th>
+      <td><p>A number p (0 &lt; p &lt; 1) indicating the desired
+probability mass to include in the intervals.</p></td>
+    </tr>
+    <tr>
+      <th>size</th>
+      <td><p>The size of an effective difference in the units of the chosen
+metric. For example, a 5 percent increase in accuracy (<code>size = 0.05</code>)
+between two models might be considered a "real" difference.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot2::ggplot()</a></code> object using <code>geom_line(stat = "density", ...)</code>
-for the posteriors.</p>
+    <p>A <code><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot2::ggplot()</a></code> object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>ex_objects</span><span class='op'>)</span>

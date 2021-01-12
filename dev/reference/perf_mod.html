@@ -166,6 +166,16 @@ performance and make statistical (and practical) comparisons between models.</p>
   formula <span class='op'>=</span> <span class='cn'>NULL</span>,
   filter <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='co'># S3 method for workflow_set</span>
+<span class='fu'>perf_mod</span><span class='op'>(</span>
+  <span class='va'>object</span>,
+  metric <span class='op'>=</span> <span class='cn'>NULL</span>,
+  transform <span class='op'>=</span> <span class='va'>no_trans</span>,
+  hetero_var <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  formula <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -182,6 +192,8 @@ statistics (e.g. accuracy).</p></li>
 <li><p>An object from <code>caret::resamples</code>.</p></li>
 <li><p>An object with class <code>tune_results</code>, which could be produced by
 <code><a href='https://tune.tidymodels.org/reference/tune_grid.html'>tune::tune_grid()</a></code>, <code><a href='https://tune.tidymodels.org/reference/tune_bayes.html'>tune::tune_bayes()</a></code> or similar.</p></li>
+<li><p>A workflow set where all results contain the metric value given in the
+<code>metric</code> argument value.</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -221,12 +233,15 @@ the <code>.config</code> column.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>perf_mod</code>.</p>
+    <p>An object of class <code>perf_mod</code>. If a workfkow set is given in
+<code>object</code>, there is an extra class of <code>"perf_mod_workflow_set"</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>These functions can be used to process and analyze matched
 resampling statistics from different models using a Bayesian generalized
-linear model with effects for the model and the resamples.</p>
+linear model with effects for the model and the resamples.</p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Model formula</h3>
+
+
 <p>By default, a generalized linear model with Gaussian error and an identity
 link is fit to the data and has terms for the predictive model grouping
 variable. In this way, the performance metrics can be compared between
@@ -280,6 +295,14 @@ exponential family. For RMSE values, the Gamma distribution may produce
 better results at the expense of model computational complexity. This can be
 achieved by passing the <code>family</code> argument to <code>perf_mod</code> as one might with
 the <code>glm</code> function.</p>
+
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Workflow sets</h3>
+
+
+<p>Since workflow sets contain models and potentially sub-models, the
+<code>perf_mod()</code> method for these types of objects will analyze the best
+sub-model within each workflow (based on their <code>metric</code> value).</p>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
