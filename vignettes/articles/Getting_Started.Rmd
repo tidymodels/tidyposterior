@@ -265,7 +265,8 @@ spline_tune <-
     spline_rec,
     resamples = cv_folds,
     grid = tibble(deg_free = c(1, 3, 5, 10)),
-    metrics = metric_set(roc_auc)
+    metrics = metric_set(roc_auc),
+    control = control_grid(save_workflow = TRUE)
   )
 collect_metrics(spline_tune) %>% 
   arrange(desc(mean))
@@ -310,5 +311,73 @@ The ROPE analysis is more definitive; there is no sense of practical differences
 
 ```{r tune-grid-rope}
 autoplot(grid_diff, size = 0.02)
+```
+
+## Workflow sets
+
+Workflow sets are collections of workflows and their results. These can be made after existing workflows have been evaluated or by using `workflow_set()` to create an evaluate the models. 
+
+Let's create an initial set that has difference combinations of the two predictors for this data set. 
+
+```{r wflow-set-create}
+library(workflowsets)
+
+logistic_set <- 
+  workflow_set(
+    list(A = Class ~ A, B = Class ~ B, ratio = Class ~ I(log(A/B)), 
+         spatial_sign = spatial_sign_rec),
+    list(logistic = logistic_spec)
+  )
+logistic_set
+```
+
+The `object` volumn contains the workflows that are created by the combinations of preprocessors and the model (multiple models could have been used). Rather than calling the same functions from the `tune` package repeatedly, we can evaluate these with a single function call. Notice that none of these workflows require tuning so `tune::fit_resamples()` can be used: 
+
+```{r wflow-set-resample}
+logistic_res <- 
+  logistic_set %>% 
+  workflow_map("fit_resamples", seed = 3, resamples = cv_folds, 
+               metrics = metric_set(roc_auc)) 
+logistic_res
+
+collect_metrics(logistic_res) %>% 
+  filter(.metric == "roc_auc")
+```
+
+We can also add the previously tuned spline results by first converting them to a workflow set then appending their rows to the results: 
+
+```{r wflow-set-appned}
+logistic_res <- 
+  logistic_res %>% 
+  bind_rows(
+    as_workflow_set(splines = spline_tune)
+  )
+logistic_res
+```
+
+There are some convenience functions to take an initial look at the results: 
+
+```{r wflow-res}
+rank_results(logistic_res, rank_metric = "roc_auc") %>% 
+  filter(.metric == "roc_auc")
+autoplot(logistic_res, metric = "roc_auc")
+```
+
+The `perf_mod()` method for workflow sets takes the best submodel from each workflow and then uses the standard `tidyposterior` analysis: 
+
+```{r wflow-mod}
+roc_mod <- perf_mod(logistic_res, metric = "roc_auc", seed = 1, refresh = 0)
+```
+
+The results of this call produces an object with an additional class to enable some `autoplot()` methods specific to workflow sets. For example, the default plot shows 90% credible intervals for the best results in each workflow: 
+
+```{r wflow-intervals}
+autoplot(roc_mod)
+```
+
+Alternatively, the ROPE estimates for a given since can be computed to compare the numerically best workflow to the others. The probability of practical equivalence is shown for all results: 
+
+```{r wflow-rope}
+autoplot(roc_mod, type = "ROPE", size = 0.025)
 ```
 

@@ -3,23 +3,40 @@
 \name{autoplot.posterior}
 \alias{autoplot.posterior}
 \alias{autoplot.perf_mod}
+\alias{autoplot.perf_mod_workflow_set}
 \title{Visualize the Posterior Distributions of Model Statistics}
 \usage{
 \method{autoplot}{posterior}(object, ...)
 
 \method{autoplot}{perf_mod}(object, ...)
+
+\method{autoplot}{perf_mod_workflow_set}(object, type = "intervals", prob = 0.9, size = NULL, ...)
 }
 \arguments{
-\item{object}{An object produced by \code{\link[=perf_mod]{perf_mod()}} or  \code{\link[=tidy.perf_mod]{tidy.perf_mod()}}.}
+\item{object}{An object produced by \code{\link[=perf_mod]{perf_mod()}}, \code{\link[=tidy.perf_mod]{tidy.perf_mod()}}, or a
+workflow set with computed results.}
 
 \item{...}{Options passed to \code{geom_line(stat = "density", ...)}.}
+
+\item{type}{A value of one of: \code{"intervals"} (for model rank versus posterior
+probability using interval estimation), \code{"posteriors"} (density plots for
+each model), or \code{"ROPE"} (for practical equivalence probabilities versus
+workflow rank).}
+
+\item{prob}{A number p (0 < p < 1) indicating the desired
+probability mass to include in the intervals.}
+
+\item{size}{The size of an effective difference in the units of the chosen
+metric. For example, a 5 percent increase in accuracy (\code{size = 0.05})
+between two models might be considered a "real" difference.}
 }
 \value{
-A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object using \code{geom_line(stat = "density", ...)}
-for the posteriors.
+A \code{\link[ggplot2:ggplot]{ggplot2::ggplot()}} object.
 }
 \description{
-A simple plot of posterior distributions.
+For objects of classes \code{posterior} and \code{perf_mod}, \code{autoplot()} produces a
+simple plot of posterior distributions. For workflow set objects, there are
+several types of plots that can be produced.
 }
 \examples{
 data(ex_objects)

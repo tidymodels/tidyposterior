@@ -34,8 +34,16 @@ Imports:
     generics,
     ggplot2,
     vctrs  (>= 0.3.0),
-    tune (>= 0.1.2)
+    tune (>= 0.1.2.9000),
+    workflowsets
 Suggests: 
     knitr,
     testthat,
-    covr
+    covr,
+    parsnip,
+    yardstick
+Remotes: 
+    tidymodels/workflowsets,
+    tidymodels/tune,
+    tidymodels/rsample
+    

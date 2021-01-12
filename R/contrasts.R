@@ -59,9 +59,9 @@ print.posterior_diff <- function(x, ...) {
 #' @param object An object produced by [contrast_models()].
 #' @param prob A number p (0 < p < 1) indicating the desired
 #'  probability mass to include in the intervals.
-#' @param size The size of an effective difference. For example, a
-#'  5\% increase in accuracy between two models might be considered a
-#'  "real" difference.
+#' @param size The size of an effective difference in the units of the chosen
+#'  metric. For example, a 5 percent increase in accuracy (`size = 0.05`)
+#'  between two models might be considered a "real" difference.
 #' @param ... Not currently used
 #' @return A data frame with interval and ROPE statistics for each
 #'  comparison.
