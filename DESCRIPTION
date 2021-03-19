@@ -11,7 +11,7 @@ Authors@R: c(
       role = c("aut", "cre")
     ),
     person("RStudio", role = "cph"))
-License: GPL-2
+License: MIT + file LICENSE
 URL: https://tidyposterior.tidymodels.org, https://github.com/tidymodels/tidyposterior
 BugReports: https://github.com/tidymodels/tidyposterior/issues
 VignetteBuilder: knitr
@@ -46,4 +46,3 @@ Remotes:
     tidymodels/workflowsets,
     tidymodels/tune,
     tidymodels/rsample
-    
