@@ -41,5 +41,6 @@ Suggests:
     testthat,
     covr,
     parsnip,
-    yardstick
+    yardstick,
+    rmarkdown
 

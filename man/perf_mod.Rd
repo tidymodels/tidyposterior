@@ -94,7 +94,7 @@ performance and make statistical (and practical) comparisons between models.
 These functions can be used to process and analyze matched
 resampling statistics from different models using a Bayesian generalized
 linear model with effects for the model and the resamples.
-\subsection{Model formula}{
+\subsection{Bayesian Model formula}{
 
 By default, a generalized linear model with Gaussian error and an identity
 link is fit to the data and has terms for the predictive model grouping
@@ -306,4 +306,10 @@ This can also be given to \code{perf_mod()}:\if{html}{\out{<div class="r">}}\pre
 }
 
 }
+}
+\references{
+Kuhn and Silge (2021) \emph{Tidy Models with R}, Chapter 11, \url{https://www.tmwr.org/}
+}
+\seealso{
+\code{\link[=tidy.perf_mod]{tidy.perf_mod()}}, \code{\link[=contrast_models]{contrast_models()}}
 }

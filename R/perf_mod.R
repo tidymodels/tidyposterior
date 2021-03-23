@@ -36,8 +36,9 @@
 #'  resampling statistics from different models using a Bayesian generalized
 #'  linear model with effects for the model and the resamples.
 #'
-#' ## Model formula
-#'   By default, a generalized linear model with Gaussian error and an identity
+#' ## Bayesian Model formula
+#'
+#' By default, a generalized linear model with Gaussian error and an identity
 #'  link is fit to the data and has terms for the predictive model grouping
 #'  variable. In this way, the performance metrics can be compared between
 #'  models.
@@ -293,7 +294,10 @@
 #'    ## 1 logistic 0.821 0.801 0.842
 #'    ## 2 mars     0.822 0.802 0.842
 #' ```
-
+#' @references
+#' Kuhn and Silge (2021) _Tidy Models with R_, Chapter 11,
+#' \url{https://www.tmwr.org/compare.html}
+#' @seealso [tidy.perf_mod()], [tidyposterior::contrast_models()]
 #' @export
 perf_mod <- function(object, ...) {
   UseMethod("perf_mod")
