@@ -100,7 +100,7 @@
 #'
 #' ## Input formats
 #'
-#' There are several ways to give resapling results to the `perf_mod()` function. To
+#' There are several ways to give resampling results to the `perf_mod()` function. To
 #' illustrate, here are some example objects using 10-fold cross-validation for a
 #' simple two-class problem:
 #'
