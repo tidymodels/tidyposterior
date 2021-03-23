@@ -159,7 +159,7 @@ the \code{glm} function.
 
 \subsection{Input formats}{
 
-There are several ways to give resapling results to the \code{perf_mod()} function. To
+There are several ways to give resampling results to the \code{perf_mod()} function. To
 illustrate, here are some example objects using 10-fold cross-validation for a
 simple two-class problem:\if{html}{\out{<div class="r">}}\preformatted{   library(tidymodels)
    library(tidyposterior)
@@ -308,7 +308,8 @@ This can also be given to \code{perf_mod()}:\if{html}{\out{<div class="r">}}\pre
 }
 }
 \references{
-Kuhn and Silge (2021) \emph{Tidy Models with R}, Chapter 11, \url{https://www.tmwr.org/}
+Kuhn and Silge (2021) \emph{Tidy Models with R}, Chapter 11,
+\url{https://www.tmwr.org/compare.html}
 }
 \seealso{
 \code{\link[=tidy.perf_mod]{tidy.perf_mod()}}, \code{\link[=contrast_models]{contrast_models()}}

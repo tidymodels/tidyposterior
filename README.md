@@ -12,7 +12,6 @@ coverage](https://codecov.io/gh/tidymodels/tidyposterior/branch/master/graph/bad
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](http://cran.r-project.org/web/packages/tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](http://cran.rstudio.com/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
-[![R-CMD-check](https://github.com/tidymodels/tidyposterior/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/tidyposterior/actions)
 <!-- badges: end -->
 
 This package can be used to conduct *post hoc* analyses of resampling
@@ -158,8 +157,8 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 0.000104 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.04 seconds.
+#> Chain 1: Gradient evaluation took 0.000124 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 1.24 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -176,9 +175,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.479079 seconds (Warm-up)
-#> Chain 1:                0.17589 seconds (Sampling)
-#> Chain 1:                0.654969 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.466936 seconds (Warm-up)
+#> Chain 1:                0.171506 seconds (Sampling)
+#> Chain 1:                0.638442 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
@@ -201,9 +200,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.488607 seconds (Warm-up)
-#> Chain 2:                0.112448 seconds (Sampling)
-#> Chain 2:                0.601055 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.48508 seconds (Warm-up)
+#> Chain 2:                0.110145 seconds (Sampling)
+#> Chain 2:                0.595225 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
@@ -226,9 +225,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.42059 seconds (Warm-up)
-#> Chain 3:                0.127738 seconds (Sampling)
-#> Chain 3:                0.548328 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.415299 seconds (Warm-up)
+#> Chain 3:                0.125217 seconds (Sampling)
+#> Chain 3:                0.540516 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
@@ -251,9 +250,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.40193 seconds (Warm-up)
-#> Chain 4:                0.182749 seconds (Sampling)
-#> Chain 4:                0.584679 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.399981 seconds (Warm-up)
+#> Chain 4:                0.18429 seconds (Sampling)
+#> Chain 4:                0.584271 seconds (Total)
 #> Chain 4:
 ```
 
