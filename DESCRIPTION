@@ -42,7 +42,4 @@ Suggests:
     covr,
     parsnip,
     yardstick
-Remotes: 
-    tidymodels/workflowsets,
-    tidymodels/tune,
-    tidymodels/rsample
+
