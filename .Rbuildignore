@@ -14,3 +14,4 @@ tidyposterior_hex.png
 ^\.github$
 ^CODE_OF_CONDUCT\.md$
 ^LICENSE\.md$
+^README\.Rmd$
