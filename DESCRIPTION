@@ -1,7 +1,7 @@
 Package: tidyposterior
-Version: 0.0.3
+Version: 0.1.0
 Title: Bayesian Analysis to Compare Models using Resampling Statistics
-Description: Bayesian analysis used here to answer the question: "when looking at resampling results, are the differences between models 'real'?" To answer this, a model can be created were the performance statistic is the resampling statistics (e.g. accuracy or RMSE). These values are explained by the model types. In doing this, we can get parameter estimates for each model's affect on performance and make statistical (and practical) comparisons between models. The methods included here are similar to Benavoli et al (2017) <http://jmlr.org/papers/v18/16-305.html>.
+Description: Bayesian analysis used here to answer the question: "when looking at resampling results, are the differences between models 'real'?" To answer this, a model can be created were the performance statistic is the resampling statistics (e.g. accuracy or RMSE). These values are explained by the model types. In doing this, we can get parameter estimates for each model's affect on performance and make statistical (and practical) comparisons between models. The methods included here are similar to Benavoli et al (2017) <https://jmlr.org/papers/v18/16-305.html>.
 Authors@R: c(
     person(
       given = "Max",
