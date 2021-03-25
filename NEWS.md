@@ -1,8 +1,8 @@
-# tidyposterior (development version)
+# tidyposterior 0.1.0
 
 * The `ggplot()` methods are now removed in factor of `autoplot()` methods. 
 
-* `perf_mod()` method added for tuning parameter objects form `tune` and `finetune`. 
+* `perf_mod()` methods added for tuning parameter objects from `tune`, `finetune`, and `workflowsets`. 
 
 * `rstanarm` version 2.21.1 or higher is now required due to changes to their APIs.
 

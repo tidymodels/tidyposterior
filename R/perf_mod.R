@@ -307,7 +307,7 @@ perf_mod <- function(object, ...) {
 #' @export
 perf_mod.default <- function(object, ...) {
   rlang::abort("`object` should have at least one of these classes: ",
-               "'rset', 'workflowset', 'data.frame', 'resamples', or 'vfold_cv'. ",
+               "'rset', 'workflow_set', 'data.frame', 'resamples', or 'vfold_cv'. ",
                "See ?perf_mod")
 }
 
