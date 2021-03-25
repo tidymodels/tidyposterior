@@ -71,17 +71,19 @@ jobs:
           pak::pkg_system_requirements("rcmdcheck", execute = TRUE)
         shell: Rscript {0}
 
-      - name: Install dependencies
-        run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
-          pak::pkg_install("rcmdcheck")
-        shell: Rscript {0}
 
       # installing nlopt for R versions less than 3.6
       # this is for the installation of nloptr package required for lme4
       - name: Install nlopt on Linux
         if: runner.os == 'Linux'
         run: sudo apt-get install pkg-config libnlopt-dev
+
+
+      - name: Install dependencies
+        run: |
+          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::pkg_install("rcmdcheck")
+        shell: Rscript {0}
 
       - name: Session info
         run: |
