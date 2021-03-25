@@ -44,7 +44,7 @@
         <a class="navbar-brand" href="../../index.html">tidyposterior</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.0.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
         </div>
       </div>
     </div>
@@ -246,7 +246,7 @@
 ##                                     mean   sd     10%    50%    90% 
 ## (Intercept)                        0.867  0.016  0.847  0.867  0.887
 ## modelsplines                       0.020  0.009  0.009  0.020  0.031
-## b[(Intercept) id:Fold01]           0.060  0.020  0.034  0.060  0.085
+## b[(Intercept) id:Fold01]           0.060  0.021  0.034  0.060  0.086
 ## 
 ## &lt;snip&gt;</code></pre>
 <p>Assuming that our assumptions are appropriate, one of the main things that we’d like to get out of the object are samples of the posterior distributions for the performance metrics (per modeling method). The <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> method will produce a data frame with such samples:</p>
@@ -256,16 +256,16 @@
 ## # A tibble: 25,000 x 2
 ##    model        posterior
 ##    &lt;chr&gt;            &lt;dbl&gt;
-##  1 spatial_sign     0.866
-##  2 spatial_sign     0.864
-##  3 spatial_sign     0.863
-##  4 spatial_sign     0.870
-##  5 spatial_sign     0.863
-##  6 spatial_sign     0.880
-##  7 spatial_sign     0.874
-##  8 spatial_sign     0.876
-##  9 spatial_sign     0.873
-## 10 spatial_sign     0.876
+##  1 spatial_sign     0.906
+##  2 spatial_sign     0.887
+##  3 spatial_sign     0.868
+##  4 spatial_sign     0.856
+##  5 spatial_sign     0.871
+##  6 spatial_sign     0.866
+##  7 spatial_sign     0.875
+##  8 spatial_sign     0.860
+##  9 spatial_sign     0.866
+## 10 spatial_sign     0.884
 ## # … with 24,990 more rows</code></pre>
 <p>We require a <code>seed</code> value since it is a sample.</p>
 <p>There is a simple plotting method for the object too:</p>
@@ -280,7 +280,7 @@
 <pre><code>## # A tibble: 1 x 9
 ##   contrast      probability    mean   lower    upper  size pract_neg pract_equiv
 ##   &lt;chr&gt;               &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
-## 1 spatial_sign…      0.0174 -0.0201 -0.0351 -0.00535     0        NA          NA
+## 1 spatial_sign…      0.0222 -0.0198 -0.0354 -0.00465     0        NA          NA
 ## # … with 1 more variable: pract_pos &lt;dbl&gt;</code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">preproc_diff</span><span class="op">)</span> <span class="op">+</span> 
@@ -295,7 +295,7 @@
 <pre><code>## # A tibble: 1 x 4
 ##   contrast                pract_neg pract_equiv pract_pos
 ##   &lt;chr&gt;                       &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
-## 1 spatial_sign vs splines     0.504       0.495    0.0004</code></pre>
+## 1 spatial_sign vs splines     0.491       0.508   0.00072</code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">preproc_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/preproc-rope-1.png" width="768" style="display: block; margin: auto;"></p>
@@ -342,14 +342,14 @@
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spline_tune</span> <span class="op">&lt;-</span>
   <span class="va">logistic_spec</span> <span class="op">%&gt;%</span>
-  <span class="fu">tune_grid</span><span class="op">(</span>
+  <span class="fu"><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid</a></span><span class="op">(</span>
     <span class="va">spline_rec</span>,
     resamples <span class="op">=</span> <span class="va">cv_folds</span>,
     grid <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>deg_free <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,
     metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">roc_auc</span><span class="op">)</span>,
     control <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span>save_workflow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
   <span class="op">)</span>
-<span class="fu">collect_metrics</span><span class="op">(</span><span class="va">spline_tune</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html">collect_metrics</a></span><span class="op">(</span><span class="va">spline_tune</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 4 x 7
 ##   deg_free .metric .estimator  mean     n std_err .config             
@@ -383,9 +383,9 @@
 <pre><code>## # A tibble: 3 x 9
 ##   contrast      probability    mean    lower   upper  size pract_neg pract_equiv
 ##   &lt;chr&gt;               &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
-## 1 Preprocessor…       0.530 2.78e-4 -0.00596 0.00641     0        NA          NA
-## 2 Preprocessor…       0.629 1.17e-3 -0.00492 0.00719     0        NA          NA
-## 3 Preprocessor…       0.894 4.47e-3 -0.00155 0.0105      0        NA          NA
+## 1 Preprocessor…       0.531 2.29e-4 -0.00577 0.00619     0        NA          NA
+## 2 Preprocessor…       0.628 1.12e-3 -0.00485 0.00705     0        NA          NA
+## 3 Preprocessor…       0.892 4.45e-3 -0.00156 0.0105      0        NA          NA
 ## # … with 1 more variable: pract_pos &lt;dbl&gt;</code></pre>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">grid_diff</span><span class="op">)</span></code></pre></div>
