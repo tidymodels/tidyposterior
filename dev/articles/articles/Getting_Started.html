@@ -224,12 +224,8 @@
 <p>Our call to this function is:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">rset_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">roc_values</span>, seed <span class="op">=</span> <span class="fl">2</span>, iter <span class="op">=</span> <span class="fl">5000</span>, chains <span class="op">=</span> <span class="fl">5</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning: There were 1 divergent transitions after warmup. See
-## http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
-## to find out why this is a problem and how to eliminate them.</code></pre>
-<pre><code>## Warning: Examine the pairs() plot to diagnose sampling problems</code></pre>
 <p>The <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function for this type of object shows the output from <code>stan_glmer()</code>. It’s long, so we show some of the initial output:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">rset_mod</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ## Model Info:
@@ -244,59 +240,59 @@
 ## 
 ## Estimates:
 ##                                     mean   sd     10%    50%    90% 
-## (Intercept)                        0.867  0.016  0.847  0.867  0.887
-## modelsplines                       0.020  0.009  0.009  0.020  0.031
-## b[(Intercept) id:Fold01]           0.060  0.021  0.034  0.060  0.086
+## (Intercept)                        0.868  0.016  0.848  0.868  0.887
+## modelsplines                       0.020  0.009  0.008  0.020  0.031
+## b[(Intercept) id:Fold01]           0.059  0.020  0.034  0.059  0.085
 ## 
 ## &lt;snip&gt;</code></pre>
 <p>Assuming that our assumptions are appropriate, one of the main things that we’d like to get out of the object are samples of the posterior distributions for the performance metrics (per modeling method). The <code><a href="https://generics.r-lib.org/reference/tidy.html">tidy()</a></code> method will produce a data frame with such samples:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">rset_mod</span>, seed <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>## # Posterior samples of performance
 ## # A tibble: 25,000 × 2
 ##    model        posterior
 ##    &lt;chr&gt;            &lt;dbl&gt;
-##  1 spatial_sign     0.906
-##  2 spatial_sign     0.887
-##  3 spatial_sign     0.868
-##  4 spatial_sign     0.856
-##  5 spatial_sign     0.871
-##  6 spatial_sign     0.866
-##  7 spatial_sign     0.875
-##  8 spatial_sign     0.860
-##  9 spatial_sign     0.866
-## 10 spatial_sign     0.884
+##  1 spatial_sign     0.836
+##  2 spatial_sign     0.832
+##  3 spatial_sign     0.861
+##  4 spatial_sign     0.876
+##  5 spatial_sign     0.850
+##  6 spatial_sign     0.848
+##  7 spatial_sign     0.852
+##  8 spatial_sign     0.886
+##  9 spatial_sign     0.854
+## 10 spatial_sign     0.880
 ## # … with 24,990 more rows</code></pre>
 <p>We require a <code>seed</code> value since it is a sample.</p>
 <p>There is a simple plotting method for the object too:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">rset_mod</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/preproc-bayes-plot-1.png" width="768" style="display: block; margin: auto;"></p>
 <p>There is some overlap but, again, it would be better if we could quantify this.</p>
 <p>To compare models, the <code><a href="../../reference/contrast_models.html">contrast_models()</a></code> function computes the posterior distributions of differences in performance statistics between models. For example, what does the posterior look like for the difference in performance for these two preprocessing methods? By default, the function computes all possible differences (a single contrast for this example). There are also <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> and plot methods:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">preproc_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/contrast_models.html">contrast_models</a></span><span class="op">(</span><span class="va">rset_mod</span>, seed <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">preproc_diff</span>, seed <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 9
 ##   contrast      probability    mean   lower    upper  size pract_neg pract_equiv
 ##   &lt;chr&gt;               &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
-## 1 spatial_sign…      0.0222 -0.0198 -0.0354 -0.00465     0        NA          NA
+## 1 spatial_sign…      0.0206 -0.0199 -0.0352 -0.00455     0        NA          NA
 ## # … with 1 more variable: pract_pos &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">preproc_diff</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Difference in ROC (spatial sign - splines)"</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/preproc-contrast-1.png" width="768" style="display: block; margin: auto;"> Since the difference is negative, the spline model appears better than the spatial sign method. The summary output quantifies this by producing a simple credible interval for the difference. The probability column also reflects this since it is the probability that the spline ROC scores are greater than the analogous statistics from the spatial sign model. A value of 0.5 would indicate no difference.</p>
 <p>There is an additional analysis that can be used. The ROPE method, short for <em>Region of Practical Equivalence</em>, is a method for understanding the differences in models in less subjective way. For this analysis, we would specify a practical effect size (usually before the analysis). This quantity reflects what difference in the metric is considered practically meaning full in the context of our problem. In our example, if we saw two models with a difference in their ROC statistics of 0.02, we might consider them effectually different (your beliefs may differ).</p>
 <p>Once we have settled on a value of this effect size (in the units of the statistic), we can compute how much of the difference is within this region of practical equivalence (in our example, this is <code>[-0.02, 0.02]</code>). If the difference is mostly within these bounds, the models might be significantly different but not practically different. Alternatively, if the differences are beyond this, they would be different in both senses.</p>
 <p>The summary and plot methods have optional arguments called <code>size.</code> The <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> function computes the probability of the posterior differences that fall inside and outside of this region. The plot method shows it visually:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">preproc_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">contrast</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"pract"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 1 × 4
 ##   contrast                pract_neg pract_equiv pract_pos
 ##   &lt;chr&gt;                       &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
-## 1 spatial_sign vs splines     0.491       0.508   0.00072</code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+## 1 spatial_sign vs splines     0.501       0.498    0.0004</code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">preproc_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/preproc-rope-1.png" width="768" style="display: block; margin: auto;"></p>
 <p>For this analysis, there are about even odds that the difference between these models is not practically important (since the <code>pract_equiv</code> is near 0.5).</p>
@@ -307,7 +303,7 @@
 <p>The default family for <code>stan_glmer()</code> is Gaussian. Given the characteristics of this metric, that assumption might seem problematic.</p>
 <p>However, Gaussian seems like a good first approach for this assumption. The rationale is based on the Central Limit Theorem. As the sample size increases, the sample mean statistic converges to normality despite the distribution of the individual data points. Our performance estimates are summary statistics and, if the training set size is “large enough”, they will exhibit behavior consistent with normality.</p>
 <p>As a simple (and approximate) example/diagnostics, suppose we used a simple ANOVA for the ROC statistics using <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>. This is not the same analysis as the one used by <code>tidyposterior</code>, but the regression parameter estimates should be fairly similar. For that analysis, we can assess the normality of the residuals and see that they are pretty consistent with the normality assumption:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">roc_longer</span> <span class="op">&lt;-</span> 
   <span class="va">roc_values</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">splits</span><span class="op">)</span> <span class="op">%&gt;%</span> 
@@ -334,12 +330,12 @@
 <p>The previous example was a between-model comparison (where “model” really means statistical model plus preprocessing method). If the model must be tuned, there is also the issue of within-model comparisons.</p>
 <p>For our spline analysis, we assumed that three degrees of freedom were appropriate. However, we might tune the model over that parameter to see what the best degrees of freedom should be.</p>
 <p>The previous spline recipe is altered so that the degrees of freedom parameter doesn’t have an actual value. Instead, using a value of <code>tune()</code> will mark this parameter for optimization. There are a few different approaches for tuning this parameter; we’ll use simpe grid search.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spline_rec</span> <span class="op">&lt;-</span> 
   <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">step_ns</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, deg_free <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The <code>tune</code> package function <code>tune_grid()</code> is used to evaluate several values of the parameter. For each value, the resampled area under the ROC curve is computed.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spline_tune</span> <span class="op">&lt;-</span>
   <span class="va">logistic_spec</span> <span class="op">%&gt;%</span>
   <span class="fu">tune_grid</span><span class="op">(</span>
@@ -359,14 +355,14 @@
 ## 3        5 roc_auc binary     0.886    10  0.0133 Preprocessor3_Model1
 ## 4       10 roc_auc binary     0.883    10  0.0128 Preprocessor4_Model1</code></pre>
 <p>There is a <code><a href="../../reference/perf_mod.html">perf_mod()</a></code> method for this type of object. The computations are conducted in the same manner but, in this instance, four sub-models are compared.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">grid_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">spline_tune</span>, seed <span class="op">=</span> <span class="fl">6</span>, iter <span class="op">=</span> <span class="fl">5000</span>, chains <span class="op">=</span> <span class="fl">5</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">grid_mod</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/tune-grid-bayes-1.png" width="768" style="display: block; margin: auto;"></p>
 <p>When the object given to perf_mod is from a model tuning function, the <code>model</code> column corresponds to the <code>.config</code> column in the results.</p>
 <p>There is a lot of overlap. The results do call into question the overall utility of using splines. A single degree of freedom model corresponds to a linear effect. Let’s compare the linear class boundaries to the other sub-models to see if splines are even improving the model.</p>
 <p>The contrast_model function can take two lists of model identifiers and compute their differences. Again, for tuning objects, this should include values of <code>.config</code>. This specification compute the difference <code>{1 df - X df}</code> so positive differences indicate that the linear model is better.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">grid_diff</span> <span class="op">&lt;-</span>
   <span class="fu"><a href="../../reference/contrast_models.html">contrast_models</a></span><span class="op">(</span>
     <span class="va">grid_mod</span>,
@@ -378,21 +374,21 @@
     <span class="op">)</span>,
     seed <span class="op">=</span> <span class="fl">7</span>
   <span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">grid_diff</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 9
 ##   contrast      probability    mean    lower   upper  size pract_neg pract_equiv
 ##   &lt;chr&gt;               &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
-## 1 Preprocessor…       0.531 2.29e-4 -0.00577 0.00619     0        NA          NA
-## 2 Preprocessor…       0.628 1.12e-3 -0.00485 0.00705     0        NA          NA
-## 3 Preprocessor…       0.892 4.45e-3 -0.00156 0.0105      0        NA          NA
+## 1 Preprocessor…       0.527 2.50e-4 -0.00563 0.00623     0        NA          NA
+## 2 Preprocessor…       0.625 1.15e-3 -0.00468 0.00718     0        NA          NA
+## 3 Preprocessor…       0.896 4.48e-3 -0.00142 0.0105      0        NA          NA
 ## # … with 1 more variable: pract_pos &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">grid_diff</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/tune-grid-bayes-contrast-plot-1.png" width="768" style="display: block; margin: auto;"></p>
 <p>The results indicate that a lot of degrees of freedom might make the model worse. At best, there is a limited difference in performance when more than one spline term is used.</p>
 <p>The ROPE analysis is more definitive; there is no sense of practical differences within the previously used effect size:</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">grid_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/tune-grid-rope-1.png" width="768" style="display: block; margin: auto;"></p>
 </div>
@@ -401,7 +397,7 @@
 <a href="#workflow-sets" class="anchor"></a>Workflow sets</h2>
 <p>Workflow sets are collections of workflows and their results. These can be made after existing workflows have been evaluated or by using <code><a href="https://workflowsets.tidymodels.org/reference/workflow_set.html">workflow_set()</a></code> to create an evaluate the models.</p>
 <p>Let’s create an initial set that has difference combinations of the two predictors for this data set.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/workflowsets">workflowsets</a></span><span class="op">)</span>
 
 <span class="va">logistic_set</span> <span class="op">&lt;-</span> 
@@ -419,7 +415,7 @@
 ## 3 ratio_logistic        &lt;tibble [1 × 4]&gt; &lt;opts[0]&gt; &lt;list [0]&gt;
 ## 4 spatial_sign_logistic &lt;tibble [1 × 4]&gt; &lt;opts[0]&gt; &lt;list [0]&gt;</code></pre>
 <p>The <code>object</code> volumn contains the workflows that are created by the combinations of preprocessors and the model (multiple models could have been used). Rather than calling the same functions from the <code>tune</code> package repeatedly, we can evaluate these with a single function call. Notice that none of these workflows require tuning so <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html">tune::fit_resamples()</a></code> can be used:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">logistic_res</span> <span class="op">&lt;-</span> 
   <span class="va">logistic_set</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/workflow_map.html">workflow_map</a></span><span class="op">(</span><span class="st">"fit_resamples"</span>, seed <span class="op">=</span> <span class="fl">3</span>, resamples <span class="op">=</span> <span class="va">cv_folds</span>, 
@@ -432,7 +428,7 @@
 ## 2 B_logistic            &lt;tibble [1 × 4]&gt; &lt;opts[2]&gt; &lt;rsmp[+]&gt;
 ## 3 ratio_logistic        &lt;tibble [1 × 4]&gt; &lt;opts[2]&gt; &lt;rsmp[+]&gt;
 ## 4 spatial_sign_logistic &lt;tibble [1 × 4]&gt; &lt;opts[2]&gt; &lt;rsmp[+]&gt;</code></pre>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html">collect_metrics</a></span><span class="op">(</span><span class="va">logistic_res</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 4 × 9
@@ -443,7 +439,7 @@
 ## 3 ratio_logis… Preprocess… formula logis… roc_auc binary     0.749    10  0.0164
 ## 4 spatial_sig… Preprocess… recipe  logis… roc_auc binary     0.867    10  0.0176</code></pre>
 <p>We can also add the previously tuned spline results by first converting them to a workflow set then appending their rows to the results:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">logistic_res</span> <span class="op">&lt;-</span> 
   <span class="va">logistic_res</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span>
@@ -459,7 +455,7 @@
 ## 4 spatial_sign_logistic &lt;tibble [1 × 4]&gt; &lt;opts[2]&gt; &lt;rsmp[+]&gt;
 ## 5 splines               &lt;tibble [1 × 4]&gt; &lt;opts[0]&gt; &lt;tune[+]&gt;</code></pre>
 <p>There are some convenience functions to take an initial look at the results:</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://workflowsets.tidymodels.org/reference/rank_results.html">rank_results</a></span><span class="op">(</span><span class="va">logistic_res</span>, rank_metric <span class="op">=</span> <span class="st">"roc_auc"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 8 × 9
@@ -473,18 +469,18 @@
 ## 6 B_logistic   Preprocess… roc_auc 0.866  0.0151    10 formula      logis…     6
 ## 7 ratio_logis… Preprocess… roc_auc 0.749  0.0164    10 formula      logis…     7
 ## 8 A_logistic   Preprocess… roc_auc 0.702  0.0210    10 formula      logis…     8</code></pre>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">logistic_res</span>, metric <span class="op">=</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/wflow-res-1.png" width="768" style="display: block; margin: auto;"></p>
 <p>The <code><a href="../../reference/perf_mod.html">perf_mod()</a></code> method for workflow sets takes the best submodel from each workflow and then uses the standard <code>tidyposterior</code> analysis:</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">roc_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">logistic_res</span>, metric <span class="op">=</span> <span class="st">"roc_auc"</span>, seed <span class="op">=</span> <span class="fl">1</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p>The results of this call produces an object with an additional class to enable some <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot()</a></code> methods specific to workflow sets. For example, the default plot shows 90% credible intervals for the best results in each workflow:</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">roc_mod</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/wflow-intervals-1.png" width="768" style="display: block; margin: auto;"></p>
 <p>Alternatively, the ROPE estimates for a given since can be computed to compare the numerically best workflow to the others. The probability of practical equivalence is shown for all results:</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">roc_mod</span>, type <span class="op">=</span> <span class="st">"ROPE"</span>, size <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></code></pre></div>
 <p><img src="Getting_Started_files/figure-html/wflow-rope-1.png" width="768" style="display: block; margin: auto;"></p>
 </div>
