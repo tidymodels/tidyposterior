@@ -45,7 +45,8 @@ Suggests:
 VignetteBuilder: 
     knitr
 ByteCompile: true
-Config/Needs/website: 
+Config/Needs/website:
+    tidymodels,
     tidyverse/tidytemplate
 Encoding: UTF-8
 LazyData: true
