@@ -173,25 +173,25 @@ probabilities form the differences in ROC values.</p></li>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>precise_example</span><span class='op'>)</span>
 <span class='va'>precise_example</span>
 </div><div class='output co'>#&gt; #  10-fold cross-validation using stratification 
-#&gt; <span style='color: #949494;'># A tibble: 10 x 29</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 10 × 29</span>
 #&gt;    splits id     glm_Accuracy glm_Kappa glm_ROC glm_Sens glm_Spec glm_PRAUC
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold01        0.722     0.328   0.798    0.729    0.720     0.489
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold02        0.696     0.290   0.778    0.720    0.691     0.456
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold03        0.701     0.297   0.790    0.723    0.696     0.486
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold04        0.704     0.316   0.795    0.763    0.691     0.497
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold05        0.721     0.324   0.797    0.722    0.721     0.481
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold06        0.711     0.303   0.780    0.706    0.712     0.484
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold07        0.702     0.305   0.790    0.739    0.694     0.485
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold08        0.718     0.321   0.784    0.729    0.715     0.477
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold09        0.720     0.328   0.795    0.739    0.715     0.491
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> </span><span style='color: #BB0000;'>NA</span><span>     Fold10        0.719     0.324   0.796    0.728    0.717     0.488
-#&gt; </span><span style='color: #949494;'># … with 21 more variables: glm_Precision &lt;dbl&gt;, glm_Recall &lt;dbl&gt;, glm_F &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   knn_Accuracy &lt;dbl&gt;, knn_Kappa &lt;dbl&gt;, knn_ROC &lt;dbl&gt;, knn_Sens &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   knn_Spec &lt;dbl&gt;, knn_PRAUC &lt;dbl&gt;, knn_Precision &lt;dbl&gt;, knn_Recall &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   knn_F &lt;dbl&gt;, nnet_Accuracy &lt;dbl&gt;, nnet_Kappa &lt;dbl&gt;, nnet_ROC &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   nnet_Sens &lt;dbl&gt;, nnet_Spec &lt;dbl&gt;, nnet_PRAUC &lt;dbl&gt;, nnet_Precision &lt;dbl&gt;,</span><span>
-#&gt; </span><span style='color: #949494;'>#   nnet_Recall &lt;dbl&gt;, nnet_F &lt;dbl&gt;</span><span></div></span></pre>
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;lgl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> <span style='color: #BB0000;'>NA</span>     Fold01        0.722     0.328   0.798    0.729    0.720     0.489
+#&gt; <span style='color: #BCBCBC;'> 2</span> <span style='color: #BB0000;'>NA</span>     Fold02        0.696     0.290   0.778    0.720    0.691     0.456
+#&gt; <span style='color: #BCBCBC;'> 3</span> <span style='color: #BB0000;'>NA</span>     Fold03        0.701     0.297   0.790    0.723    0.696     0.486
+#&gt; <span style='color: #BCBCBC;'> 4</span> <span style='color: #BB0000;'>NA</span>     Fold04        0.704     0.316   0.795    0.763    0.691     0.497
+#&gt; <span style='color: #BCBCBC;'> 5</span> <span style='color: #BB0000;'>NA</span>     Fold05        0.721     0.324   0.797    0.722    0.721     0.481
+#&gt; <span style='color: #BCBCBC;'> 6</span> <span style='color: #BB0000;'>NA</span>     Fold06        0.711     0.303   0.780    0.706    0.712     0.484
+#&gt; <span style='color: #BCBCBC;'> 7</span> <span style='color: #BB0000;'>NA</span>     Fold07        0.702     0.305   0.790    0.739    0.694     0.485
+#&gt; <span style='color: #BCBCBC;'> 8</span> <span style='color: #BB0000;'>NA</span>     Fold08        0.718     0.321   0.784    0.729    0.715     0.477
+#&gt; <span style='color: #BCBCBC;'> 9</span> <span style='color: #BB0000;'>NA</span>     Fold09        0.720     0.328   0.795    0.739    0.715     0.491
+#&gt; <span style='color: #BCBCBC;'>10</span> <span style='color: #BB0000;'>NA</span>     Fold10        0.719     0.324   0.796    0.728    0.717     0.488
+#&gt; <span style='color: #949494;'># … with 21 more variables: glm_Precision &lt;dbl&gt;, glm_Recall &lt;dbl&gt;, glm_F &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   knn_Accuracy &lt;dbl&gt;, knn_Kappa &lt;dbl&gt;, knn_ROC &lt;dbl&gt;, knn_Sens &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   knn_Spec &lt;dbl&gt;, knn_PRAUC &lt;dbl&gt;, knn_Precision &lt;dbl&gt;, knn_Recall &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   knn_F &lt;dbl&gt;, nnet_Accuracy &lt;dbl&gt;, nnet_Kappa &lt;dbl&gt;, nnet_ROC &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   nnet_Sens &lt;dbl&gt;, nnet_Spec &lt;dbl&gt;, nnet_PRAUC &lt;dbl&gt;, nnet_Precision &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   nnet_Recall &lt;dbl&gt;, nnet_F &lt;dbl&gt;</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

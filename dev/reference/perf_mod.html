@@ -324,11 +324,11 @@ performance for each model/resample:<div class="r"></p><pre>   <span class='va'>
 
    <span class='va'>logistic_reg_glm_res</span> <span class='op'>&lt;-</span>
      <span class='va'>logistic_reg_glm_spec</span> <span class='op'>%&gt;%</span>
-     <span class='fu'><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>fit_resamples</a></span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>.</span>, resamples <span class='op'>=</span> <span class='va'>folds</span>, control <span class='op'>=</span> <span class='va'>rs_ctrl</span><span class='op'>)</span>
+     <span class='fu'>fit_resamples</span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>.</span>, resamples <span class='op'>=</span> <span class='va'>folds</span>, control <span class='op'>=</span> <span class='va'>rs_ctrl</span><span class='op'>)</span>
 
    <span class='va'>mars_earth_res</span> <span class='op'>&lt;-</span>
      <span class='va'>mars_earth_spec</span> <span class='op'>%&gt;%</span>
-     <span class='fu'><a href='https://tune.tidymodels.org/reference/fit_resamples.html'>fit_resamples</a></span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>.</span>, resamples <span class='op'>=</span> <span class='va'>folds</span>, control <span class='op'>=</span> <span class='va'>rs_ctrl</span><span class='op'>)</span>
+     <span class='fu'>fit_resamples</span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>.</span>, resamples <span class='op'>=</span> <span class='va'>folds</span>, control <span class='op'>=</span> <span class='va'>rs_ctrl</span><span class='op'>)</span>
 </pre><p></div></p>
 <p>From these, there are several ways to pass the results to <code>perf_mod()</code>.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Data Frame as Input</h4>
 

@@ -106,7 +106,7 @@
 <span class="va">cv_folds</span> <span class="op">&lt;-</span> <span class="fu">vfold_cv</span><span class="op">(</span><span class="va">two_class_dat</span><span class="op">)</span>
 <span class="va">cv_folds</span></code></pre></div>
 <pre><code>## #  10-fold cross-validation 
-## # A tibble: 10 x 2
+## # A tibble: 10 × 2
 ##    splits           id    
 ##    &lt;list&gt;           &lt;chr&gt; 
 ##  1 &lt;split [711/80]&gt; Fold01
@@ -180,7 +180,7 @@
 
 <span class="va">roc_values</span></code></pre></div>
 <pre><code>## #  10-fold cross-validation 
-## # A tibble: 10 x 4
+## # A tibble: 10 × 4
 ##    splits           id     spatial_sign splines
 ##    &lt;list&gt;           &lt;chr&gt;         &lt;dbl&gt;   &lt;dbl&gt;
 ##  1 &lt;split [711/80]&gt; Fold01        0.943   0.946
@@ -200,7 +200,7 @@
   splines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span>,
   spatial_sign <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">spatial_sign</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 2
+<pre><code>## # A tibble: 1 × 2
 ##   splines spatial_sign
 ##     &lt;dbl&gt;        &lt;dbl&gt;
 ## 1   0.887        0.867</code></pre>
@@ -253,7 +253,7 @@
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">rset_mod</span>, seed <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code>## # Posterior samples of performance
-## # A tibble: 25,000 x 2
+## # A tibble: 25,000 × 2
 ##    model        posterior
 ##    &lt;chr&gt;            &lt;dbl&gt;
 ##  1 spatial_sign     0.906
@@ -277,7 +277,7 @@
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">preproc_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/contrast_models.html">contrast_models</a></span><span class="op">(</span><span class="va">rset_mod</span>, seed <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">preproc_diff</span>, seed <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 9
+<pre><code>## # A tibble: 1 × 9
 ##   contrast      probability    mean   lower    upper  size pract_neg pract_equiv
 ##   &lt;chr&gt;               &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
 ## 1 spatial_sign…      0.0222 -0.0198 -0.0354 -0.00465     0        NA          NA
@@ -292,7 +292,7 @@
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">preproc_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">contrast</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">starts_with</a></span><span class="op">(</span><span class="st">"pract"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 4
+<pre><code>## # A tibble: 1 × 4
 ##   contrast                pract_neg pract_equiv pract_pos
 ##   &lt;chr&gt;                       &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 spatial_sign vs splines     0.491       0.508   0.00072</code></pre>
@@ -338,11 +338,11 @@
 <code class="sourceCode R"><span class="va">spline_rec</span> <span class="op">&lt;-</span> 
   <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">step_ns</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, deg_free <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The <code>tune</code> package function <code><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid()</a></code> is used to evaluate several values of the parameter. For each value, the resampled area under the ROC curve is computed.</p>
+<p>The <code>tune</code> package function <code>tune_grid()</code> is used to evaluate several values of the parameter. For each value, the resampled area under the ROC curve is computed.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spline_tune</span> <span class="op">&lt;-</span>
   <span class="va">logistic_spec</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://tune.tidymodels.org/reference/tune_grid.html">tune_grid</a></span><span class="op">(</span>
+  <span class="fu">tune_grid</span><span class="op">(</span>
     <span class="va">spline_rec</span>,
     resamples <span class="op">=</span> <span class="va">cv_folds</span>,
     grid <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>deg_free <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,
@@ -351,7 +351,7 @@
   <span class="op">)</span>
 <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html">collect_metrics</a></span><span class="op">(</span><span class="va">spline_tune</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 7
+<pre><code>## # A tibble: 4 × 7
 ##   deg_free .metric .estimator  mean     n std_err .config             
 ##      &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
 ## 1        1 roc_auc binary     0.888    10  0.0141 Preprocessor1_Model1
@@ -380,7 +380,7 @@
   <span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">grid_diff</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 3 x 9
+<pre><code>## # A tibble: 3 × 9
 ##   contrast      probability    mean    lower   upper  size pract_neg pract_equiv
 ##   &lt;chr&gt;               &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
 ## 1 Preprocessor…       0.531 2.29e-4 -0.00577 0.00619     0        NA          NA
@@ -411,7 +411,7 @@
     <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>logistic <span class="op">=</span> <span class="va">logistic_spec</span><span class="op">)</span>
   <span class="op">)</span>
 <span class="va">logistic_set</span></code></pre></div>
-<pre><code>## # A workflow set/tibble: 4 x 4
+<pre><code>## # A workflow set/tibble: 4 × 4
 ##   wflow_id              info             option    result    
 ##   &lt;chr&gt;                 &lt;list&gt;           &lt;list&gt;    &lt;list&gt;    
 ## 1 A_logistic            &lt;tibble [1 × 4]&gt; &lt;opts[0]&gt; &lt;list [0]&gt;
@@ -425,7 +425,7 @@
   <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/workflow_map.html">workflow_map</a></span><span class="op">(</span><span class="st">"fit_resamples"</span>, seed <span class="op">=</span> <span class="fl">3</span>, resamples <span class="op">=</span> <span class="va">cv_folds</span>, 
                metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">roc_auc</span><span class="op">)</span><span class="op">)</span> 
 <span class="va">logistic_res</span></code></pre></div>
-<pre><code>## # A workflow set/tibble: 4 x 4
+<pre><code>## # A workflow set/tibble: 4 × 4
 ##   wflow_id              info             option    result   
 ##   &lt;chr&gt;                 &lt;list&gt;           &lt;list&gt;    &lt;list&gt;   
 ## 1 A_logistic            &lt;tibble [1 × 4]&gt; &lt;opts[2]&gt; &lt;rsmp[+]&gt;
@@ -435,7 +435,7 @@
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html">collect_metrics</a></span><span class="op">(</span><span class="va">logistic_res</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 4 x 9
+<pre><code>## # A tibble: 4 × 9
 ##   wflow_id     .config     preproc model  .metric .estimator  mean     n std_err
 ##   &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
 ## 1 A_logistic   Preprocess… formula logis… roc_auc binary     0.702    10  0.0210
@@ -450,7 +450,7 @@
     <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/as_workflow_set.html">as_workflow_set</a></span><span class="op">(</span>splines <span class="op">=</span> <span class="va">spline_tune</span><span class="op">)</span>
   <span class="op">)</span>
 <span class="va">logistic_res</span></code></pre></div>
-<pre><code>## # A workflow set/tibble: 5 x 4
+<pre><code>## # A workflow set/tibble: 5 × 4
 ##   wflow_id              info             option    result   
 ##   &lt;chr&gt;                 &lt;list&gt;           &lt;list&gt;    &lt;list&gt;   
 ## 1 A_logistic            &lt;tibble [1 × 4]&gt; &lt;opts[2]&gt; &lt;rsmp[+]&gt;
@@ -462,7 +462,7 @@
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://workflowsets.tidymodels.org/reference/rank_results.html">rank_results</a></span><span class="op">(</span><span class="va">logistic_res</span>, rank_metric <span class="op">=</span> <span class="st">"roc_auc"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 8 x 9
+<pre><code>## # A tibble: 8 × 9
 ##   wflow_id     .config     .metric  mean std_err     n preprocessor model   rank
 ##   &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;  &lt;int&gt;
 ## 1 splines      Preprocess… roc_auc 0.888  0.0141    10 recipe       logis…     1
