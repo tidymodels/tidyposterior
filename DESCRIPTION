@@ -1,45 +1,53 @@
 Package: tidyposterior
-Version: 0.1.0.9000
 Title: Bayesian Analysis to Compare Models using Resampling Statistics
-Description: Bayesian analysis used here to answer the question: "when looking at resampling results, are the differences between models 'real'?" To answer this, a model can be created were the performance statistic is the resampling statistics (e.g. accuracy or RMSE). These values are explained by the model types. In doing this, we can get parameter estimates for each model's affect on performance and make statistical (and practical) comparisons between models. The methods included here are similar to Benavoli et al (2017) <https://jmlr.org/papers/v18/16-305.html>.
+Version: 0.1.0.9000
 Authors@R: c(
-    person(
-      given = "Max",
-      family = "Kuhn",
-      email = "max@rstudio.com",
-      comment = c(ORCID = "0000-0003-2402-136X"),
-      role = c("aut", "cre")
-    ),
-    person("RStudio", role = "cph"))
+    person("Max", "Kuhn", , "max@rstudio.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-2402-136X")),
+    person("RStudio", role = "cph")
+  )
+Description: Bayesian analysis used here to answer the question: "when
+    looking at resampling results, are the differences between models
+    'real'?" To answer this, a model can be created were the performance
+    statistic is the resampling statistics (e.g. accuracy or RMSE). These
+    values are explained by the model types. In doing this, we can get
+    parameter estimates for each model's affect on performance and make
+    statistical (and practical) comparisons between models. The methods
+    included here are similar to Benavoli et al (2017)
+    <https://jmlr.org/papers/v18/16-305.html>.
 License: MIT + file LICENSE
-URL: https://tidyposterior.tidymodels.org, https://github.com/tidymodels/tidyposterior
+URL: https://tidyposterior.tidymodels.org,
+    https://github.com/tidymodels/tidyposterior
 BugReports: https://github.com/tidymodels/tidyposterior/issues
-VignetteBuilder: knitr
-Encoding: UTF-8
-LazyData: true
-ByteCompile: true
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1.9000
 Depends:
     R (>= 2.10)
 Imports: 
-    rsample (>= 0.0.2),
-    tidyr (>= 0.7.1),
     dplyr (> 1.0.0),
-    rstanarm (>= 2.21.1),
-    rlang,
-    utils,
-    purrr,
-    tibble,
     generics,
     ggplot2,
-    vctrs  (>= 0.3.0),
+    purrr,
+    rlang,
+    rsample (>= 0.0.2),
+    rstanarm (>= 2.21.1),
+    tibble,
+    tidyr (>= 0.7.1),
     tune (>= 0.1.2.9000),
+    utils,
+    vctrs  (>= 0.3.0),
     workflowsets
 Suggests: 
-    knitr,
-    testthat,
     covr,
+    knitr,
     parsnip,
-    yardstick,
-    rmarkdown
+    rmarkdown,
+    testthat,
+    yardstick
+VignetteBuilder: 
+    knitr
+ByteCompile: true
+Config/Needs/website: 
+    tidyverse/tidytemplate
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1.9000
