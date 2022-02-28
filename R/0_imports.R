@@ -1,6 +1,6 @@
 #' @importFrom dplyr filter select mutate %>% rename group_by summarise full_join
 #' @importFrom dplyr do %>% bind_cols
-#' @importFrom rsample gather.rset pretty.group_vfold_cv
+#' @importFrom rsample pretty.group_vfold_cv
 #' @importFrom rsample pretty.bootstraps pretty.nested_cv
 #' @importFrom rsample pretty.mc_cv pretty.rolling_origin
 #' @importFrom rsample pretty.loo_cv pretty.vfold_cv vfold_cv
