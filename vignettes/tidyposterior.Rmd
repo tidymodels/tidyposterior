@@ -1,0 +1,11 @@
+---
+title: "Introduction to tidyposterior"
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Introduction to tidyposterior}
+output:
+  knitr:::html_vignette:
+    toc: yes
+---
+
+A new version of this vignette can be found at <https://tidyposterior.tidymodels.org/dev/articles/articles/Getting_Started.html>
