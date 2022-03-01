@@ -18,7 +18,7 @@ posterior_reconstructable <- function(x, to) {
   to_names <- names(to)
   req_names <- c("model", "posterior")
   if (!all(req_names %in% x_names)) {
-    return (FALSE)
+    return(FALSE)
   } else {
     if (!is.numeric(x[["posterior"]])) {
       return(FALSE)

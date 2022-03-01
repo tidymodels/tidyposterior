@@ -58,6 +58,5 @@ such as Kappa.
 \examples{
 logit_trans$func(.5)
 logit_trans$inv(0)
-
 }
 \keyword{datasets}

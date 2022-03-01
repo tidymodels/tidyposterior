@@ -27,5 +27,4 @@ A density is created for each contrast in a faceted grid.
 data(ex_objects)
 library(ggplot2)
 autoplot(contrast_samples)
-
 }
