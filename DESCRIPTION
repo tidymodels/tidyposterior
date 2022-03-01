@@ -20,7 +20,7 @@ URL: https://tidyposterior.tidymodels.org,
     https://github.com/tidymodels/tidyposterior
 BugReports: https://github.com/tidymodels/tidyposterior/issues
 Depends:
-    R (>= 2.10)
+    R (>= 3.4)
 Imports: 
     dplyr (> 1.0.0),
     generics,
