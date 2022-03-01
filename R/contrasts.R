@@ -23,8 +23,7 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
     list_2 <- combos[2, ]
   } else {
     if (length(list_1) != length(list_2)) {
-      stop("`list_1` and `list_2` should be the same length.",
-        call. = FALSE
+      rlang::abort("`list_1` and `list_2` should be the same length."
       )
     }
   }

@@ -1,13 +1,13 @@
 check_trans <- function(x) {
   trans_msg <- "`transform` should have two functions: 'func' and 'inv'"
   if (length(x) != 2) {
-    stop(trans_msg, call. = FALSE)
+    rlang::abort(trans_msg)
   } else {
     if (!all(sort(names(x)) == c("func", "inv"))) {
-      stop(trans_msg, call. = FALSE)
+      rlang::abort(trans_msg)
     }
     if (!all(is.function(transform))) {
-      stop(trans_msg, call. = FALSE)
+      rlang::abort(trans_msg)
     }
   }
   invisible(x)

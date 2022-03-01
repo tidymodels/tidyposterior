@@ -486,7 +486,7 @@ perf_mod.data.frame <-
            ...) {
     id_cols <- grep("(^id)|(^id[1-9]$)", names(object), value = TRUE)
     if (length(id_cols) == 0) {
-      stop("One or more `id` columns are required.", call. = FALSE)
+      rlang::abort("One or more `id` columns are required.")
     }
 
     class(object) <- c("rset", class(object))
