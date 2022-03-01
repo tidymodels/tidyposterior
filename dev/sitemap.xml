@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://tidyposterior.tidymodels.org/CODE_OF_CONDUCT.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/ISSUE_TEMPLATE.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/ISSUE_TEMPLATE.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/LICENSE-text.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/LICENSE.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/articles/Different_Bayesian_Models.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/articles/Getting_Started.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/articles/Getting_Started.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/articles/index.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/articles/tidyposterior.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/articles/tidyposterior.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/authors.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/authors.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/index.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/index.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/news/index.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/news/index.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/autoplot.posterior.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/autoplot.posterior.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/autoplot.posterior_diff.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/autoplot.posterior_diff.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/contrast_models.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/contrast_models.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/index.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/perf_mod.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/perf_mod.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/precise_example.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/precise_example.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/reexports.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/summary.posterior.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/summary.posterior.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/summary.posterior_diff.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/summary.posterior_diff.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/tidy.perf_mod.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/tidy.perf_mod.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/tidyposterior-package.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/transformations.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/transformations.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/vctrs_methods_posterior.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/vctrs_methods_posterior.html</loc>
   </url>
   <url>
-    <loc>https://tidyposterior.tidymodels.org/reference/vctrs_methods_posterior_diff.html</loc>
+    <loc>https://tidyposterior.tidymodels.org/dev/reference/vctrs_methods_posterior_diff.html</loc>
   </url>
 </urlset>
