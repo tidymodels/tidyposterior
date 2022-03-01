@@ -40,7 +40,7 @@ Suggests:
     knitr,
     parsnip,
     rmarkdown,
-    testthat,
+    testthat (>= 3.0.0),
     yardstick
 VignetteBuilder: 
     knitr
@@ -52,3 +52,4 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Config/testthat/edition: 3

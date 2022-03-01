@@ -93,8 +93,8 @@ test_that("basic usage", {
   expect_equal(obj_1$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
   expect_equal(obj_1$rset_type, "Bootstrap sampling")
   expect_equal(class(obj_1$stan), c("stanreg", "glm", "lm", "lmerMod"))
-  expect_equal(formula(obj_1$stan), as.formula(statistic ~ model + (1 | id)))
-  expect_output(print(obj_1))
+  expect_equal(formula(obj_1$stan), as.formula(statistic ~ model + (1 | id)), ignore_formula_env = TRUE)
+  expect_snapshot(print(obj_1))
   expect_equal(summary(obj_1), summary(obj_1$stan))
 })
 
@@ -105,15 +105,15 @@ test_that("data frame method", {
   expect_equal(obj_2$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
   expect_equal(obj_2$rset_type, NA)
   expect_equal(class(obj_2$stan), c("stanreg", "glm", "lm", "lmerMod"))
-  expect_equal(formula(obj_2$stan), as.formula(statistic ~ model + (1 | id)))
-  expect_output(print(obj_2))
+  expect_equal(formula(obj_2$stan), as.formula(statistic ~ model + (1 | id)), ignore_formula_env = TRUE)
+  expect_snapshot(print(obj_2))
   expect_equal(summary(obj_2), summary(obj_2$stan))
 })
 
 # ------------------------------------------------------------------------------
 
 test_that("model-specifc variance", {
-  expect_equal(formula(obj_3$stan), as.formula(statistic ~ model + (model + 0 | id)))
+  expect_equal(formula(obj_3$stan), as.formula(statistic ~ model + (model + 0 | id)), ignore_formula_env = TRUE)
 })
 
 # ------------------------------------------------------------------------------
@@ -123,8 +123,8 @@ test_that("rsample method", {
   expect_equal(obj_4$ids, list(id = c(paste0("Fold0", 1:9), "Fold10")))
   expect_equal(obj_4$rset_type, NA)
   expect_equal(class(obj_4$stan), c("stanreg", "glm", "lm", "lmerMod"))
-  expect_equal(formula(obj_4$stan), as.formula(statistic ~ model + (1 | id)))
-  expect_output(print(obj_4))
+  expect_equal(formula(obj_4$stan), as.formula(statistic ~ model + (1 | id)), ignore_formula_env = TRUE)
+  expect_snapshot(print(obj_4))
   expect_equal(summary(obj_4), summary(obj_4$stan))
 })
 
@@ -136,9 +136,10 @@ test_that("rsample method with repeated cv", {
   expect_equal(class(obj_5$stan), c("stanreg", "glm", "lm", "lmerMod"))
   expect_equal(
     formula(obj_5$stan),
-    as.formula(statistic ~ model + (1 | id2 / id))
+    as.formula(statistic ~ model + (1 | id2 / id)),
+    ignore_formula_env = TRUE
   )
-  expect_output(print(obj_5))
+  expect_snapshot(print(obj_5))
   expect_equal(summary(obj_5), summary(obj_5$stan))
 })
 
@@ -157,17 +158,14 @@ test_that("repeated v_fold method", {
   expect_equal(class(obj_6$stan), c("stanreg", "glm", "lm", "lmerMod"))
   expect_equal(
     formula(obj_6$stan),
-    as.formula(statistic ~ model + (1 | id2 / id))
+    as.formula(statistic ~ model + (1 | id2 / id)),
+    ignore_formula_env = TRUE
   )
-  expect_output(print(obj_6))
+  expect_snapshot(print(obj_6))
   expect_equal(summary(obj_6), summary(obj_6$stan))
 })
 
 # ------------------------------------------------------------------------------
-
-test_that("printing", {
-  expect_output(print(obj_1), "Bayesian Analysis of Resampling Results")
-})
 
 
 test_that("summary", {
@@ -183,7 +181,7 @@ test_that("postint", {
   expect_equal(
     tidyposterior:::postint.data.frame(tidy(obj_1)),
     data.frame(lower = 9.52393870753461, upper = 12.3900327798712),
-    tol = 0.01
+    tolerance = 0.01
   )
 })
 
