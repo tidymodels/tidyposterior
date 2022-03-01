@@ -1,16 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tidyposterior
+# tidyposterior <a href='https://tidyposterior.tidymodels.org/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidymodels/tidyposterior/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/tidyposterior?branch=main)
+coverage](https://codecov.io/gh/tidymodels/tidyposterior/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyposterior?branch=main)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
+
 <!-- badges: end -->
 
 This package can be used to conduct *post hoc* analyses of resampling
@@ -61,6 +62,9 @@ cross-validation for a simple two-class problem:
 
 ``` r
 library(tidymodels)
+#> Registered S3 method overwritten by 'tune':
+#>   method                   from   
+#>   required_pkgs.model_spec parsnip
 #> ── Attaching packages ────────────────────────────────────── tidymodels 0.1.4 ──
 #> ✓ broom        0.7.12     ✓ recipes      0.2.0 
 #> ✓ dials        0.1.0      ✓ rsample      0.1.1 
@@ -75,7 +79,7 @@ library(tidymodels)
 #> x dplyr::filter()  masks stats::filter()
 #> x dplyr::lag()     masks stats::lag()
 #> x recipes::step()  masks stats::step()
-#> • Use tidymodels_prefer() to resolve common conflicts.
+#> • Dig deeper into tidy modeling with R at https://www.tmwr.org
 library(tidyposterior)
 
 data(two_class_dat, package = "modeldata")
@@ -157,8 +161,8 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 0.000258 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 2.58 seconds.
+#> Chain 1: Gradient evaluation took 3.6e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -175,15 +179,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.280984 seconds (Warm-up)
-#> Chain 1:                0.077724 seconds (Sampling)
-#> Chain 1:                0.358708 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.305513 seconds (Warm-up)
+#> Chain 1:                0.080909 seconds (Sampling)
+#> Chain 1:                0.386422 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 5e-06 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+#> Chain 2: Gradient evaluation took 1.1e-05 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.11 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -200,15 +204,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.307365 seconds (Warm-up)
-#> Chain 2:                0.087506 seconds (Sampling)
-#> Chain 2:                0.394871 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.327308 seconds (Warm-up)
+#> Chain 2:                0.092769 seconds (Sampling)
+#> Chain 2:                0.420077 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 5e-06 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
+#> Chain 3: Gradient evaluation took 9e-06 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -225,9 +229,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.264596 seconds (Warm-up)
-#> Chain 3:                0.088831 seconds (Sampling)
-#> Chain 3:                0.353427 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.278631 seconds (Warm-up)
+#> Chain 3:                0.093575 seconds (Sampling)
+#> Chain 3:                0.372206 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
@@ -250,9 +254,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.23987 seconds (Warm-up)
-#> Chain 4:                0.098776 seconds (Sampling)
-#> Chain 4:                0.338646 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.255388 seconds (Warm-up)
+#> Chain 4:                0.102333 seconds (Sampling)
+#> Chain 4:                0.357721 seconds (Total)
 #> Chain 4:
 ```
 
@@ -275,7 +279,7 @@ See `contrast_models()` for how to analyze these distributions
 ## Contributing
 
 This project is released with a [Contributor Code of
-Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
 -   For questions and discussions about tidymodels packages, modeling,

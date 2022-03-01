@@ -1,3 +1,6 @@
+#' @keywords internal
+"_PACKAGE"
+
 #' @importFrom dplyr filter select mutate %>% rename group_by summarise full_join
 #' @importFrom dplyr do %>% bind_cols
 #' @importFrom rsample pretty.group_vfold_cv
@@ -19,5 +22,7 @@
 utils::globalVariables(c("contrast", "difference", "model_1", "model_2"))
 utils::globalVariables(c(".", "aes", "posterior", ".metric"))
 utils::globalVariables(c("id", "model", "splits", "statistic", "Resample"))
-utils::globalVariables(c(".config", ".estimate", ".lower", ".upper",
-                         "pract_equiv", "sub_model", "wflow_id", "workflow"))
+utils::globalVariables(c(
+  ".config", ".estimate", ".lower", ".upper",
+  "pract_equiv", "sub_model", "wflow_id", "workflow"
+))

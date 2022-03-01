@@ -161,7 +161,7 @@ the \code{glm} function.
 
 There are several ways to give resampling results to the \code{perf_mod()} function. To
 illustrate, here are some example objects using 10-fold cross-validation for a
-simple two-class problem:\if{html}{\out{<div class="r">}}\preformatted{   library(tidymodels)
+simple two-class problem:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   library(tidymodels)
    library(tidyposterior)
    library(workflowsets)
 
@@ -171,7 +171,7 @@ simple two-class problem:\if{html}{\out{<div class="r">}}\preformatted{   librar
    folds <- vfold_cv(two_class_dat)
 }\if{html}{\out{</div>}}
 
-We can define two different models (for simplicity, with no tuning parameters).\if{html}{\out{<div class="r">}}\preformatted{   logistic_reg_glm_spec <-
+We can define two different models (for simplicity, with no tuning parameters).\if{html}{\out{<div class="sourceCode r">}}\preformatted{   logistic_reg_glm_spec <-
      logistic_reg() \%>\%
      set_engine('glm')
 
@@ -182,7 +182,7 @@ We can define two different models (for simplicity, with no tuning parameters).\
 }\if{html}{\out{</div>}}
 
 For tidymodels, the \code{\link[tune:fit_resamples]{tune::fit_resamples()}} function can be used to estimate
-performance for each model/resample:\if{html}{\out{<div class="r">}}\preformatted{   rs_ctrl <- control_resamples(save_workflow = TRUE)
+performance for each model/resample:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   rs_ctrl <- control_resamples(save_workflow = TRUE)
 
    logistic_reg_glm_res <-
      logistic_reg_glm_spec \%>\%
@@ -201,7 +201,7 @@ one or more id columns) as well as columns for each model that you would like to
 compare.
 
 For the model results above, \code{\link[tune:collect_predictions]{tune::collect_metrics()}} can be used along with some
-basic data manipulation steps:\if{html}{\out{<div class="r">}}\preformatted{   logistic_roc <-
+basic data manipulation steps:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   logistic_roc <-
      collect_metrics(logistic_reg_glm_res, summarize = FALSE) \%>\%
      dplyr::filter(.metric == "roc_auc") \%>\%
      dplyr::select(id, logistic = .estimate)
@@ -225,7 +225,7 @@ basic data manipulation steps:\if{html}{\out{<div class="r">}}\preformatted{   l
    ## # … with 4 more rows
 }
 
-We can then give this directly to \code{perf_mod()}:\if{html}{\out{<div class="r">}}\preformatted{   set.seed(101)
+We can then give this directly to \code{perf_mod()}:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   set.seed(101)
    roc_model_via_df <- perf_mod(resamples_df, refresh = 0)
    tidy(roc_model_via_df) \%>\% summary()
 }\if{html}{\out{</div>}}\preformatted{   ## # A tibble: 2 x 4
@@ -240,7 +240,7 @@ We can then give this directly to \code{perf_mod()}:\if{html}{\out{<div class="r
 
 Alternatively, the result columns can be merged back into the original \code{rsample}
 object. The up-side to using this method is that \code{perf_mod()} will know exactly
-which model formula to use for the Bayesian model:\if{html}{\out{<div class="r">}}\preformatted{   resamples_rset <-
+which model formula to use for the Bayesian model:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   resamples_rset <-
      full_join(folds, logistic_roc, by = "id") \%>\%
      full_join(mars_roc, by = "id")
 
@@ -259,7 +259,7 @@ which model formula to use for the Bayesian model:\if{html}{\out{<div class="r">
 
 Finally, for tidymodels, a workflow set object can be used. This is a collection of
 models/preprocessing combinations in one object. We can emulate a workflow set using
-the existing example results then pass that to \code{perf_mod()}:\if{html}{\out{<div class="r">}}\preformatted{   example_wset <-
+the existing example results then pass that to \code{perf_mod()}:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   example_wset <-
      as_workflow_set(logistic = logistic_reg_glm_res, mars = mars_earth_res)
 
    set.seed(101)
@@ -275,7 +275,7 @@ the existing example results then pass that to \code{perf_mod()}:\if{html}{\out{
 
 \subsection{caret resamples object}{
 
-The \code{caret} package can also be used. An equivalent set of models are created:\if{html}{\out{<div class="r">}}\preformatted{   library(caret)
+The \code{caret} package can also be used. An equivalent set of models are created:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   library(caret)
 
    set.seed(102)
    logistic_caret <- train(Class ~ ., data = two_class_dat, method = "glm",
@@ -292,7 +292,7 @@ seed prior to calling \code{train()}. However, these are different from the tidy
 results used above (so the final results will be different).
 
 \code{caret} has a \code{resamples()} function that can collect and collate the resamples.
-This can also be given to \code{perf_mod()}:\if{html}{\out{<div class="r">}}\preformatted{   caret_resamples <- resamples(list(logistic = logistic_caret, mars = mars_caret))
+This can also be given to \code{perf_mod()}:\if{html}{\out{<div class="sourceCode r">}}\preformatted{   caret_resamples <- resamples(list(logistic = logistic_caret, mars = mars_caret))
 
    set.seed(101)
    roc_model_via_caret <- perf_mod(caret_resamples, refresh = 0)

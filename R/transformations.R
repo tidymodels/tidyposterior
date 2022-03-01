@@ -1,5 +1,5 @@
 #' Simple Transformation Functions
-#' 
+#'
 #' A set of objects are contained here to easily facilitate the
 #'  use of outcome transformations for modeling. For example, if
 #'  there is a large amount of variability in the resampling results
@@ -11,7 +11,7 @@
 #'  prior and reverse-transforming the posterior estimates prior to
 #'  visualization and summarization. These object can help
 #'  facilitate this last approach.
-#'  
+#'
 #' @details The `logit_trans` object is useful for model
 #'  performance statistics bounds in zero and one, such as accuracy
 #'  or the area under the ROC curve.
@@ -22,19 +22,22 @@
 #' `Fisher_trans` was originally used for correlation statistics
 #'  but can be used here for an metrics falling between -1 and 1,
 #'  such as Kappa.
-#'  
-#' @examples 
+#'
+#' @examples
 #' logit_trans$func(.5)
 #' logit_trans$inv(0)
-#' 
 #' @rdname transformations
 #' @export
-no_trans <- list(func = function(x) x,
-                 inv = function(x) x)
+no_trans <- list(
+  func = function(x) x,
+  inv = function(x) x
+)
 #' @rdname transformations
 #' @export
-logit_trans <- list(func = binomial()$linkfun,
-                    inv = binomial()$linkinv)
+logit_trans <- list(
+  func = binomial()$linkfun,
+  inv = binomial()$linkinv
+)
 #' @rdname transformations
 #' @export
 Fisher_trans <- list(func = atanh, inv = tanh)
@@ -43,5 +46,7 @@ Fisher_trans <- list(func = atanh, inv = tanh)
 ln_trans <- list(func = log, inv = exp)
 #' @rdname transformations
 #' @export
-inv_trans <- list(func = function(x) 1/x,
-                  inv = function(x) 1/x)
+inv_trans <- list(
+  func = function(x) 1 / x,
+  inv = function(x) 1 / x
+)

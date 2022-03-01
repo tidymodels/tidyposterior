@@ -96,8 +96,9 @@ postint.numeric <- function(object, prob = 0.90,
   res
 }
 postint.data.frame <- function(object, prob = 0.90,
-                               seed = sample.int(10000, 1), ...)
+                               seed = sample.int(10000, 1), ...) {
   postint(getElement(object, "posterior"), prob = prob, seed = seed)
+}
 
 
 
@@ -121,7 +122,7 @@ postint.data.frame <- function(object, prob = 0.90,
 #' autoplot(posterior_samples)
 #' @export
 autoplot.posterior <-
-  function (object, ...) {
+  function(object, ...) {
     ggplot2::ggplot(as.data.frame(object), ggplot2::aes(x = posterior, col = model)) +
       ggplot2::geom_line(stat = "density", ...)
   }
@@ -129,7 +130,7 @@ autoplot.posterior <-
 
 #' @rdname autoplot.posterior
 #' @export
-autoplot.perf_mod <- function (object, ...) {
+autoplot.perf_mod <- function(object, ...) {
   samples <- tidy(object)
   res <- autoplot(samples, ...)
   if (any(names(object) == "metric") && !is.na(object$metric$name)) {
@@ -141,7 +142,6 @@ autoplot.perf_mod <- function (object, ...) {
 #' @rdname autoplot.posterior
 #' @export
 autoplot.perf_mod_workflow_set <- function(object, type = "intervals", prob = 0.9, size = NULL, ...) {
-
   type <- match.arg(type, c("intervals", "posteriors", "ROPE"))
   if (type == "intervals") {
     res <- plot_wset_intervals(object, prob, ...)
@@ -175,7 +175,8 @@ plot_wset_intervals <- function(object, prob, ...) {
   ggplot2::ggplot(plot_data, ggplot2::aes(x = rank, y = .estimate, col = workflow)) +
     ggplot2::geom_point() +
     ggplot2::geom_errorbar(ggplot2::aes(ymin = .lower, ymax = .upper),
-                  width = diff(range(plot_data$rank))/75) +
+      width = diff(range(plot_data$rank)) / 75
+    ) +
     ggplot2::labs(x = "Workflow Rank", y = object$metric$name)
 }
 
@@ -220,6 +221,3 @@ plot_rope_probs <- function(object, size, ...) {
     ggplot2::labs(x = "Workflow Rank", y = "Probability of Practical Equivalence") +
     ggplot2::ylim(0:1)
 }
-
-
-

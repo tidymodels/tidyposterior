@@ -14,7 +14,7 @@ posterior_diff_reconstructable <- function(x, to) {
   to_names <- names(to)
   req_names <- c("difference", "model_1", "model_2", "contrast")
   if (!all(req_names %in% x_names)) {
-    return (FALSE)
+    return(FALSE)
   } else {
     if (!is.numeric(x[["difference"]])) {
       return(FALSE)

@@ -1,5 +1,7 @@
 # tidyposterior (development version)
 
+* Update to testthat 3e.
+
 # tidyposterior 0.1.0
 
 * The `ggplot()` methods are now removed in factor of `autoplot()` methods. 
