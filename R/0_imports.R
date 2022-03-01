@@ -1,3 +1,6 @@
+#' @keywords internal
+"_PACKAGE"
+
 #' @importFrom dplyr filter select mutate %>% rename group_by summarise full_join
 #' @importFrom dplyr do %>% bind_cols
 #' @importFrom rsample pretty.group_vfold_cv
