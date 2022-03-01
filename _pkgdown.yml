@@ -2,23 +2,23 @@ url: https://tidyposterior.tidymodels.org
 
 template:
   package: tidytemplate
-  params:
-    theme: tidymodels
-    part_of: <a href="https://tidymodels.org">tidymodels</a>
-    footer: tidyposterior is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
-
-# https://github.com/tidyverse/tidytemplate for css
+  bootstrap: 5
+  bslib:
+    danger: "#CA225E"
+    primary: "#CA225E"
+  includes:
+    in_header: |
+      <script defer data-domain="tidyposterior.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 
 development:
   mode: auto
-
 
 figures:
   fig.width: 8
   fig.height: 5.75
 
 reference:
-  - title: Bayesian Analysis of Resampling Results
+  - title: Bayesian analysis of resampling results
     contents:
       - perf_mod
       - tidy.perf_mod
@@ -36,13 +36,3 @@ reference:
       - precise_example
       - noisy_example
       - concrete_example
-
-navbar:
-  left:
-  - text: Getting Started
-    href: articles/articles/Getting_Started.html
-  - text: Different Bayesian Models
-    href: articles/Different_Bayesian_Models.html
-  - text: Reference
-    href: reference/index.html
-
