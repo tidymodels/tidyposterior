@@ -29,6 +29,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -43,7 +45,7 @@
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">tidyposterior</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
+          <span class="partof">part of <a href="https://tidymodels.org" class="external-link">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.0.9000</span>
         </div>
       </div>
@@ -60,7 +62,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
         <li>
-  <a href="https://github.com/tidymodels/tidyposterior/">
+  <a href="https://github.com/tidymodels/tidyposterior/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -75,25 +77,422 @@
 
       
 
-      </header><script src="Getting_Started_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Getting Started</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyposterior/blob/master/vignettes/Getting_Started.Rmd"><code>vignettes/Getting_Started.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/tidymodels/tidyposterior/blob/HEAD/vignettes/articles/Getting_Started.Rmd" class="external-link"><code>vignettes/articles/Getting_Started.Rmd</code></a></small>
       <div class="hidden name"><code>Getting_Started.Rmd</code></div>
 
     </div>
 
     
     
-<p>A new version of this vignette can be found at <a href="https://tidyposterior.tidymodels.org/dev/articles/articles/Getting_Started.html"><code>https://tidyposterior.tidymodels.org/dev/articles/articles/Getting_Started.html</code></a></p>
+<p>To show how <code>tidyposterior</code> compares models, let’s look at a small data set. The <code>modeldata</code> package has a data set called <code>two_class_dat</code> that has 791 data points on to predictors. The outcome is a two-level factor. There is some linear-ish separation between the classes but hints that a nonlinear class boundary might do slightly better.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">two_class_dat</span><span class="op">)</span>
+
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">two_class_dat</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">A</span>, y <span class="op">=</span> <span class="va">B</span>, col <span class="op">=</span> <span class="va">Class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.3</span>, cex <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/class-plot-1.png" width="768" style="display: block; margin: auto;"></p>
+<p><code>tidyposterior</code> models performance statistics produced by models, such as RMSE, accuracy, or the area under the ROC curve. It relies on resampling to produce replicates of these performance statistics so that they can be modeled.</p>
+<p>We’ll use simple 10-fold cross-validation here. Any other resampling method from <code>rsample</code>, except a simple validation set, would also be appropriate.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">cv_folds</span> <span class="op">&lt;-</span> <span class="fu">vfold_cv</span><span class="op">(</span><span class="va">two_class_dat</span><span class="op">)</span>
+<span class="va">cv_folds</span></code></pre></div>
+<pre><code><span class="co">## #  10-fold cross-validation </span>
+<span class="co">## <span style="color: #949494;"># A tibble: 10 × 2</span></span>
+<span class="co">##    splits           id    </span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> </span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> <span style="color: #949494;">&lt;split [711/80]&gt;</span> Fold01</span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold02</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold03</span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold04</span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold05</span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold06</span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold07</span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold08</span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold09</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold10</span></code></pre>
+<p>We’ll use a logistic regression model for these data and initially consider two different preprocessing methods that might help the fit. Let’s define a model specification:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">logistic_spec</span> <span class="op">&lt;-</span> <span class="fu">logistic_reg</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">set_engine</span><span class="op">(</span><span class="st">"glm"</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="comparing-modelingprepreocessing-methods">Comparing modeling/prepreocessing methods<a class="anchor" aria-label="anchor" href="#comparing-modelingprepreocessing-methods"></a>
+</h2>
+<p>One way to incorporate nonlinearity into the class boundary is to use a spline basis expansion for the predictors. A <code>recipe</code> step using <code>step_ns</code> will will encode the predictors in this way. The degrees of freedom will be hard-coded to produce two additional feature columns per predictor:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spline_rec</span> <span class="op">&lt;-</span> 
+  <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">step_ns</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, deg_free <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+
+<span class="va">spline_wflow</span> <span class="op">&lt;-</span> 
+  <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">spline_rec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">add_model</span><span class="op">(</span><span class="va">logistic_spec</span><span class="op">)</span></code></pre></div>
+<p>Binding the model and recipe into a workflow creates a simple interface when we <code>fit()</code> and <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> the data (but isn’t required by <code>tidypredict</code>).</p>
+<p>An alternate preprocessing method is to normalize the data using a spatial sign transformation. This projects the predictors on to a unit circle and can sometimes mitigate the effect of collinearity or outliers. A recipe is also used. Here is a visual representation of the data after the transformation:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spatial_sign_rec</span> <span class="op">&lt;-</span> 
+  <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">step_normalize</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">step_spatialsign</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span><span class="op">)</span>
+
+<span class="va">spatial_sign_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">prep</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">bake</span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">A</span>, y <span class="op">=</span> <span class="va">B</span>, col <span class="op">=</span> <span class="va">Class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.3</span>, cex <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/class-plot-spatial-sign-1.png" width="768" style="display: block; margin: auto;"> Another workflow is created for this method:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spatial_sign_wflow</span> <span class="op">&lt;-</span> 
+  <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">add_recipe</span><span class="op">(</span><span class="va">spatial_sign_rec</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">add_model</span><span class="op">(</span><span class="va">logistic_spec</span><span class="op">)</span></code></pre></div>
+<p><code>tidyposterior</code> does not require the user to create their models using tidymodels packages, <code>caret</code>, or any other method (although there are advantages to using those tools). In the end a data frame format with resample identifiers and columns for performance statistics are needed.</p>
+<p>To produce this format with our tidymodels objects, this small convenience function will create a model on the 90% of the data allocated by cross-validation, predict the other 10%, then calculate the area under the ROC curve. If you use tidymodels, there are high-level interfaces (shown below) that don’t require such a function.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">compute_roc</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">split</span>, <span class="va">wflow</span><span class="op">)</span> <span class="op">{</span>
+  <span class="co"># Fit the model to 90% of the data</span>
+  <span class="va">mod</span> <span class="op">&lt;-</span> <span class="fu">fit</span><span class="op">(</span><span class="va">wflow</span>, data <span class="op">=</span> <span class="fu">analysis</span><span class="op">(</span><span class="va">split</span><span class="op">)</span><span class="op">)</span>
+  <span class="co"># Predict the other 10%</span>
+  <span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mod</span>, new_data <span class="op">=</span> <span class="fu">assessment</span><span class="op">(</span><span class="va">split</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span>
+  <span class="co"># Compute the area under the ROC curve</span>
+  <span class="va">pred</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_cols</a></span><span class="op">(</span><span class="fu">assessment</span><span class="op">(</span><span class="va">split</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+    <span class="fu">roc_auc</span><span class="op">(</span><span class="va">Class</span>, <span class="va">.pred_Class1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">.estimate</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p>For our <code>rsample</code> object <code>cv_folds</code>, let’s create two columns of ROC statistics using this function in conjunction with <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">dplyr::mutate</a></code>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">roc_values</span> <span class="op">&lt;-</span> 
+  <span class="va">cv_folds</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>
+    spatial_sign <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">splits</span>, <span class="va">compute_roc</span>, <span class="va">spatial_sign_wflow</span><span class="op">)</span>,
+    splines      <span class="op">=</span> <span class="fu">map_dbl</span><span class="op">(</span><span class="va">splits</span>, <span class="va">compute_roc</span>, <span class="va">spline_wflow</span><span class="op">)</span>
+  <span class="op">)</span>
+
+<span class="va">roc_values</span></code></pre></div>
+<pre><code><span class="co">## #  10-fold cross-validation </span>
+<span class="co">## <span style="color: #949494;"># A tibble: 10 × 4</span></span>
+<span class="co">##    splits           id     spatial_sign splines</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> <span style="color: #949494;">&lt;split [711/80]&gt;</span> Fold01        0.943   0.946</span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold02        0.861   0.852</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold03        0.819   0.838</span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold04        0.844   0.873</span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold05        0.865   0.902</span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold06        0.868   0.909</span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold07        0.952   0.934</span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold08        0.904   0.920</span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold09        0.765   0.811</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> <span style="color: #949494;">&lt;split [712/79]&gt;</span> Fold10        0.851   0.889</span></code></pre>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Overall ROC statistics per workflow:</span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span>
+  <span class="va">roc_values</span>,
+  splines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span>,
+  spatial_sign <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">spatial_sign</span><span class="op">)</span>
+<span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1 × 2</span></span>
+<span class="co">##   splines spatial_sign</span>
+<span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span>   0.887        0.867</span></code></pre>
+<p>There is the suggestion that using splines is better than the spatial sign. It would be nice to have some inferential analysis that could tell us if the size of this difference is create than the experimental noise in the data.</p>
+<p><code>tidyposterior</code> uses a Bayesian ANOVA model to compute posterior distributions for the performance statistic of each modeling method. This tells use the probabilistic distribution of the model performance metrics and allows us to make more formal statements about the superiority (or equivalence) of different models. <a href=""><em>Tidy Models with R</em></a> has a good explanation of how the Bayesian ANOVA model works.</p>
+<p>The main function to conduct the analysis is <code><a href="../reference/perf_mod.html">perf_mod()</a></code>. The main argument is for the object containing the resampling information and at least two numeric columns of performance statistics (measuring the same metric). As described in <code><a href="../reference/perf_mod.html">?perf_mod</a></code>, there are a variety of other object types that can be used for this argument.</p>
+<p>There are also options for statistical parameters of the analysis, such as any transformation of the output statistics that should be used and so on.</p>
+<p>The main options in our analysis are passed through to the <code>rstanarm</code> function <code>stan_glmer()</code>. These include:</p>
+<ul>
+<li><p><code>seed</code>: An integer that controls the random numbers used in the Bayesian model.</p></li>
+<li><p><code>iter</code>: The total number of Montre Carlo iterations used (including the burn-in samples).</p></li>
+<li><p><code>chains</code>: The number of independent Markov Chain Monte Carlo analyses to compute.</p></li>
+<li><p><code>refresh</code>: How often to update the log (a value of zero means no output).</p></li>
+</ul>
+<p>Other options that can be helpful (but we’ll use their defaults):</p>
+<ul>
+<li><p><code>prior_intercept</code>: The main argument in this analysis for specifying the prior distribution of the parameters.</p></li>
+<li><p><code>family</code>: The exponential family distribution for the performance statistics.</p></li>
+<li><p><code>cores</code>: The number of parallel workers to use to speed-up computations.</p></li>
+</ul>
+<p>Our call to this function is:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rset_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">roc_values</span>, seed <span class="op">=</span> <span class="fl">2</span>, iter <span class="op">=</span> <span class="fl">5000</span>, chains <span class="op">=</span> <span class="fl">5</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
+<p>The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> function for this type of object shows the output from <code>stan_glmer()</code>. It’s long, so we show some of the initial output:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">rset_mod</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## </span>
+<span class="co">## Model Info:</span>
+<span class="co">##  function:     stan_glmer</span>
+<span class="co">##  family:       gaussian [identity]</span>
+<span class="co">##  formula:      statistic ~ model + (1 | id)</span>
+<span class="co">##  algorithm:    sampling</span>
+<span class="co">##  sample:       12500 (posterior sample size)</span>
+<span class="co">##  priors:       see help('prior_summary')</span>
+<span class="co">##  observations: 20</span>
+<span class="co">##  groups:       id (10)</span>
+<span class="co">## </span>
+<span class="co">## Estimates:</span>
+<span class="co">##                                     mean   sd     10%    50%    90% </span>
+<span class="co">## (Intercept)                        0.868  0.016  0.848  0.868  0.887</span>
+<span class="co">## modelsplines                       0.020  0.009  0.008  0.020  0.031</span>
+<span class="co">## b[(Intercept) id:Fold01]           0.059  0.020  0.034  0.059  0.085</span>
+<span class="co">## </span>
+<span class="co">## &lt;snip&gt;</span></code></pre>
+<p>Assuming that our assumptions are appropriate, one of the main things that we’d like to get out of the object are samples of the posterior distributions for the performance metrics (per modeling method). The <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method will produce a data frame with such samples:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">rset_mod</span>, seed <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## # Posterior samples of performance</span>
+<span class="co">## <span style="color: #949494;"># A tibble: 25,000 × 2</span></span>
+<span class="co">##    model        posterior</span>
+<span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;"> 1</span> spatial_sign     0.836</span>
+<span class="co">## <span style="color: #BCBCBC;"> 2</span> spatial_sign     0.832</span>
+<span class="co">## <span style="color: #BCBCBC;"> 3</span> spatial_sign     0.861</span>
+<span class="co">## <span style="color: #BCBCBC;"> 4</span> spatial_sign     0.876</span>
+<span class="co">## <span style="color: #BCBCBC;"> 5</span> spatial_sign     0.850</span>
+<span class="co">## <span style="color: #BCBCBC;"> 6</span> spatial_sign     0.848</span>
+<span class="co">## <span style="color: #BCBCBC;"> 7</span> spatial_sign     0.852</span>
+<span class="co">## <span style="color: #BCBCBC;"> 8</span> spatial_sign     0.886</span>
+<span class="co">## <span style="color: #BCBCBC;"> 9</span> spatial_sign     0.854</span>
+<span class="co">## <span style="color: #BCBCBC;">10</span> spatial_sign     0.880</span>
+<span class="co">## <span style="color: #949494;"># … with 24,990 more rows</span></span></code></pre>
+<p>We require a <code>seed</code> value since it is a sample.</p>
+<p>There is a simple plotting method for the object too:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">rset_mod</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/preproc-bayes-plot-1.png" width="768" style="display: block; margin: auto;"></p>
+<p>There is some overlap but, again, it would be better if we could quantify this.</p>
+<p>To compare models, the <code><a href="../reference/contrast_models.html">contrast_models()</a></code> function computes the posterior distributions of differences in performance statistics between models. For example, what does the posterior look like for the difference in performance for these two preprocessing methods? By default, the function computes all possible differences (a single contrast for this example). There are also <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and plot methods:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">preproc_diff</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/contrast_models.html">contrast_models</a></span><span class="op">(</span><span class="va">rset_mod</span>, seed <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">preproc_diff</span>, seed <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1 × 9</span></span>
+<span class="co">##   contrast      probability    mean   lower    upper  size pract_neg pract_equiv</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> spatial_sign…      0.020<span style="text-decoration: underline;">6</span> -<span style="color: #BB0000;">0.019</span><span style="color: #BB0000; text-decoration: underline;">9</span> -<span style="color: #BB0000;">0.035</span><span style="color: #BB0000; text-decoration: underline;">2</span> -<span style="color: #BB0000;">0.004</span><span style="color: #BB0000; text-decoration: underline;">55</span>     0        <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
+<span class="co">## <span style="color: #949494;"># … with 1 more variable: pract_pos &lt;dbl&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">preproc_diff</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Difference in ROC (spatial sign - splines)"</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/preproc-contrast-1.png" width="768" style="display: block; margin: auto;"> Since the difference is negative, the spline model appears better than the spatial sign method. The summary output quantifies this by producing a simple credible interval for the difference. The probability column also reflects this since it is the probability that the spline ROC scores are greater than the analogous statistics from the spatial sign model. A value of 0.5 would indicate no difference.</p>
+<p>There is an additional analysis that can be used. The ROPE method, short for <em>Region of Practical Equivalence</em>, is a method for understanding the differences in models in less subjective way. For this analysis, we would specify a practical effect size (usually before the analysis). This quantity reflects what difference in the metric is considered practically meaning full in the context of our problem. In our example, if we saw two models with a difference in their ROC statistics of 0.02, we might consider them effectually different (your beliefs may differ).</p>
+<p>Once we have settled on a value of this effect size (in the units of the statistic), we can compute how much of the difference is within this region of practical equivalence (in our example, this is <code>[-0.02, 0.02]</code>). If the difference is mostly within these bounds, the models might be significantly different but not practically different. Alternatively, if the differences are beyond this, they would be different in both senses.</p>
+<p>The summary and plot methods have optional arguments called <code>size.</code> The <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> function computes the probability of the posterior differences that fall inside and outside of this region. The plot method shows it visually:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">preproc_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">contrast</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">starts_with</a></span><span class="op">(</span><span class="st">"pract"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 1 × 4</span></span>
+<span class="co">##   contrast                pract_neg pract_equiv pract_pos</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> spatial_sign vs splines     0.501       0.498    0.000<span style="text-decoration: underline;">4</span></span></code></pre>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">preproc_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/preproc-rope-1.png" width="768" style="display: block; margin: auto;"></p>
+<p>For this analysis, there are about even odds that the difference between these models is not practically important (since the <code>pract_equiv</code> is near 0.5).</p>
+<div class="section level3">
+<h3 id="about-our-assumptions">About our assumptions<a class="anchor" aria-label="anchor" href="#about-our-assumptions"></a>
+</h3>
+<p>Previously, the expression “assuming that our assumptions are appropriate” was used. This is an inferential analysis and the validity of our assumptions matter a great deal. There are a few assumptions for this analysis. The main one is that we’ve specified the outcome distribution well. We’ve models the area under the ROC curve. This is a statistic bounded (effectively) between 0.5 and 1.0. The variance of the statistic is probably related to the mean; there is likely less variation in scores near 1.0 than those near 0.5.</p>
+<p>The default family for <code>stan_glmer()</code> is Gaussian. Given the characteristics of this metric, that assumption might seem problematic.</p>
+<p>However, Gaussian seems like a good first approach for this assumption. The rationale is based on the Central Limit Theorem. As the sample size increases, the sample mean statistic converges to normality despite the distribution of the individual data points. Our performance estimates are summary statistics and, if the training set size is “large enough”, they will exhibit behavior consistent with normality.</p>
+<p>As a simple (and approximate) example/diagnostics, suppose we used a simple ANOVA for the ROC statistics using <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>. This is not the same analysis as the one used by <code>tidyposterior</code>, but the regression parameter estimates should be fairly similar. For that analysis, we can assess the normality of the residuals and see that they are pretty consistent with the normality assumption:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">roc_longer</span> <span class="op">&lt;-</span> 
+  <span class="va">roc_values</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="op">-</span><span class="va">splits</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">pivot_longer</span><span class="op">(</span>cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"preprocessor"</span>, values_to <span class="op">=</span> <span class="st">"roc"</span><span class="op">)</span>
+
+<span class="va">roc_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">roc</span> <span class="op">~</span> <span class="va">preprocessor</span>, <span class="va">roc_longer</span><span class="op">)</span>
+
+<span class="va">roc_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">augment</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="va">.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">geom_qq</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_qq.html" class="external-link">geom_qq_line</a></span><span class="op">(</span>lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span>ratio  <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/roc_dist-1.png" width="768" style="display: block; margin: auto;"></p>
+<p>If this were not the case there are a few things that we can do.</p>
+<p>The easiest approach would be to use a variance stabilizing transformation of the metrics and keep the Gaussian assumption. <code><a href="../reference/perf_mod.html">perf_mod()</a></code> has a <code>transform</code> argument that will transform the outcome but still produce the posterior distributions in the original units. This will help if the variation within each model significantly changes over the range of the values. When transformed back to the original units, the posteriors will have different variances.</p>
+<p>Another option that can help with heterogeneous variances is <code>hetero_var.</code> This fits a difference variance for each modeling method. However, this may make convergence of the model more difficult.</p>
+<p>Finally, a different distribution can be assumed using the family argument to <code>stan_glmer()</code>. Since our metrics are numeric, there are not many families to choose from.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="evaluating-sub-models">Evaluating sub-models<a class="anchor" aria-label="anchor" href="#evaluating-sub-models"></a>
+</h2>
+<p>The previous example was a between-model comparison (where “model” really means statistical model plus preprocessing method). If the model must be tuned, there is also the issue of within-model comparisons.</p>
+<p>For our spline analysis, we assumed that three degrees of freedom were appropriate. However, we might tune the model over that parameter to see what the best degrees of freedom should be.</p>
+<p>The previous spline recipe is altered so that the degrees of freedom parameter doesn’t have an actual value. Instead, using a value of <code>tune()</code> will mark this parameter for optimization. There are a few different approaches for tuning this parameter; we’ll use simpe grid search.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spline_rec</span> <span class="op">&lt;-</span> 
+  <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">step_ns</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, deg_free <span class="op">=</span> <span class="fu">tune</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The <code>tune</code> package function <code>tune_grid()</code> is used to evaluate several values of the parameter. For each value, the resampled area under the ROC curve is computed.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">spline_tune</span> <span class="op">&lt;-</span>
+  <span class="va">logistic_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">tune_grid</span><span class="op">(</span>
+    <span class="va">spline_rec</span>,
+    resamples <span class="op">=</span> <span class="va">cv_folds</span>,
+    grid <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>deg_free <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,
+    metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">roc_auc</span><span class="op">)</span>,
+    control <span class="op">=</span> <span class="fu">control_grid</span><span class="op">(</span>save_workflow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="va">spline_tune</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4 × 7</span></span>
+<span class="co">##   deg_free .metric .estimator  mean     n std_err .config             </span>
+<span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span>        1 roc_auc binary     0.888    10  0.014<span style="text-decoration: underline;">1</span> Preprocessor1_Model1</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span>        3 roc_auc binary     0.887    10  0.013<span style="text-decoration: underline;">7</span> Preprocessor2_Model1</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span>        5 roc_auc binary     0.886    10  0.013<span style="text-decoration: underline;">3</span> Preprocessor3_Model1</span>
+<span class="co">## <span style="color: #BCBCBC;">4</span>       10 roc_auc binary     0.883    10  0.012<span style="text-decoration: underline;">8</span> Preprocessor4_Model1</span></code></pre>
+<p>There is a <code><a href="../reference/perf_mod.html">perf_mod()</a></code> method for this type of object. The computations are conducted in the same manner but, in this instance, four sub-models are compared.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grid_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">spline_tune</span>, seed <span class="op">=</span> <span class="fl">6</span>, iter <span class="op">=</span> <span class="fl">5000</span>, chains <span class="op">=</span> <span class="fl">5</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">grid_mod</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/tune-grid-bayes-1.png" width="768" style="display: block; margin: auto;"></p>
+<p>When the object given to perf_mod is from a model tuning function, the <code>model</code> column corresponds to the <code>.config</code> column in the results.</p>
+<p>There is a lot of overlap. The results do call into question the overall utility of using splines. A single degree of freedom model corresponds to a linear effect. Let’s compare the linear class boundaries to the other sub-models to see if splines are even improving the model.</p>
+<p>The contrast_model function can take two lists of model identifiers and compute their differences. Again, for tuning objects, this should include values of <code>.config</code>. This specification compute the difference <code>{1 df - X df}</code> so positive differences indicate that the linear model is better.</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">grid_diff</span> <span class="op">&lt;-</span>
+  <span class="fu"><a href="../reference/contrast_models.html">contrast_models</a></span><span class="op">(</span>
+    <span class="va">grid_mod</span>,
+    list_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"Preprocessor1_Model1"</span>, <span class="fl">3</span><span class="op">)</span>,
+    list_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
+      <span class="st">"Preprocessor2_Model1"</span>, <span class="co"># &lt;-  3 df spline</span>
+      <span class="st">"Preprocessor3_Model1"</span>, <span class="co"># &lt;-  5 df spline</span>
+      <span class="st">"Preprocessor4_Model1"</span>  <span class="co"># &lt;- 10 df spline</span>
+    <span class="op">)</span>,
+    seed <span class="op">=</span> <span class="fl">7</span>
+  <span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">grid_diff</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 3 × 9</span></span>
+<span class="co">##   contrast      probability    mean    lower   upper  size pract_neg pract_equiv</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> Preprocessor…       0.527 2.50<span style="color: #949494;">e</span><span style="color: #BB0000;">-4</span> -<span style="color: #BB0000;">0.005</span><span style="color: #BB0000; text-decoration: underline;">63</span> 0.006<span style="text-decoration: underline;">23</span>     0        <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> Preprocessor…       0.625 1.15<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> -<span style="color: #BB0000;">0.004</span><span style="color: #BB0000; text-decoration: underline;">68</span> 0.007<span style="text-decoration: underline;">18</span>     0        <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> Preprocessor…       0.896 4.48<span style="color: #949494;">e</span><span style="color: #BB0000;">-3</span> -<span style="color: #BB0000;">0.001</span><span style="color: #BB0000; text-decoration: underline;">42</span> 0.010<span style="text-decoration: underline;">5</span>      0        <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span></span>
+<span class="co">## <span style="color: #949494;"># … with 1 more variable: pract_pos &lt;dbl&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">grid_diff</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/tune-grid-bayes-contrast-plot-1.png" width="768" style="display: block; margin: auto;"></p>
+<p>The results indicate that a lot of degrees of freedom might make the model worse. At best, there is a limited difference in performance when more than one spline term is used.</p>
+<p>The ROPE analysis is more definitive; there is no sense of practical differences within the previously used effect size:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">grid_diff</span>, size <span class="op">=</span> <span class="fl">0.02</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/tune-grid-rope-1.png" width="768" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level2">
+<h2 id="workflow-sets">Workflow sets<a class="anchor" aria-label="anchor" href="#workflow-sets"></a>
+</h2>
+<p>Workflow sets are collections of workflows and their results. These can be made after existing workflows have been evaluated or by using <code><a href="https://workflowsets.tidymodels.org/reference/workflow_set.html" class="external-link">workflow_set()</a></code> to create an evaluate the models.</p>
+<p>Let’s create an initial set that has difference combinations of the two predictors for this data set.</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/workflowsets" class="external-link">workflowsets</a></span><span class="op">)</span>
+
+<span class="va">logistic_set</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/workflow_set.html" class="external-link">workflow_set</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>A <span class="op">=</span> <span class="va">Class</span> <span class="op">~</span> <span class="va">A</span>, B <span class="op">=</span> <span class="va">Class</span> <span class="op">~</span> <span class="va">B</span>, ratio <span class="op">=</span> <span class="va">Class</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">A</span><span class="op">/</span><span class="va">B</span><span class="op">)</span><span class="op">)</span>, 
+         spatial_sign <span class="op">=</span> <span class="va">spatial_sign_rec</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>logistic <span class="op">=</span> <span class="va">logistic_spec</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="va">logistic_set</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A workflow set/tibble: 4 × 4</span></span>
+<span class="co">##   wflow_id              info             option    result    </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A_logistic            <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[0]&gt;</span> <span style="color: #949494;">&lt;list [0]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> B_logistic            <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[0]&gt;</span> <span style="color: #949494;">&lt;list [0]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> ratio_logistic        <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[0]&gt;</span> <span style="color: #949494;">&lt;list [0]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> spatial_sign_logistic <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[0]&gt;</span> <span style="color: #949494;">&lt;list [0]&gt;</span></span></code></pre>
+<p>The <code>object</code> volumn contains the workflows that are created by the combinations of preprocessors and the model (multiple models could have been used). Rather than calling the same functions from the <code>tune</code> package repeatedly, we can evaluate these with a single function call. Notice that none of these workflows require tuning so <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html" class="external-link">tune::fit_resamples()</a></code> can be used:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">logistic_res</span> <span class="op">&lt;-</span> 
+  <span class="va">logistic_set</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/workflow_map.html" class="external-link">workflow_map</a></span><span class="op">(</span><span class="st">"fit_resamples"</span>, seed <span class="op">=</span> <span class="fl">3</span>, resamples <span class="op">=</span> <span class="va">cv_folds</span>, 
+               metrics <span class="op">=</span> <span class="fu">metric_set</span><span class="op">(</span><span class="va">roc_auc</span><span class="op">)</span><span class="op">)</span> 
+<span class="va">logistic_res</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A workflow set/tibble: 4 × 4</span></span>
+<span class="co">##   wflow_id              info             option    result   </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A_logistic            <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> B_logistic            <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> ratio_logistic        <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> spatial_sign_logistic <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span></code></pre>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="va">logistic_res</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 4 × 9</span></span>
+<span class="co">##   wflow_id          .config preproc model .metric .estimator  mean     n std_err</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A_logistic        Prepro… formula logi… roc_auc binary     0.702    10  0.021<span style="text-decoration: underline;">0</span></span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> B_logistic        Prepro… formula logi… roc_auc binary     0.866    10  0.015<span style="text-decoration: underline;">1</span></span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> ratio_logistic    Prepro… formula logi… roc_auc binary     0.749    10  0.016<span style="text-decoration: underline;">4</span></span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> spatial_sign_log… Prepro… recipe  logi… roc_auc binary     0.867    10  0.017<span style="text-decoration: underline;">6</span></span></code></pre>
+<p>We can also add the previously tuned spline results by first converting them to a workflow set then appending their rows to the results:</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">logistic_res</span> <span class="op">&lt;-</span> 
+  <span class="va">logistic_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>
+    <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/as_workflow_set.html" class="external-link">as_workflow_set</a></span><span class="op">(</span>splines <span class="op">=</span> <span class="va">spline_tune</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="va">logistic_res</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A workflow set/tibble: 5 × 4</span></span>
+<span class="co">##   wflow_id              info             option    result   </span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> A_logistic            <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> B_logistic            <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> ratio_logistic        <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> spatial_sign_logistic <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[2]&gt;</span> <span style="color: #949494;">&lt;rsmp[+]&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> splines               <span style="color: #949494;">&lt;tibble [1 × 4]&gt;</span> <span style="color: #949494;">&lt;opts[0]&gt;</span> <span style="color: #949494;">&lt;tune[+]&gt;</span></span></code></pre>
+<p>There are some convenience functions to take an initial look at the results:</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://workflowsets.tidymodels.org/reference/rank_results.html" class="external-link">rank_results</a></span><span class="op">(</span><span class="va">logistic_res</span>, rank_metric <span class="op">=</span> <span class="st">"roc_auc"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 8 × 9</span></span>
+<span class="co">##   wflow_id          .config .metric  mean std_err     n preprocessor model  rank</span>
+<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="co">## <span style="color: #BCBCBC;">1</span> splines           Prepro… roc_auc 0.888  0.014<span style="text-decoration: underline;">1</span>    10 recipe       logi…     1</span>
+<span class="co">## <span style="color: #BCBCBC;">2</span> splines           Prepro… roc_auc 0.887  0.013<span style="text-decoration: underline;">7</span>    10 recipe       logi…     2</span>
+<span class="co">## <span style="color: #BCBCBC;">3</span> splines           Prepro… roc_auc 0.886  0.013<span style="text-decoration: underline;">3</span>    10 recipe       logi…     3</span>
+<span class="co">## <span style="color: #BCBCBC;">4</span> splines           Prepro… roc_auc 0.883  0.012<span style="text-decoration: underline;">8</span>    10 recipe       logi…     4</span>
+<span class="co">## <span style="color: #BCBCBC;">5</span> spatial_sign_log… Prepro… roc_auc 0.867  0.017<span style="text-decoration: underline;">6</span>    10 recipe       logi…     5</span>
+<span class="co">## <span style="color: #BCBCBC;">6</span> B_logistic        Prepro… roc_auc 0.866  0.015<span style="text-decoration: underline;">1</span>    10 formula      logi…     6</span>
+<span class="co">## <span style="color: #BCBCBC;">7</span> ratio_logistic    Prepro… roc_auc 0.749  0.016<span style="text-decoration: underline;">4</span>    10 formula      logi…     7</span>
+<span class="co">## <span style="color: #BCBCBC;">8</span> A_logistic        Prepro… roc_auc 0.702  0.021<span style="text-decoration: underline;">0</span>    10 formula      logi…     8</span></code></pre>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">logistic_res</span>, metric <span class="op">=</span> <span class="st">"roc_auc"</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/wflow-res-1.png" width="768" style="display: block; margin: auto;"></p>
+<p>The <code><a href="../reference/perf_mod.html">perf_mod()</a></code> method for workflow sets takes the best submodel from each workflow and then uses the standard <code>tidyposterior</code> analysis:</p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">roc_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">logistic_res</span>, metric <span class="op">=</span> <span class="st">"roc_auc"</span>, seed <span class="op">=</span> <span class="fl">1</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
+<p>The results of this call produces an object with an additional class to enable some <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> methods specific to workflow sets. For example, the default plot shows 90% credible intervals for the best results in each workflow:</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">roc_mod</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/wflow-intervals-1.png" width="768" style="display: block; margin: auto;"></p>
+<p>Alternatively, the ROPE estimates for a given since can be computed to compare the numerically best workflow to the others. The probability of practical equivalence is shown for all results:</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">roc_mod</span>, type <span class="op">=</span> <span class="st">"ROPE"</span>, size <span class="op">=</span> <span class="fl">0.025</span><span class="op">)</span></code></pre></div>
+<p><img src="Getting_Started_files/figure-html/wflow-rope-1.png" width="768" style="display: block; margin: auto;"></p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 
@@ -105,8 +504,8 @@
 
 <div class="author">
   <p>
-    Developed by Max Kuhn.
-    Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
+    Developed by .
+    Site built by <a href="https://pkgdown.r-lib.org" class="external-link">pkgdown</a>.
   </p>
 </div>
 
@@ -115,6 +514,8 @@
 
   
 
+
+  
 
   </body>
 </html>
