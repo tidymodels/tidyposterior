@@ -6,7 +6,9 @@
 \alias{tidyposterior-package}
 \title{tidyposterior: Bayesian Analysis to Compare Models using Resampling Statistics}
 \description{
-Bayesian analysis used here to answer the question: "when looking at resampling results, are the differences between models 'real'?" To answer this, a model can be created were the performance statistic is the resampling statistics (e.g. accuracy or RMSE). These values are explained by the model types. In doing this, we can get parameter estimates for each model's affect on performance and make statistical (and practical) comparisons between models. The methods included here are similar to Benavoli et al (2017) <https://jmlr.org/papers/v18/16-305.html>.
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
+Bayesian analysis used here to answer the question: "when looking at resampling results, are the differences between models 'real'?" To answer this, a model can be created were the performance statistic is the resampling statistics (e.g. accuracy or RMSE). These values are explained by the model types. In doing this, we can get parameter estimates for each model's affect on performance and make statistical (and practical) comparisons between models. The methods included here are similar to Benavoli et al (2017) \url{https://jmlr.org/papers/v18/16-305.html}.
 }
 \seealso{
 Useful links:
@@ -22,7 +24,7 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item RStudio [copyright holder]
+  \item RStudio [copyright holder, funder]
 }
 
 }

@@ -3,10 +3,7 @@
 
 #' @importFrom dplyr filter select mutate %>% rename group_by summarise full_join
 #' @importFrom dplyr do %>% bind_cols
-#' @importFrom rsample pretty.group_vfold_cv
-#' @importFrom rsample pretty.bootstraps pretty.nested_cv
-#' @importFrom rsample pretty.mc_cv pretty.rolling_origin
-#' @importFrom rsample pretty.loo_cv pretty.vfold_cv vfold_cv
+#' @importFrom rsample vfold_cv
 #' @importFrom rstanarm stan_glmer posterior_epred posterior_interval
 #' @importFrom rlang !! is_string na_dbl
 #' @importFrom stats setNames reorder as.formula median quantile
