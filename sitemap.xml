@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://tidyposterior.tidymodels.org/404.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/ISSUE_TEMPLATE.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/articles/Getting_Started.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/articles/tidyposterior.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/authors.html</loc>
+  </url>
+  <url>
     <loc>https://tidyposterior.tidymodels.org/index.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/news/index.html</loc>
   </url>
   <url>
     <loc>https://tidyposterior.tidymodels.org/reference/autoplot.posterior.html</loc>
@@ -11,6 +41,9 @@
   </url>
   <url>
     <loc>https://tidyposterior.tidymodels.org/reference/contrast_models.html</loc>
+  </url>
+  <url>
+    <loc>https://tidyposterior.tidymodels.org/reference/index.html</loc>
   </url>
   <url>
     <loc>https://tidyposterior.tidymodels.org/reference/perf_mod.html</loc>
@@ -31,6 +64,9 @@
     <loc>https://tidyposterior.tidymodels.org/reference/tidy.perf_mod.html</loc>
   </url>
   <url>
+    <loc>https://tidyposterior.tidymodels.org/reference/tidyposterior-package.html</loc>
+  </url>
+  <url>
     <loc>https://tidyposterior.tidymodels.org/reference/transformations.html</loc>
   </url>
   <url>
@@ -38,14 +74,5 @@
   </url>
   <url>
     <loc>https://tidyposterior.tidymodels.org/reference/vctrs_methods_posterior_diff.html</loc>
-  </url>
-  <url>
-    <loc>https://tidyposterior.tidymodels.org/articles/Different_Bayesian_Models.html</loc>
-  </url>
-  <url>
-    <loc>https://tidyposterior.tidymodels.org/articles/Getting_Started.html</loc>
-  </url>
-  <url>
-    <loc>https://tidyposterior.tidymodels.org/articles/articles/Getting_Started.html</loc>
   </url>
 </urlset>
