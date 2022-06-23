@@ -52,7 +52,7 @@
     
     <a class="navbar-brand me-2" href="index.html">tidyposterior</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.1.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,24 +124,21 @@
 <p>To illustrate, here are some example objects using 10-fold cross-validation for a simple two-class problem:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span>
-<span class="co">#&gt; Registered S3 method overwritten by 'tune':</span>
-<span class="co">#&gt;   method                   from   </span>
-<span class="co">#&gt;   required_pkgs.model_spec parsnip</span>
-<span class="co">#&gt; ── Attaching packages ────────────────────────────────────── tidymodels 0.1.4 ──</span>
-<span class="co">#&gt; ✓ broom        0.7.12     ✓ recipes      0.2.0 </span>
-<span class="co">#&gt; ✓ dials        0.1.0      ✓ rsample      0.1.1 </span>
-<span class="co">#&gt; ✓ dplyr        1.0.8      ✓ tibble       3.1.6 </span>
-<span class="co">#&gt; ✓ ggplot2      3.3.5      ✓ tidyr        1.2.0 </span>
-<span class="co">#&gt; ✓ infer        1.0.0      ✓ tune         0.1.6 </span>
-<span class="co">#&gt; ✓ modeldata    0.1.1      ✓ workflows    0.2.4 </span>
-<span class="co">#&gt; ✓ parsnip      0.1.7      ✓ workflowsets 0.1.0 </span>
-<span class="co">#&gt; ✓ purrr        0.3.4      ✓ yardstick    0.0.9</span>
+<span class="co">#&gt; ── Attaching packages ────────────────────────────────────── tidymodels 0.2.0 ──</span>
+<span class="co">#&gt; ✔ broom        0.8.0     ✔ recipes      0.2.0</span>
+<span class="co">#&gt; ✔ dials        1.0.0     ✔ rsample      0.1.1</span>
+<span class="co">#&gt; ✔ dplyr        1.0.9     ✔ tibble       3.1.7</span>
+<span class="co">#&gt; ✔ ggplot2      3.3.6     ✔ tidyr        1.2.0</span>
+<span class="co">#&gt; ✔ infer        1.0.0     ✔ tune         0.2.0</span>
+<span class="co">#&gt; ✔ modeldata    0.1.1     ✔ workflows    0.2.6</span>
+<span class="co">#&gt; ✔ parsnip      1.0.0     ✔ workflowsets 0.2.1</span>
+<span class="co">#&gt; ✔ purrr        0.3.4     ✔ yardstick    1.0.0</span>
 <span class="co">#&gt; ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──</span>
-<span class="co">#&gt; x purrr::discard() masks scales::discard()</span>
-<span class="co">#&gt; x dplyr::filter()  masks stats::filter()</span>
-<span class="co">#&gt; x dplyr::lag()     masks stats::lag()</span>
-<span class="co">#&gt; x recipes::step()  masks stats::step()</span>
-<span class="co">#&gt; • Dig deeper into tidy modeling with R at https://www.tmwr.org</span>
+<span class="co">#&gt; ✖ purrr::discard() masks scales::discard()</span>
+<span class="co">#&gt; ✖ dplyr::filter()  masks stats::filter()</span>
+<span class="co">#&gt; ✖ dplyr::lag()     masks stats::lag()</span>
+<span class="co">#&gt; ✖ recipes::step()  masks stats::step()</span>
+<span class="co">#&gt; • Use suppressPackageStartupMessages() to eliminate package startup messages</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">two_class_dat</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span>
@@ -204,8 +201,8 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1: Gradient evaluation took 3.6e-05 seconds</span>
-<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.</span>
+<span class="co">#&gt; Chain 1: Gradient evaluation took 3.7e-05 seconds</span>
+<span class="co">#&gt; Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.37 seconds.</span>
 <span class="co">#&gt; Chain 1: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; Chain 1: </span>
@@ -222,15 +219,15 @@
 <span class="co">#&gt; Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 1: </span>
-<span class="co">#&gt; Chain 1:  Elapsed Time: 0.305513 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 1:                0.080909 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 1:                0.386422 seconds (Total)</span>
+<span class="co">#&gt; Chain 1:  Elapsed Time: 0.263937 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 1:                0.086694 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 1:                0.350631 seconds (Total)</span>
 <span class="co">#&gt; Chain 1: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2: Gradient evaluation took 1.1e-05 seconds</span>
-<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.11 seconds.</span>
+<span class="co">#&gt; Chain 2: Gradient evaluation took 8e-06 seconds</span>
+<span class="co">#&gt; Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.</span>
 <span class="co">#&gt; Chain 2: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; Chain 2: </span>
@@ -247,15 +244,15 @@
 <span class="co">#&gt; Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 2: </span>
-<span class="co">#&gt; Chain 2:  Elapsed Time: 0.327308 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 2:                0.092769 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 2:                0.420077 seconds (Total)</span>
+<span class="co">#&gt; Chain 2:  Elapsed Time: 0.278896 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 2:                0.122965 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 2:                0.401861 seconds (Total)</span>
 <span class="co">#&gt; Chain 2: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3: Gradient evaluation took 9e-06 seconds</span>
-<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.</span>
+<span class="co">#&gt; Chain 3: Gradient evaluation took 6e-06 seconds</span>
+<span class="co">#&gt; Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.</span>
 <span class="co">#&gt; Chain 3: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; Chain 3: </span>
@@ -272,15 +269,15 @@
 <span class="co">#&gt; Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 3: </span>
-<span class="co">#&gt; Chain 3:  Elapsed Time: 0.278631 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 3:                0.093575 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 3:                0.372206 seconds (Total)</span>
+<span class="co">#&gt; Chain 3:  Elapsed Time: 0.247041 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 3:                0.084765 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 3:                0.331806 seconds (Total)</span>
 <span class="co">#&gt; Chain 3: </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4: Gradient evaluation took 9e-06 seconds</span>
-<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.</span>
+<span class="co">#&gt; Chain 4: Gradient evaluation took 6e-06 seconds</span>
+<span class="co">#&gt; Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.</span>
 <span class="co">#&gt; Chain 4: Adjust your expectations accordingly!</span>
 <span class="co">#&gt; Chain 4: </span>
 <span class="co">#&gt; Chain 4: </span>
@@ -297,9 +294,9 @@
 <span class="co">#&gt; Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)</span>
 <span class="co">#&gt; Chain 4: </span>
-<span class="co">#&gt; Chain 4:  Elapsed Time: 0.255388 seconds (Warm-up)</span>
-<span class="co">#&gt; Chain 4:                0.102333 seconds (Sampling)</span>
-<span class="co">#&gt; Chain 4:                0.357721 seconds (Total)</span>
+<span class="co">#&gt; Chain 4:  Elapsed Time: 0.259138 seconds (Warm-up)</span>
+<span class="co">#&gt; Chain 4:                0.074984 seconds (Sampling)</span>
+<span class="co">#&gt; Chain 4:                0.334122 seconds (Total)</span>
 <span class="co">#&gt; Chain 4:</span></code></pre></div>
 <p>From this, the posterior distributions for each model can be obtained from the <code><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy()</a></code> method:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
