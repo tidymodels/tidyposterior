@@ -1,5 +1,7 @@
 # tidyposterior (development version)
 
+* Transition from `gather()` to `pivot_longer()`. 
+
 * Update to testthat 3e.
 
 # tidyposterior 0.1.0
