@@ -313,11 +313,6 @@ perf_mod.default <- function(object, ...) {
   )
 }
 
-# Make a general data.frame method, maybe `gather` methods for
-# `rset` and `rsample` objects instead of having the `gather`
-# code inside of `perf_mod.rset`. If we do that, there could
-# be more specific methods (e.g. "rolling_origin" instead of `rset`)
-
 #' @rdname perf_mod
 #' @param transform An named list of transformation and inverse
 #'  transformation functions. See [logit_trans()] as an example.

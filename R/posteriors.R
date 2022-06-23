@@ -19,11 +19,10 @@
 tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
   post_dat <-
-    tidyr::gather(
-      post_dat,
-      key = model,
-      value = posterior
-    ) %>%
+    post_dat %>%
+    tidyr::pivot_longer(c(dplyr::everything()),
+                        names_to = "model",
+                        values_to = "posterior") %>%
     dplyr::mutate(posterior = x$transform$inv(posterior))
   post_dat <- as_tibble(post_dat)
   class(post_dat) <- c("posterior", class(post_dat))

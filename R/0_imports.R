@@ -8,7 +8,7 @@
 #' @importFrom rlang !! is_string na_dbl
 #' @importFrom stats setNames reorder as.formula median quantile
 #' @importFrom purrr map_chr map map2 map_df
-#' @importFrom tidyr gather
+#' @importFrom tidyr pivot_longer
 #' @importFrom ggplot2 ggplot geom_violin xlab ylab geom_line geom_vline
 #' @importFrom ggplot2 facet_grid
 #' @importFrom utils combn globalVariables
