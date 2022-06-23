@@ -1,6 +1,6 @@
 Package: tidyposterior
 Title: Bayesian Analysis to Compare Models using Resampling Statistics
-Version: 1.0.0
+Version: 1.0.0.9000
 Authors@R: c(
     person("Max", "Kuhn", , "max@rstudio.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2402-136X")),
@@ -45,7 +45,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 ByteCompile: true
-Config/Needs/website:tidymodels, tidyverse/tidytemplate
+Config/Needs/website: tidymodels, tidyverse/tidytemplate
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
