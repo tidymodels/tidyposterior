@@ -8,7 +8,7 @@
 [![R-CMD-check](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/tidymodels/tidyposterior/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyposterior?branch=main)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
 
@@ -62,24 +62,21 @@ cross-validation for a simple two-class problem:
 
 ``` r
 library(tidymodels)
-#> Registered S3 method overwritten by 'tune':
-#>   method                   from   
-#>   required_pkgs.model_spec parsnip
-#> ── Attaching packages ────────────────────────────────────── tidymodels 0.1.4 ──
-#> ✓ broom        0.7.12     ✓ recipes      0.2.0 
-#> ✓ dials        0.1.0      ✓ rsample      0.1.1 
-#> ✓ dplyr        1.0.8      ✓ tibble       3.1.6 
-#> ✓ ggplot2      3.3.5      ✓ tidyr        1.2.0 
-#> ✓ infer        1.0.0      ✓ tune         0.1.6 
-#> ✓ modeldata    0.1.1      ✓ workflows    0.2.4 
-#> ✓ parsnip      0.1.7      ✓ workflowsets 0.1.0 
-#> ✓ purrr        0.3.4      ✓ yardstick    0.0.9
+#> ── Attaching packages ────────────────────────────────────── tidymodels 0.2.0 ──
+#> ✔ broom        0.8.0     ✔ recipes      0.2.0
+#> ✔ dials        1.0.0     ✔ rsample      0.1.1
+#> ✔ dplyr        1.0.9     ✔ tibble       3.1.7
+#> ✔ ggplot2      3.3.6     ✔ tidyr        1.2.0
+#> ✔ infer        1.0.0     ✔ tune         0.2.0
+#> ✔ modeldata    0.1.1     ✔ workflows    0.2.6
+#> ✔ parsnip      1.0.0     ✔ workflowsets 0.2.1
+#> ✔ purrr        0.3.4     ✔ yardstick    1.0.0
 #> ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
-#> x purrr::discard() masks scales::discard()
-#> x dplyr::filter()  masks stats::filter()
-#> x dplyr::lag()     masks stats::lag()
-#> x recipes::step()  masks stats::step()
-#> • Dig deeper into tidy modeling with R at https://www.tmwr.org
+#> ✖ purrr::discard() masks scales::discard()
+#> ✖ dplyr::filter()  masks stats::filter()
+#> ✖ dplyr::lag()     masks stats::lag()
+#> ✖ recipes::step()  masks stats::step()
+#> • Use suppressPackageStartupMessages() to eliminate package startup messages
 library(tidyposterior)
 
 data(two_class_dat, package = "modeldata")
@@ -102,7 +99,7 @@ mars_earth_spec <-
   set_mode('classification')
 ```
 
-For tidymodels, the \[tune::fit\_resamples()\] function can be used to
+For tidymodels, the \[tune::fit_resamples()\] function can be used to
 estimate performance for each model/resample:
 
 ``` r
@@ -122,7 +119,7 @@ From these, there are several ways to pass the results to the
 with the resampling labels (i.e., one or more id columns) as well as
 columns for each model that you would like to compare.
 
-For the model results above, \[tune::collect\_metrics()\] can be used
+For the model results above, \[tune::collect_metrics()\] can be used
 along with some basic data manipulation steps:
 
 ``` r
@@ -161,8 +158,8 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 3.6e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.36 seconds.
+#> Chain 1: Gradient evaluation took 3.7e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.37 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -179,15 +176,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.305513 seconds (Warm-up)
-#> Chain 1:                0.080909 seconds (Sampling)
-#> Chain 1:                0.386422 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.263937 seconds (Warm-up)
+#> Chain 1:                0.086694 seconds (Sampling)
+#> Chain 1:                0.350631 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 1.1e-05 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.11 seconds.
+#> Chain 2: Gradient evaluation took 8e-06 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -204,15 +201,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.327308 seconds (Warm-up)
-#> Chain 2:                0.092769 seconds (Sampling)
-#> Chain 2:                0.420077 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.278896 seconds (Warm-up)
+#> Chain 2:                0.122965 seconds (Sampling)
+#> Chain 2:                0.401861 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 9e-06 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+#> Chain 3: Gradient evaluation took 6e-06 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -229,15 +226,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.278631 seconds (Warm-up)
-#> Chain 3:                0.093575 seconds (Sampling)
-#> Chain 3:                0.372206 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.247041 seconds (Warm-up)
+#> Chain 3:                0.084765 seconds (Sampling)
+#> Chain 3:                0.331806 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 9e-06 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+#> Chain 4: Gradient evaluation took 6e-06 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -254,9 +251,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.255388 seconds (Warm-up)
-#> Chain 4:                0.102333 seconds (Sampling)
-#> Chain 4:                0.357721 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.259138 seconds (Warm-up)
+#> Chain 4:                0.074984 seconds (Sampling)
+#> Chain 4:                0.334122 seconds (Total)
 #> Chain 4:
 ```
 
