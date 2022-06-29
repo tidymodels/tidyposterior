@@ -127,7 +127,7 @@ summarize(
 ```
 There is the suggestion that using splines is better than the spatial sign. It would be nice to have some inferential analysis that could tell us if the size of this difference is create than the experimental noise in the data. 
 
-`tidyposterior` uses a Bayesian ANOVA model to compute posterior distributions for the performance statistic of each modeling method.  This tells use the probabilistic distribution of the model performance metrics and allows us to make more formal statements about the superiority (or equivalence) of different models. [_Tidy Models with R_]() has a good explanation of how the Bayesian ANOVA model works. 
+`tidyposterior` uses a Bayesian ANOVA model to compute posterior distributions for the performance statistic of each modeling method.  This tells use the probabilistic distribution of the model performance metrics and allows us to make more formal statements about the superiority (or equivalence) of different models. [_Tidy Models with R_](https://www.tmwr.org/compare.html#tidyposterior) has a good explanation of how the Bayesian ANOVA model works. 
 
 The main function to conduct the analysis is `perf_mod()`. The main argument is for the object containing the resampling information and at least two numeric columns of performance statistics (measuring the same metric). As described in `?perf_mod`, there are a variety of other object types that can be used for this argument. 
 
