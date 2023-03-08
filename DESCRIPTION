@@ -29,11 +29,12 @@ Imports:
     rlang,
     rsample (>= 0.0.2),
     rstanarm (>= 2.21.1),
+    stats,
     tibble,
     tidyr (>= 0.7.1),
     tune (>= 0.2.0),
     utils,
-    vctrs  (>= 0.3.0),
+    vctrs (>= 0.3.0),
     workflowsets
 Suggests: 
     covr,
