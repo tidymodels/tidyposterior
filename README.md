@@ -76,7 +76,7 @@ library(tidymodels)
 #> ✖ dplyr::filter()  masks stats::filter()
 #> ✖ dplyr::lag()     masks stats::lag()
 #> ✖ recipes::step()  masks stats::step()
-#> • Use tidymodels_prefer() to resolve common conflicts.
+#> • Learn how to get started at https://www.tidymodels.org/start/
 library(tidyposterior)
 
 data(two_class_dat, package = "modeldata")
@@ -158,8 +158,8 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 3.5e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.35 seconds.
+#> Chain 1: Gradient evaluation took 4.3e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.43 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -176,15 +176,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.394359 seconds (Warm-up)
-#> Chain 1:                0.126062 seconds (Sampling)
-#> Chain 1:                0.520421 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.379703 seconds (Warm-up)
+#> Chain 1:                0.12234 seconds (Sampling)
+#> Chain 1:                0.502043 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 1.2e-05 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.12 seconds.
+#> Chain 2: Gradient evaluation took 9e-06 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -201,9 +201,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.407432 seconds (Warm-up)
-#> Chain 2:                0.184122 seconds (Sampling)
-#> Chain 2:                0.591554 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.405567 seconds (Warm-up)
+#> Chain 2:                0.179011 seconds (Sampling)
+#> Chain 2:                0.584578 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
@@ -226,15 +226,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.365362 seconds (Warm-up)
-#> Chain 3:                0.12527 seconds (Sampling)
-#> Chain 3:                0.490632 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.366595 seconds (Warm-up)
+#> Chain 3:                0.118549 seconds (Sampling)
+#> Chain 3:                0.485144 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 2.2e-05 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.22 seconds.
+#> Chain 4: Gradient evaluation took 9e-06 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -251,9 +251,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.385183 seconds (Warm-up)
-#> Chain 4:                0.110828 seconds (Sampling)
-#> Chain 4:                0.496011 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.364 seconds (Warm-up)
+#> Chain 4:                0.114266 seconds (Sampling)
+#> Chain 4:                0.478266 seconds (Total)
 #> Chain 4:
 ```
 
@@ -269,7 +269,7 @@ roc_model_via_df %>%
   xlab("Area Under the ROC Curve")
 ```
 
-<img src="man/figures/README-post-1.png" width="100%" />
+<img src="man/figures/README-post-1.png" alt="Faceted histogram chart. Area Under the ROC Curve along the x-axis, count along the y-axis. The two facets are logistic and mars. Both histogram looks fairly normally distributed, with a mean of 0.89 for logistic and 0.88 for mars. The full range is 0.84 to 0.93." width="100%" />
 
 See `contrast_models()` for how to analyze these distributions
 

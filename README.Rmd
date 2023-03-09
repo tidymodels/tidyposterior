@@ -118,6 +118,7 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 From this, the posterior distributions for each model can be obtained from the `tidy()` method: 
 
 ```{r post}
+#| fig-alt: "Faceted histogram chart. Area Under the ROC Curve along the x-axis, count along the y-axis. The two facets are logistic and mars. Both histogram looks fairly normally distributed, with a mean of 0.89 for logistic and 0.88 for mars. The full range is 0.84 to 0.93."
 roc_model_via_df %>% 
   tidy() %>% 
   ggplot(aes(x = posterior)) + 
