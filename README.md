@@ -51,8 +51,8 @@ install.packages("tidyposterior")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("tidymodels/tidyposterior")
+# install.packages("pak")
+pak::pak("tidymodels/tidyposterior")
 ```
 
 ## Example
@@ -62,21 +62,21 @@ cross-validation for a simple two-class problem:
 
 ``` r
 library(tidymodels)
-#> ── Attaching packages ────────────────────────────────────── tidymodels 0.2.0 ──
-#> ✔ broom        0.8.0     ✔ recipes      0.2.0
-#> ✔ dials        1.0.0     ✔ rsample      0.1.1
-#> ✔ dplyr        1.0.9     ✔ tibble       3.1.7
-#> ✔ ggplot2      3.3.6     ✔ tidyr        1.2.0
-#> ✔ infer        1.0.0     ✔ tune         0.2.0
-#> ✔ modeldata    0.1.1     ✔ workflows    0.2.6
-#> ✔ parsnip      1.0.0     ✔ workflowsets 0.2.1
-#> ✔ purrr        0.3.4     ✔ yardstick    1.0.0
+#> ── Attaching packages ───────────────────────────────── tidymodels 1.0.0.9000 ──
+#> ✔ broom        1.0.3          ✔ recipes      1.0.5.9000
+#> ✔ dials        1.1.0.9000     ✔ rsample      1.1.1     
+#> ✔ dplyr        1.1.0          ✔ tibble       3.1.8     
+#> ✔ ggplot2      3.4.1          ✔ tidyr        1.3.0     
+#> ✔ infer        1.0.4          ✔ tune         1.0.1.9003
+#> ✔ modeldata    1.1.0.9000     ✔ workflows    1.1.3     
+#> ✔ parsnip      1.0.4.9002     ✔ workflowsets 1.0.0     
+#> ✔ purrr        1.0.1          ✔ yardstick    1.1.0.9000
 #> ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 #> ✖ purrr::discard() masks scales::discard()
 #> ✖ dplyr::filter()  masks stats::filter()
 #> ✖ dplyr::lag()     masks stats::lag()
 #> ✖ recipes::step()  masks stats::step()
-#> • Use suppressPackageStartupMessages() to eliminate package startup messages
+#> • Learn how to get started at https://www.tidymodels.org/start/
 library(tidyposterior)
 
 data(two_class_dat, package = "modeldata")
@@ -158,8 +158,8 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 3.7e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.37 seconds.
+#> Chain 1: Gradient evaluation took 4.3e-05 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.43 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -176,15 +176,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.263937 seconds (Warm-up)
-#> Chain 1:                0.086694 seconds (Sampling)
-#> Chain 1:                0.350631 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.379703 seconds (Warm-up)
+#> Chain 1:                0.12234 seconds (Sampling)
+#> Chain 1:                0.502043 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 8e-06 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+#> Chain 2: Gradient evaluation took 9e-06 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -201,15 +201,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.278896 seconds (Warm-up)
-#> Chain 2:                0.122965 seconds (Sampling)
-#> Chain 2:                0.401861 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.405567 seconds (Warm-up)
+#> Chain 2:                0.179011 seconds (Sampling)
+#> Chain 2:                0.584578 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 6e-06 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
+#> Chain 3: Gradient evaluation took 8e-06 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -226,15 +226,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.247041 seconds (Warm-up)
-#> Chain 3:                0.084765 seconds (Sampling)
-#> Chain 3:                0.331806 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.366595 seconds (Warm-up)
+#> Chain 3:                0.118549 seconds (Sampling)
+#> Chain 3:                0.485144 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 6e-06 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
+#> Chain 4: Gradient evaluation took 9e-06 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -251,9 +251,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.259138 seconds (Warm-up)
-#> Chain 4:                0.074984 seconds (Sampling)
-#> Chain 4:                0.334122 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.364 seconds (Warm-up)
+#> Chain 4:                0.114266 seconds (Sampling)
+#> Chain 4:                0.478266 seconds (Total)
 #> Chain 4:
 ```
 
@@ -269,7 +269,7 @@ roc_model_via_df %>%
   xlab("Area Under the ROC Curve")
 ```
 
-<img src="man/figures/README-post-1.png" width="100%" />
+<img src="man/figures/README-post-1.png" alt="Faceted histogram chart. Area Under the ROC Curve along the x-axis, count along the y-axis. The two facets are logistic and mars. Both histogram looks fairly normally distributed, with a mean of 0.89 for logistic and 0.88 for mars. The full range is 0.84 to 0.93." width="100%" />
 
 See `contrast_models()` for how to analyze these distributions
 
@@ -279,18 +279,18 @@ This project is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
--   For questions and discussions about tidymodels packages, modeling,
-    and machine learning, please [post on RStudio
-    Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
+- For questions and discussions about tidymodels packages, modeling, and
+  machine learning, please [post on RStudio
+  Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
 
--   If you think you have encountered a bug, please [submit an
-    issue](https://github.com/tidymodels/tidyposterior/issues).
+- If you think you have encountered a bug, please [submit an
+  issue](https://github.com/tidymodels/tidyposterior/issues).
 
--   Either way, learn how to create and share a
-    [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
-    (a minimal, reproducible example), to clearly communicate about your
-    code.
+- Either way, learn how to create and share a
+  [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
+  (a minimal, reproducible example), to clearly communicate about your
+  code.
 
--   Check out further details on [contributing guidelines for tidymodels
-    packages](https://www.tidymodels.org/contribute/) and [how to get
-    help](https://www.tidymodels.org/help/).
+- Check out further details on [contributing guidelines for tidymodels
+  packages](https://www.tidymodels.org/contribute/) and [how to get
+  help](https://www.tidymodels.org/help/).
