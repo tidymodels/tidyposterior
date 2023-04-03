@@ -9,7 +9,7 @@
 #'
 #' @param object Depending on the context (see Details below):
 #'
-#'   * A data frame with `id` columns for the resampling groupds and metric
+#'   * A data frame with `id` columns for the resampling groups and metric
 #'     results in all of the other columns..
 #'   * An `rset` object (such as [rsample::vfold_cv()]) containing the `id`
 #'     column(s) and at least two numeric columns of model performance
@@ -22,7 +22,7 @@
 #'
 #' @param formula An optional model formula to use for the Bayesian hierarchical model
 #' (see Details below).
-#' @param ... Additional arguments to pass to [rstanarm::stan_glmer()] such as
+#' @param ... Additional arguments to pass to [brms::brm()] such as
 #'  `verbose`, `prior`, `seed`, `refresh`, `family`, etc.
 #' @param metric A single character string for the metric used in the
 #' `tune_results` that should be used in the Bayesian analysis. If none is given,
@@ -355,7 +355,7 @@ perf_mod.rset <-
 
     model_names <- unique(as.character(resamples$model))
 
-    mod <- stan_glmer(formula, data = resamples, ...)
+    mod <- fit_bayes_model(formula, data = resamples, ...)
 
     res <- list(
       stan = mod,
@@ -594,7 +594,7 @@ perf_mod.workflow_set <-
 
     model_names <- unique(as.character(resamples$model))
 
-    mod <- rstanarm::stan_glmer(formula, data = resamples, ...)
+    mod <- fit_bayes_model(formula, data = resamples, ...)
 
     res <- list(
       stan = mod,
@@ -607,3 +607,9 @@ perf_mod.workflow_set <-
     )
     structure(res, class = c("perf_mod_workflow_set", "perf_mod"))
   }
+
+fit_bayes_model <- function(f, data, ...) {
+  cl <- rlang::call2(.fn = "brm", .ns = "brms", formula = expr(f), data = expr(data), ...)
+  rlang::eval_tidy(cl)
+}
+

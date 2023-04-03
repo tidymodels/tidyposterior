@@ -45,7 +45,7 @@ perf_mod(object, ...)
 \arguments{
 \item{object}{Depending on the context (see Details below):
 \itemize{
-\item A data frame with \code{id} columns for the resampling groupds and metric
+\item A data frame with \code{id} columns for the resampling groups and metric
 results in all of the other columns..
 \item An \code{rset} object (such as \code{\link[rsample:vfold_cv]{rsample::vfold_cv()}}) containing the \code{id}
 column(s) and at least two numeric columns of model performance
@@ -57,7 +57,7 @@ statistics (e.g. accuracy).
 \code{metric} argument value.
 }}
 
-\item{...}{Additional arguments to pass to \code{\link[rstanarm:stan_glmer]{rstanarm::stan_glmer()}} such as
+\item{...}{Additional arguments to pass to \code{\link[brms:brm]{brms::brm()}} such as
 \code{verbose}, \code{prior}, \code{seed}, \code{refresh}, \code{family}, etc.}
 
 \item{transform}{An named list of transformation and inverse

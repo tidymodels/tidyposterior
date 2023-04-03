@@ -135,7 +135,7 @@ The main function to conduct the analysis is `perf_mod()`. The main argument is 
 
 There are also options for statistical parameters of the analysis, such as any transformation of the output statistics that should be used and so on. 
 
-The main options in our analysis are passed through to the `rstanarm` function `stan_glmer()`. These include: 
+The main options in our analysis are passed through to the `brms` function `brm()`. These include: 
 
 * `seed`: An integer that controls the random numbers used in the Bayesian model.
 
@@ -147,7 +147,7 @@ The main options in our analysis are passed through to the `rstanarm` function `
 
 Other options that can be helpful (but we'll use their defaults): 
 
-* `prior_intercept`: The main argument in this analysis for specifying the prior distribution of the parameters. 
+* `prior`: The main argument in this analysis for specifying the prior distribution of the parameters. 
 
 * `family`: The exponential family distribution for the performance statistics. 
 
@@ -159,7 +159,7 @@ Our call to this function is:
 rset_mod <- perf_mod(roc_values, seed = 2, iter = 5000, chains = 5, refresh = 0)
 ```
 
-The `summary()` function for this type of object shows the output from `stan_glmer()`. It's long, so we show some of the initial output: 
+The `summary()` function for this type of object shows the output from `brms::brm()`. It's long, so we show some of the initial output: 
 
 ```{r preproc-bayes-summary, eval = FALSE}
 print(summary(rset_mod), digits = 3)
@@ -218,7 +218,7 @@ For this analysis, there are about even odds that the difference between these m
 
 Previously, the expression "assuming that our assumptions are appropriate" was used. This is an inferential analysis and the validity of our assumptions matter a great deal. There are a few assumptions for this analysis. The main one is that we've specified the outcome distribution well. We've models the area under the ROC curve. This is a statistic bounded (effectively) between 0.5 and 1.0. The variance of the statistic is probably related to the mean; there is likely less variation in scores near 1.0 than those near 0.5. 
 
-The default family for `stan_glmer()` is Gaussian.  Given the characteristics of this metric, that assumption might seem problematic. 
+The default family for `brm()` is Gaussian.  Given the characteristics of this metric, that assumption might seem problematic. 
 
 However, Gaussian seems like a good first approach for this assumption. The rationale is based on the Central Limit Theorem.  As the sample size increases, the sample mean statistic converges to normality despite the distribution of the individual data points.  Our performance estimates are summary statistics and, if the training set size is "large enough", they will exhibit behavior consistent with normality. 
 
@@ -247,7 +247,7 @@ The easiest approach would be to use a variance stabilizing transformation of th
 
 Another option that can help with heterogeneous variances is `hetero_var.` This fits a difference variance for each modeling method. However, this may make convergence of the model more difficult. 
 
-Finally, a different distribution can be assumed using the family argument to `stan_glmer()`. Since our metrics are numeric, there are not many families to choose from. 
+Finally, a different distribution can be assumed using the family argument to `brm()`. Since our metrics are numeric, there are not many families to choose from. 
 
 ## Evaluating sub-models
 

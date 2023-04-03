@@ -72,7 +72,7 @@ get_post <- function(x, seed = sample.int(10000, 1)) {
     as.data.frame(lapply(x$ids, function(x) rep(x[1], nrow(new_dat)))) %>%
     bind_cols(new_dat)
   post_data <-
-    rstanarm::posterior_epred(
+    rstantools::posterior_epred(
       x$stan,
       newdata = new_dat,
       seed = seed,
@@ -89,7 +89,7 @@ postint <- function(object, ...) UseMethod("postint")
 postint.numeric <- function(object, prob = 0.90,
                             seed = sample.int(10000, 1), ...) {
   object <- matrix(object, ncol = 1)
-  res <- rstanarm::posterior_interval(object, prob = prob, seed = seed)
+  res <- rstantools::posterior_interval(object, prob = prob, seed = seed)
   res <- as.data.frame(res)
   names(res) <- c("lower", "upper")
   res
