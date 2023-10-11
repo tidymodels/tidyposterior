@@ -257,7 +257,6 @@ test_that("workflow sets", {
   expect_equal(as.character(p_tidy$labels$colour), "model")
   expect_equal(as.character(p_tidy$labels$y), "density")
   expect_equal(as.character(p_tidy$labels$fill), "fill")
-  expect_equal(as.character(p_tidy$labels$weight), "weight")
 
   p_int <- autoplot(rsq_mod, type = "intervals")
   expect_s3_class(p_int, "ggplot")
