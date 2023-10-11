@@ -4,7 +4,7 @@ resampling results, are the differences between models 'real?'&quot; To answer
 this, a model can be created were the outcome is the resampling statistics
 (e.g. accuracy or RMSE). These values are explained by the model types. In
 doing this, we can get parameter estimates for each model's affect on
-performance and make statistical (and practical) comparisons between models."><title>Bayesian Analysis of Resampling Statistics — perf_mod • tidyposterior</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><link href="../deps/_Source%20Sans%20Pro-0.4.1/font.css" rel="stylesheet"><link href="../deps/_Source%20Code%20Pro-0.4.1/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Bayesian Analysis of Resampling Statistics — perf_mod"><meta property="og:description" content="Bayesian analysis used here to answer the question: &quot;when looking at
+performance and make statistical (and practical) comparisons between models."><title>Bayesian Analysis of Resampling Statistics — perf_mod • tidyposterior</title><!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png"><link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png"><link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png"><link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png"><link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png"><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_Pro-0.4.7/font.css" rel="stylesheet"><link href="../deps/Source_Code_Pro-0.4.7/font.css" rel="stylesheet"><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Bayesian Analysis of Resampling Statistics — perf_mod"><meta property="og:description" content="Bayesian analysis used here to answer the question: &quot;when looking at
 resampling results, are the differences between models 'real?'&quot; To answer
 this, a model can be created were the outcome is the resampling statistics
 (e.g. accuracy or RMSE). These values are explained by the model types. In
@@ -20,7 +20,7 @@ performance and make statistical (and practical) comparisons between models."><m
     
     <a class="navbar-brand me-2" href="../index.html">tidyposterior</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,43 +75,43 @@ performance and make statistical (and practical) comparisons between models.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for rset</span>
-<span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, transform <span class="op">=</span> <span class="va">no_trans</span>, hetero_var <span class="op">=</span> <span class="cn">FALSE</span>, formula <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for resamples</span>
-<span class="fu">perf_mod</span><span class="op">(</span>
-  <span class="va">object</span>,
-  transform <span class="op">=</span> <span class="va">no_trans</span>,
-  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,
-  metric <span class="op">=</span> <span class="va">object</span><span class="op">$</span><span class="va">metrics</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for data.frame</span>
-<span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, transform <span class="op">=</span> <span class="va">no_trans</span>, hetero_var <span class="op">=</span> <span class="cn">FALSE</span>, formula <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="co"># S3 method for tune_results</span>
-<span class="fu">perf_mod</span><span class="op">(</span>
-  <span class="va">object</span>,
-  metric <span class="op">=</span> <span class="cn">NULL</span>,
-  transform <span class="op">=</span> <span class="va">no_trans</span>,
-  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,
-  formula <span class="op">=</span> <span class="cn">NULL</span>,
-  filter <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="co"># S3 method for workflow_set</span>
-<span class="fu">perf_mod</span><span class="op">(</span>
-  <span class="va">object</span>,
-  metric <span class="op">=</span> <span class="cn">NULL</span>,
-  transform <span class="op">=</span> <span class="va">no_trans</span>,
-  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,
-  formula <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for rset</span></span>
+<span><span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, transform <span class="op">=</span> <span class="va">no_trans</span>, hetero_var <span class="op">=</span> <span class="cn">FALSE</span>, formula <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for resamples</span></span>
+<span><span class="fu">perf_mod</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  transform <span class="op">=</span> <span class="va">no_trans</span>,</span>
+<span>  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  metric <span class="op">=</span> <span class="va">object</span><span class="op">$</span><span class="va">metrics</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for data.frame</span></span>
+<span><span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, transform <span class="op">=</span> <span class="va">no_trans</span>, hetero_var <span class="op">=</span> <span class="cn">FALSE</span>, formula <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tune_results</span></span>
+<span><span class="fu">perf_mod</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  metric <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform <span class="op">=</span> <span class="va">no_trans</span>,</span>
+<span>  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  filter <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for workflow_set</span></span>
+<span><span class="fu">perf_mod</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  metric <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  transform <span class="op">=</span> <span class="va">no_trans</span>,</span>
+<span>  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -196,23 +196,25 @@ variance is highest when the accuracy is near 50 percent. When the argument
 model term. This may produce more realistic posterior distributions but may
 take more time to converge.</p>
 <p>Examples of the default formulas are:</p>
-<div class="sourceCode"><pre><code><span class="co"># One ID field and common variance:</span>
-     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">|</span> <span class="va">id</span><span class="op">)</span>
-
-   <span class="co"># One ID field and heterogeneous variance:</span>
-     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">+</span> <span class="fl">0</span> <span class="op">|</span> <span class="va">id</span><span class="op">)</span>
-
-   <span class="co"># Repeated CV (id = repeat, id2 = fold within repeat)</span>
-   <span class="co"># with a common variance:</span>
-     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">|</span> <span class="va">id2</span><span class="op">/</span><span class="va">id</span><span class="op">)</span>
-
-   <span class="co"># Repeated CV (id = repeat, id2 = fold within repeat)</span>
-   <span class="co"># with a heterogeneous variance:</span>
-     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">+</span> <span class="fl">0</span><span class="op">|</span> <span class="va">id2</span><span class="op">/</span><span class="va">id</span><span class="op">)</span>
-
-   <span class="co"># Default for unknown resampling method and</span>
-   <span class="co"># multiple ID fields:</span>
-     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">|</span> <span class="va">idN</span><span class="op">/</span><span class="va">..</span><span class="op">/</span><span class="va">id</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode"><pre><code><span></span>
+<span>   <span class="co"># One ID field and common variance:</span></span>
+<span>     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">|</span> <span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="co"># One ID field and heterogeneous variance:</span></span>
+<span>     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">+</span> <span class="fl">0</span> <span class="op">|</span> <span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="co"># Repeated CV (id = repeat, id2 = fold within repeat)</span></span>
+<span>   <span class="co"># with a common variance:</span></span>
+<span>     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">|</span> <span class="va">id2</span><span class="op">/</span><span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="co"># Repeated CV (id = repeat, id2 = fold within repeat)</span></span>
+<span>   <span class="co"># with a heterogeneous variance:</span></span>
+<span>     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">+</span> <span class="fl">0</span><span class="op">|</span> <span class="va">id2</span><span class="op">/</span><span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="co"># Default for unknown resampling method and</span></span>
+<span>   <span class="co"># multiple ID fields:</span></span>
+<span>     <span class="va">statistic</span> <span class="op">~</span> <span class="va">model</span> <span class="op">+</span> <span class="op">(</span><span class="va">model</span> <span class="op">|</span> <span class="va">idN</span><span class="op">/</span><span class="va">..</span><span class="op">/</span><span class="va">id</span><span class="op">)</span></span>
+<span> </span></code></pre></div>
 
 <p>Custom formulas should use <code>statistic</code> as the outcome variable and <code>model</code>
 as the factor variable with the model names.</p>
@@ -238,34 +240,34 @@ the <code>glm</code> function.</p>
 <p>There are several ways to give resampling results to the <code>perf_mod()</code> function. To
 illustrate, here are some example objects using 10-fold cross-validation for a
 simple two-class problem:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span>
-   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span>
-   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/workflowsets" class="external-link">workflowsets</a></span><span class="op">)</span>
-
-   <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">two_class_dat</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span>
-
-   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>
-   <span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu">vfold_cv</span><span class="op">(</span><span class="va">two_class_dat</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span>
+<span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyposterior.tidymodels.org">tidyposterior</a></span><span class="op">)</span></span>
+<span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/workflowsets" class="external-link">workflowsets</a></span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">two_class_dat</span>, package <span class="op">=</span> <span class="st">"modeldata"</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
+<span>   <span class="va">folds</span> <span class="op">&lt;-</span> <span class="fu">vfold_cv</span><span class="op">(</span><span class="va">two_class_dat</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>We can define two different models (for simplicity, with no tuning parameters).</p>
-<p></p><div class="sourceCode r"><pre><code><span class="va">logistic_reg_glm_spec</span> <span class="op">&lt;-</span>
-     <span class="fu">logistic_reg</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">set_engine</span><span class="op">(</span><span class="st">'glm'</span><span class="op">)</span>
-
-   <span class="va">mars_earth_spec</span> <span class="op">&lt;-</span>
-     <span class="fu">mars</span><span class="op">(</span>prod_degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">set_engine</span><span class="op">(</span><span class="st">'earth'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">set_mode</span><span class="op">(</span><span class="st">'classification'</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="va">logistic_reg_glm_spec</span> <span class="op">&lt;-</span></span>
+<span>     <span class="fu">logistic_reg</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">set_engine</span><span class="op">(</span><span class="st">'glm'</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="va">mars_earth_spec</span> <span class="op">&lt;-</span></span>
+<span>     <span class="fu">mars</span><span class="op">(</span>prod_degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">set_engine</span><span class="op">(</span><span class="st">'earth'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">set_mode</span><span class="op">(</span><span class="st">'classification'</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>For tidymodels, the <code><a href="https://tune.tidymodels.org/reference/fit_resamples.html" class="external-link">tune::fit_resamples()</a></code> function can be used to estimate
 performance for each model/resample:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="va">rs_ctrl</span> <span class="op">&lt;-</span> <span class="fu">control_resamples</span><span class="op">(</span>save_workflow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-   <span class="va">logistic_reg_glm_res</span> <span class="op">&lt;-</span>
-     <span class="va">logistic_reg_glm_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">fit_resamples</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, resamples <span class="op">=</span> <span class="va">folds</span>, control <span class="op">=</span> <span class="va">rs_ctrl</span><span class="op">)</span>
-
-   <span class="va">mars_earth_res</span> <span class="op">&lt;-</span>
-     <span class="va">mars_earth_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">fit_resamples</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, resamples <span class="op">=</span> <span class="va">folds</span>, control <span class="op">=</span> <span class="va">rs_ctrl</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="va">rs_ctrl</span> <span class="op">&lt;-</span> <span class="fu">control_resamples</span><span class="op">(</span>save_workflow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="va">logistic_reg_glm_res</span> <span class="op">&lt;-</span></span>
+<span>     <span class="va">logistic_reg_glm_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">fit_resamples</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, resamples <span class="op">=</span> <span class="va">folds</span>, control <span class="op">=</span> <span class="va">rs_ctrl</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="va">mars_earth_res</span> <span class="op">&lt;-</span></span>
+<span>     <span class="va">mars_earth_spec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">fit_resamples</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, resamples <span class="op">=</span> <span class="va">folds</span>, control <span class="op">=</span> <span class="va">rs_ctrl</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>From these, there are several ways to pass the results to <code>perf_mod()</code>.</p><div class="section">
 <h4 id="data-frame-as-input">Data Frame as Input<a class="anchor" aria-label="anchor" href="#data-frame-as-input"></a></h4>
 
@@ -275,18 +277,18 @@ one or more id columns) as well as columns for each model that you would like to
 compare.</p>
 <p>For the model results above, <code><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">tune::collect_metrics()</a></code> can be used along with some
 basic data manipulation steps:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="va">logistic_roc</span> <span class="op">&lt;-</span>
-     <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="va">logistic_reg_glm_res</span>, summarize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, logistic <span class="op">=</span> <span class="va">.estimate</span><span class="op">)</span>
-
-   <span class="va">mars_roc</span> <span class="op">&lt;-</span>
-     <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="va">mars_earth_res</span>, summarize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, mars <span class="op">=</span> <span class="va">.estimate</span><span class="op">)</span>
-
-   <span class="va">resamples_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">logistic_roc</span>, <span class="va">mars_roc</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span>
-   <span class="va">resamples_df</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="va">logistic_roc</span> <span class="op">&lt;-</span></span>
+<span>     <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="va">logistic_reg_glm_res</span>, summarize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, logistic <span class="op">=</span> <span class="va">.estimate</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="va">mars_roc</span> <span class="op">&lt;-</span></span>
+<span>     <span class="fu"><a href="https://tune.tidymodels.org/reference/collect_predictions.html" class="external-link">collect_metrics</a></span><span class="op">(</span><span class="va">mars_earth_res</span>, summarize <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.metric</span> <span class="op">==</span> <span class="st">"roc_auc"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">id</span>, mars <span class="op">=</span> <span class="va">.estimate</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="va">resamples_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">logistic_roc</span>, <span class="va">mars_roc</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
+<span>   <span class="va">resamples_df</span></span></code></pre><p></p></div>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>   <span class="do">## # A tibble: 10 x 3</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   id     logistic  mars</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;</span></span>
@@ -298,9 +300,9 @@ basic data manipulation steps:</p>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>   <span class="do">## 6 Fold06    0.893 0.889</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>   <span class="do">## # … with 4 more rows</span></span></code></pre><p></p></div>
 <p>We can then give this directly to <code>perf_mod()</code>:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span>
-   <span class="va">roc_model_via_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">resamples_df</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_df</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span></span>
+<span>   <span class="va">roc_model_via_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">resamples_df</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_df</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>   <span class="do">## # A tibble: 2 x 4</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   model     mean lower upper</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
@@ -315,13 +317,13 @@ basic data manipulation steps:</p>
 <p>Alternatively, the result columns can be merged back into the original <code>rsample</code>
 object. The up-side to using this method is that <code>perf_mod()</code> will know exactly
 which model formula to use for the Bayesian model:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="va">resamples_rset</span> <span class="op">&lt;-</span>
-     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">folds</span>, <span class="va">logistic_roc</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
-     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">mars_roc</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span>
-
-   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span>
-   <span class="va">roc_model_via_rset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">resamples_rset</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_rset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="va">resamples_rset</span> <span class="op">&lt;-</span></span>
+<span>     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">folds</span>, <span class="va">logistic_roc</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>     <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">full_join</a></span><span class="op">(</span><span class="va">mars_roc</span>, by <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span></span>
+<span>   <span class="va">roc_model_via_rset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">resamples_rset</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_rset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>   <span class="do">## # A tibble: 2 x 4</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   model     mean lower upper</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
@@ -336,12 +338,12 @@ which model formula to use for the Bayesian model:</p>
 <p>Finally, for tidymodels, a workflow set object can be used. This is a collection of
 models/preprocessing combinations in one object. We can emulate a workflow set using
 the existing example results then pass that to <code>perf_mod()</code>:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="va">example_wset</span> <span class="op">&lt;-</span>
-     <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/as_workflow_set.html" class="external-link">as_workflow_set</a></span><span class="op">(</span>logistic <span class="op">=</span> <span class="va">logistic_reg_glm_res</span>, mars <span class="op">=</span> <span class="va">mars_earth_res</span><span class="op">)</span>
-
-   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span>
-   <span class="va">roc_model_via_wflowset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">example_wset</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_rset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="va">example_wset</span> <span class="op">&lt;-</span></span>
+<span>     <span class="fu"><a href="https://workflowsets.tidymodels.org/reference/as_workflow_set.html" class="external-link">as_workflow_set</a></span><span class="op">(</span>logistic <span class="op">=</span> <span class="va">logistic_reg_glm_res</span>, mars <span class="op">=</span> <span class="va">mars_earth_res</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span></span>
+<span>   <span class="va">roc_model_via_wflowset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">example_wset</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_rset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>   <span class="do">## # A tibble: 2 x 4</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   model     mean lower upper</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
@@ -354,26 +356,26 @@ the existing example results then pass that to <code>perf_mod()</code>:</p>
 
 
 <p>The <code>caret</code> package can also be used. An equivalent set of models are created:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/topepo/caret/" class="external-link">caret</a></span><span class="op">)</span>
-
-   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">102</span><span class="op">)</span>
-   <span class="va">logistic_caret</span> <span class="op">&lt;-</span> <span class="fu">train</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span>, method <span class="op">=</span> <span class="st">"glm"</span>,
-                           trControl <span class="op">=</span> <span class="fu">trainControl</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"cv"</span><span class="op">)</span><span class="op">)</span>
-
-   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">102</span><span class="op">)</span>
-   <span class="va">mars_caret</span> <span class="op">&lt;-</span> <span class="fu">train</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span>, method <span class="op">=</span> <span class="st">"gcvEarth"</span>,
-                       tuneGrid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,
-                       trControl <span class="op">=</span> <span class="fu">trainControl</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"cv"</span><span class="op">)</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/topepo/caret/" class="external-link">caret</a></span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">102</span><span class="op">)</span></span>
+<span>   <span class="va">logistic_caret</span> <span class="op">&lt;-</span> <span class="fu">train</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span>, method <span class="op">=</span> <span class="st">"glm"</span>,</span>
+<span>                           trControl <span class="op">=</span> <span class="fu">trainControl</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"cv"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">102</span><span class="op">)</span></span>
+<span>   <span class="va">mars_caret</span> <span class="op">&lt;-</span> <span class="fu">train</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span>, method <span class="op">=</span> <span class="st">"gcvEarth"</span>,</span>
+<span>                       tuneGrid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>degree <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>                       trControl <span class="op">=</span> <span class="fu">trainControl</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"cv"</span><span class="op">)</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>Note that these two models use the same resamples as one another due to setting the
 seed prior to calling <code>train()</code>. However, these are different from the tidymodels
 results used above (so the final results will be different).</p>
 <p><code>caret</code> has a <code>resamples()</code> function that can collect and collate the resamples.
 This can also be given to <code>perf_mod()</code>:</p>
-<p></p><div class="sourceCode r"><pre><code><span class="va">caret_resamples</span> <span class="op">&lt;-</span> <span class="fu">resamples</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>logistic <span class="op">=</span> <span class="va">logistic_caret</span>, mars <span class="op">=</span> <span class="va">mars_caret</span><span class="op">)</span><span class="op">)</span>
-
-   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span>
-   <span class="va">roc_model_via_caret</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">caret_resamples</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_caret</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span>   <span class="va">caret_resamples</span> <span class="op">&lt;-</span> <span class="fu">resamples</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>logistic <span class="op">=</span> <span class="va">logistic_caret</span>, mars <span class="op">=</span> <span class="va">mars_caret</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>   <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">101</span><span class="op">)</span></span>
+<span>   <span class="va">roc_model_via_caret</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/perf_mod.html">perf_mod</a></span><span class="op">(</span><span class="va">caret_resamples</span>, refresh <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span>   <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html" class="external-link">tidy</a></span><span class="op">(</span><span class="va">roc_model_via_caret</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="op">)</span></span></code></pre><p></p></div>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>   <span class="do">## # A tibble: 2 x 4</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   model     mean lower upper</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="do">##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
@@ -402,11 +404,11 @@ This can also be given to <code>perf_mod()</code>:</p>
    </div>
   <footer><div class="container">
   <div class="pkgdown-footer-left">
-  <p></p><p>Developed by <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="https://www.rstudio.com" class="external-link"><img src="https://www.tidyverse.org/rstudio-logo.svg" alt="RStudio" width="72"></a>.</p>
+  <p></p><p>Developed by <a href="https://github.com/topepo" class="external-link">Max Kuhn</a>, <a href="https://www.posit.co" class="external-link"><img src="https://www.tidyverse.org/posit-logo.svg" alt="Posit" height="16" style="margin-bottom: 3px;"></a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
   </div></footer></body></html>
