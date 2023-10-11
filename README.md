@@ -62,21 +62,21 @@ cross-validation for a simple two-class problem:
 
 ``` r
 library(tidymodels)
-#> ── Attaching packages ───────────────────────────────── tidymodels 1.0.0.9000 ──
-#> ✔ broom        1.0.3          ✔ recipes      1.0.5.9000
-#> ✔ dials        1.1.0.9000     ✔ rsample      1.1.1     
-#> ✔ dplyr        1.1.0          ✔ tibble       3.1.8     
-#> ✔ ggplot2      3.4.1          ✔ tidyr        1.3.0     
-#> ✔ infer        1.0.4          ✔ tune         1.0.1.9003
-#> ✔ modeldata    1.1.0.9000     ✔ workflows    1.1.3     
-#> ✔ parsnip      1.0.4.9002     ✔ workflowsets 1.0.0     
-#> ✔ purrr        1.0.1          ✔ yardstick    1.1.0.9000
+#> ── Attaching packages ────────────────────────────────────── tidymodels 1.1.0 ──
+#> ✔ broom        1.0.5          ✔ recipes      1.0.8     
+#> ✔ dials        1.2.0          ✔ rsample      1.2.0     
+#> ✔ dplyr        1.1.2          ✔ tibble       3.2.1     
+#> ✔ ggplot2      3.4.3          ✔ tidyr        1.3.0     
+#> ✔ infer        1.0.4          ✔ tune         1.1.2     
+#> ✔ modeldata    1.2.0          ✔ workflows    1.1.3     
+#> ✔ parsnip      1.1.1.9000     ✔ workflowsets 1.0.1     
+#> ✔ purrr        1.0.2          ✔ yardstick    1.2.0
 #> ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 #> ✖ purrr::discard() masks scales::discard()
 #> ✖ dplyr::filter()  masks stats::filter()
 #> ✖ dplyr::lag()     masks stats::lag()
 #> ✖ recipes::step()  masks stats::step()
-#> • Learn how to get started at https://www.tidymodels.org/start/
+#> • Search for functions across packages at https://www.tidymodels.org/find/
 library(tidyposterior)
 
 data(two_class_dat, package = "modeldata")
@@ -158,8 +158,8 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
 #> Chain 1: 
-#> Chain 1: Gradient evaluation took 4.3e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.43 seconds.
+#> Chain 1: Gradient evaluation took 0.000216 seconds
+#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 2.16 seconds.
 #> Chain 1: Adjust your expectations accordingly!
 #> Chain 1: 
 #> Chain 1: 
@@ -176,15 +176,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.379703 seconds (Warm-up)
-#> Chain 1:                0.12234 seconds (Sampling)
-#> Chain 1:                0.502043 seconds (Total)
+#> Chain 1:  Elapsed Time: 0.334 seconds (Warm-up)
+#> Chain 1:                0.099 seconds (Sampling)
+#> Chain 1:                0.433 seconds (Total)
 #> Chain 1: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
 #> Chain 2: 
-#> Chain 2: Gradient evaluation took 9e-06 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+#> Chain 2: Gradient evaluation took 5e-06 seconds
+#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.05 seconds.
 #> Chain 2: Adjust your expectations accordingly!
 #> Chain 2: 
 #> Chain 2: 
@@ -201,15 +201,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.405567 seconds (Warm-up)
-#> Chain 2:                0.179011 seconds (Sampling)
-#> Chain 2:                0.584578 seconds (Total)
+#> Chain 2:  Elapsed Time: 0.333 seconds (Warm-up)
+#> Chain 2:                0.138 seconds (Sampling)
+#> Chain 2:                0.471 seconds (Total)
 #> Chain 2: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
 #> Chain 3: 
-#> Chain 3: Gradient evaluation took 8e-06 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.08 seconds.
+#> Chain 3: Gradient evaluation took 6e-06 seconds
+#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.06 seconds.
 #> Chain 3: Adjust your expectations accordingly!
 #> Chain 3: 
 #> Chain 3: 
@@ -226,15 +226,15 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.366595 seconds (Warm-up)
-#> Chain 3:                0.118549 seconds (Sampling)
-#> Chain 3:                0.485144 seconds (Total)
+#> Chain 3:  Elapsed Time: 0.323 seconds (Warm-up)
+#> Chain 3:                0.098 seconds (Sampling)
+#> Chain 3:                0.421 seconds (Total)
 #> Chain 3: 
 #> 
 #> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
 #> Chain 4: 
-#> Chain 4: Gradient evaluation took 9e-06 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
+#> Chain 4: Gradient evaluation took 4e-06 seconds
+#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.04 seconds.
 #> Chain 4: Adjust your expectations accordingly!
 #> Chain 4: 
 #> Chain 4: 
@@ -251,9 +251,9 @@ roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 #> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
 #> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
 #> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.364 seconds (Warm-up)
-#> Chain 4:                0.114266 seconds (Sampling)
-#> Chain 4:                0.478266 seconds (Total)
+#> Chain 4:  Elapsed Time: 0.324 seconds (Warm-up)
+#> Chain 4:                0.098 seconds (Sampling)
+#> Chain 4:                0.422 seconds (Total)
 #> Chain 4:
 ```
 
