@@ -1,11 +1,10 @@
-pandoc: 2.19.2
-pkgdown: 2.0.7
+pandoc: 3.1.11
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
-  Getting_Started: Getting_Started.html
+  articles/Getting_Started: Getting_Started.html
   tidyposterior: tidyposterior.html
-last_built: 2023-10-11T19:27Z
+last_built: 2024-08-05T12:59Z
 urls:
   reference: https://tidyposterior.tidymodels.org/reference
   article: https://tidyposterior.tidymodels.org/articles
-
