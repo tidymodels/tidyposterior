@@ -1,6 +1,6 @@
 ## run fits outside of test functions
 ## https://github.com/stan-dev/rstanarm/issues/202
-if (rlang::is_installed("parsnip", "yardstick")) {
+if (rlang::is_installed(c("parsnip", "yardstick"))) {
   library(rsample)
   library(parsnip)
   library(workflowsets)
