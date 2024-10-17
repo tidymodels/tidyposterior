@@ -120,13 +120,13 @@ Let’s define a model specification:</p>
 </h2>
 <p>One way to incorporate nonlinearity into the class boundary is to use
 a spline basis expansion for the predictors. A <code>recipe</code> step
-using <code>step_ns</code> will will encode the predictors in this way.
-The degrees of freedom will be hard-coded to produce two additional
-feature columns per predictor:</p>
+using <code>step_spline_natural</code> will will encode the predictors
+in this way. The degrees of freedom will be hard-coded to produce two
+additional feature columns per predictor:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spline_rec</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">recipe</span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">two_class_dat</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
-<span>  <span class="fu">step_ns</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, deg_free <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="fu">step_spline_natural</span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, deg_free <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">spline_wflow</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">workflow</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
