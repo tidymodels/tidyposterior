@@ -1,81 +1,81 @@
-library(tidyposterior)
-library(rsample)
-library(parsnip)
-library(workflowsets)
-library(testthat)
-library(yardstick)
-
-set.seed(4633)
-test_bt <- bootstraps(mtcars, times = 10)
-test_bt$one <- rnorm(nrow(test_bt), mean = 10)
-test_bt$two <- rnorm(nrow(test_bt), mean = 12)
-
-set.seed(4633)
-test_rcv <- vfold_cv(mtcars, v = 5, repeats = 2)
-test_rcv$one <- rnorm(nrow(test_rcv), mean = 10)
-test_rcv$two <- rnorm(nrow(test_rcv), mean = 12)
-
-## emulate caret::resamples object from 10-fold
-
-rs_obj <- list(
-  methods = c(one = "lm", two = "rpart"),
-  values =  as.data.frame(test_bt[, -1]),
-  metrics = "blah"
-)
-colnames(rs_obj$values) <- c("Resample", "one~blah", "two~blah")
-rs_obj$values$Resample <- vfold_cv(mtcars)$id
-class(rs_obj) <- "resamples"
-
-rs_rcv <- rs_obj
-rs_rcv$values$Resample <-
-  paste0("Fold", rep(1:5, 2), ".", "Rep", rep(1:2, each = 5))
-
 ## run fits outside of test functions
 ## https://github.com/stan-dev/rstanarm/issues/202
+if (rlang::is_installed("parsnip", "yardstick")) {
+  library(rsample)
+  library(parsnip)
+  library(workflowsets)
+  library(testthat)
+  library(yardstick)
 
-obj_1 <- perf_mod(test_bt,
-  seed = 781,
-  chains = 2, iter = 50,
-  refresh = 0,
-  verbose = FALSE
-)
+  set.seed(4633)
+  test_bt <- bootstraps(mtcars, times = 10)
+  test_bt$one <- rnorm(nrow(test_bt), mean = 10)
+  test_bt$two <- rnorm(nrow(test_bt), mean = 12)
 
-test_df <- as.data.frame(test_bt[, -1])
-obj_2 <- perf_mod(test_df,
-  seed = 781,
-  refresh = 0,
-  chains = 2, iter = 50,
-  verbose = FALSE
-)
+  set.seed(4633)
+  test_rcv <- vfold_cv(mtcars, v = 5, repeats = 2)
+  test_rcv$one <- rnorm(nrow(test_rcv), mean = 10)
+  test_rcv$two <- rnorm(nrow(test_rcv), mean = 12)
 
-obj_3 <- perf_mod(test_bt,
-  seed = 781,
-  chains = 2, iter = 50,
-  refresh = 0,
-  verbose = FALSE,
-  hetero_var = TRUE
-)
+  ## emulate caret::resamples object from 10-fold
 
-obj_4 <- perf_mod(rs_obj,
-  seed = 781,
-  chains = 2, iter = 50,
-  refresh = 0,
-  verbose = FALSE
-)
+  rs_obj <- list(
+    methods = c(one = "lm", two = "rpart"),
+    values =  as.data.frame(test_bt[, -1]),
+    metrics = "blah"
+  )
+  colnames(rs_obj$values) <- c("Resample", "one~blah", "two~blah")
+  rs_obj$values$Resample <- vfold_cv(mtcars)$id
+  class(rs_obj) <- "resamples"
 
-obj_5 <- perf_mod(rs_rcv,
-  seed = 781,
-  chains = 2, iter = 50,
-  verbose = FALSE
-)
+  rs_rcv <- rs_obj
+  rs_rcv$values$Resample <-
+    paste0("Fold", rep(1:5, 2), ".", "Rep", rep(1:2, each = 5))
 
-obj_6 <- perf_mod(test_rcv,
-  seed = 781,
-  chains = 2, iter = 50,
-  refresh = 0,
-  verbose = FALSE
-)
+  obj_1 <- perf_mod(test_bt,
+                    seed = 781,
+                    chains = 2, iter = 50,
+                    refresh = 0,
+                    verbose = FALSE
+  )
 
+  test_df <- as.data.frame(test_bt[, -1])
+  obj_2 <- perf_mod(test_df,
+                    seed = 781,
+                    refresh = 0,
+                    chains = 2, iter = 50,
+                    verbose = FALSE
+  )
+
+  obj_3 <- perf_mod(test_bt,
+                    seed = 781,
+                    chains = 2, iter = 50,
+                    refresh = 0,
+                    verbose = FALSE,
+                    hetero_var = TRUE
+  )
+
+  obj_4 <- perf_mod(rs_obj,
+                    seed = 781,
+                    chains = 2, iter = 50,
+                    refresh = 0,
+                    verbose = FALSE
+  )
+
+  obj_5 <- perf_mod(rs_rcv,
+                    seed = 781,
+                    chains = 2, iter = 50,
+                    verbose = FALSE
+  )
+
+  obj_6 <- perf_mod(test_rcv,
+                    seed = 781,
+                    chains = 2, iter = 50,
+                    refresh = 0,
+                    verbose = FALSE
+  )
+
+}
 # ------------------------------------------------------------------------------
 
 test_that("bad arguments", {
@@ -89,6 +89,9 @@ test_that("bad arguments", {
 # ------------------------------------------------------------------------------
 
 test_that("basic usage", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_equal(obj_1$names, c("one", "two"))
   expect_equal(obj_1$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
   expect_equal(obj_1$rset_type, "Bootstrap sampling")
@@ -101,6 +104,9 @@ test_that("basic usage", {
 # ------------------------------------------------------------------------------
 
 test_that("data frame method", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_equal(obj_2$names, c("one", "two"))
   expect_equal(obj_2$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
   expect_equal(obj_2$rset_type, NA)
@@ -113,12 +119,18 @@ test_that("data frame method", {
 # ------------------------------------------------------------------------------
 
 test_that("model-specifc variance", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_equal(formula(obj_3$stan), as.formula(statistic ~ model + (model + 0 | id)), ignore_formula_env = TRUE)
 })
 
 # ------------------------------------------------------------------------------
 
 test_that("rsample method", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_equal(obj_4$names, c("one", "two"))
   expect_equal(obj_4$ids, list(id = c(paste0("Fold0", 1:9), "Fold10")))
   expect_equal(obj_4$rset_type, NA)
@@ -130,6 +142,9 @@ test_that("rsample method", {
 
 
 test_that("rsample method with repeated cv", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_true(tidyposterior:::is_repeated_cv(rs_rcv$values))
   expect_equal(obj_5$names, c("one", "two"))
   expect_equal(obj_5$rset_type, "5-fold cross-validation repeated 2 times")
@@ -146,6 +161,9 @@ test_that("rsample method with repeated cv", {
 # ------------------------------------------------------------------------------
 
 test_that("repeated v_fold method", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_equal(obj_6$names, c("one", "two"))
   expect_equal(
     obj_6$ids,
@@ -169,11 +187,17 @@ test_that("repeated v_fold method", {
 
 
 test_that("summary", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_true(inherits(summary(obj_1), "summary.stanreg"))
 })
 
 
 test_that("postint", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   expect_equal(
     tidyposterior:::postint.numeric(2),
     data.frame(lower = 2, upper = 2)
@@ -186,6 +210,9 @@ test_that("postint", {
 })
 
 test_that("autoplots", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   p_1 <- autoplot(obj_1)
   expect_s3_class(p_1, "ggplot")
   expect_equal(
@@ -217,6 +244,9 @@ test_that("autoplots", {
 # ------------------------------------------------------------------------------
 
 test_that("workflow sets", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
   lm_spec <- linear_reg() %>% set_engine("lm")
   set.seed(10)
   bt <- bootstraps(mtcars, times = 10)

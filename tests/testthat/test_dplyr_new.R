@@ -1,6 +1,4 @@
-library(tidyposterior)
 library(dplyr)
-library(testthat)
 
 data("ex_objects", package = "tidyposterior")
 

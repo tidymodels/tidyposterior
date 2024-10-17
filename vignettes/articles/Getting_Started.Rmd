@@ -10,7 +10,13 @@ output:
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = "center")
+if (rlang::is_installed(c("tidymodels", "parsnip", "yardstick"))) {
+  run <- TRUE
+} else {
+  run <- FALSE
+}
+
+knitr::opts_chunk$set(echo = TRUE, fig.align = "center", eval = run)
 library(tidymodels)
 library(tidyposterior)
 data(two_class_dat)
@@ -50,12 +56,12 @@ logistic_spec <- logistic_reg() %>% set_engine("glm")
 
 ## Comparing modeling/prepreocessing methods
 
-One way to incorporate nonlinearity into the class boundary is to use a spline basis expansion for the predictors. A `recipe` step using `step_ns` will will encode the predictors in this way. The degrees of freedom will be hard-coded to produce two additional feature columns per predictor: 
+One way to incorporate nonlinearity into the class boundary is to use a spline basis expansion for the predictors. A `recipe` step using `step_spline_natural` will will encode the predictors in this way. The degrees of freedom will be hard-coded to produce two additional feature columns per predictor: 
 
 ```{r splines}
 spline_rec <- 
   recipe(Class ~ ., data = two_class_dat) %>% 
-  step_ns(A, B, deg_free = 3)
+  step_spline_natural(A, B, deg_free = 3)
 
 spline_wflow <- 
   workflow() %>% 
