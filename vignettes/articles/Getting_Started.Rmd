@@ -10,7 +10,7 @@ output:
 
 
 ```{r setup, include=FALSE}
-if (rlang::is_installed(c("tidymodels", "parsnip", "yardstick"))) {
+if (rlang::is_installed(c("tidymodels", "parsnip", "yardstick", "splines2"))) {
   run <- TRUE
 } else {
   run <- FALSE
