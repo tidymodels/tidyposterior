@@ -19,10 +19,10 @@
 tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
   post_dat <-
-    post_dat %>%
+    post_dat |>
     tidyr::pivot_longer(c(dplyr::everything()),
                         names_to = "model",
-                        values_to = "posterior") %>%
+                        values_to = "posterior") |>
     dplyr::mutate(posterior = x$transform$inv(posterior))
   post_dat <- as_tibble(post_dat)
   class(post_dat) <- c("posterior", class(post_dat))
@@ -55,12 +55,12 @@ print.posterior <- function(x, ...) {
 #' @export
 summary.posterior <- function(object, prob = 0.90,
                               seed = sample.int(10000, 1), ...) {
-  post_int <- object %>%
-    dplyr::group_by(model) %>%
+  post_int <- object |>
+    dplyr::group_by(model) |>
     dplyr::do(postint.data.frame(., prob = prob, seed = seed))
-  post_stats <- object %>%
-    dplyr::group_by(model) %>%
-    dplyr::summarise(mean = mean(posterior)) %>%
+  post_stats <- object |>
+    dplyr::group_by(model) |>
+    dplyr::summarise(mean = mean(posterior)) |>
     dplyr::full_join(post_int, by = "model")
   post_stats
 }
@@ -69,7 +69,7 @@ summary.posterior <- function(object, prob = 0.90,
 get_post <- function(x, seed = sample.int(10000, 1)) {
   new_dat <- data.frame(model = unique(x$names))
   new_dat <-
-    as.data.frame(lapply(x$ids, function(x) rep(x[1], nrow(new_dat)))) %>%
+    as.data.frame(lapply(x$ids, function(x) rep(x[1], nrow(new_dat)))) |>
     bind_cols(new_dat)
   post_data <-
     rstanarm::posterior_epred(
@@ -86,6 +86,7 @@ get_post <- function(x, seed = sample.int(10000, 1)) {
 postint <- function(object, ...) UseMethod("postint")
 
 
+#' @export
 postint.numeric <- function(object, prob = 0.90,
                             seed = sample.int(10000, 1), ...) {
   object <- matrix(object, ncol = 1)
@@ -94,6 +95,8 @@ postint.numeric <- function(object, prob = 0.90,
   names(res) <- c("lower", "upper")
   res
 }
+
+#' @export
 postint.data.frame <- function(object, prob = 0.90,
                                seed = sample.int(10000, 1), ...) {
   postint(getElement(object, "posterior"), prob = prob, seed = seed)
@@ -154,15 +157,15 @@ autoplot.perf_mod_workflow_set <- function(object, type = "intervals", prob = 0.
 
 plot_wset_intervals <- function(object, prob, ...) {
   plot_data <-
-    tidy(object) %>%
-    dplyr::group_by(model) %>%
+    tidy(object) |>
+    dplyr::group_by(model) |>
     dplyr::summarize(
       .lower = quantile(posterior, prob = 1 - prob[1]),
       .estimate = median(posterior),
       .upper = quantile(posterior, prob = prob[1]),
       .groups = "drop"
-    ) %>%
-    dplyr::ungroup() %>%
+    ) |>
+    dplyr::ungroup() |>
     dplyr::rename(workflow = model)
   if (object$metric$direction == "maximize") {
     plot_data$rank <- rank(-plot_data$.estimate, ties.method = "random")
@@ -184,9 +187,9 @@ plot_rope_probs <- function(object, size, ...) {
     rlang::abort("Please supply a practical effect size via the `size` argument. ")
   }
   posteriors <-
-    tidy(object) %>%
-    dplyr::group_by(model) %>%
-    dplyr::summarize(.estimate = median(posterior), .groups = "drop") %>%
+    tidy(object) |>
+    dplyr::group_by(model) |>
+    dplyr::summarize(.estimate = median(posterior), .groups = "drop") |>
     dplyr::ungroup()
 
   if (object$metric$direction == "maximize") {

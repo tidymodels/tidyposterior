@@ -51,7 +51,7 @@ cv_folds
 We'll use a logistic regression model for these data and initially consider two different preprocessing methods that might help the fit. Let's define a model specification: 
 
 ```{r logistic}
-logistic_spec <- logistic_reg() %>% set_engine("glm")
+logistic_spec <- logistic_reg() |> set_engine("glm")
 ```
 
 ## Comparing modeling/prepreocessing methods
@@ -60,12 +60,12 @@ One way to incorporate nonlinearity into the class boundary is to use a spline b
 
 ```{r splines}
 spline_rec <- 
-  recipe(Class ~ ., data = two_class_dat) %>% 
+  recipe(Class ~ ., data = two_class_dat) |> 
   step_spline_natural(A, B, deg_free = 3)
 
 spline_wflow <- 
-  workflow() %>% 
-  add_recipe(spline_rec) %>% 
+  workflow() |> 
+  add_recipe(spline_rec) |> 
   add_model(logistic_spec)
 ```
 
@@ -76,13 +76,13 @@ An alternate preprocessing method is to normalize the data using a spatial sign 
 ```{r class-plot-spatial-sign}
 #| fig-alt: "Scatter chart. A along the x-axis, B along the y-axis. Two classes class1 and class2 are colors red and blue respectively. All points are on the unit circle. with most of the blue points having a higher B value."
 spatial_sign_rec <- 
-  recipe(Class ~ ., data = two_class_dat) %>% 
-  step_normalize(A, B) %>% 
+  recipe(Class ~ ., data = two_class_dat) |> 
+  step_normalize(A, B) |> 
   step_spatialsign(A, B)
 
-spatial_sign_rec %>% 
-  prep() %>% 
-  bake(new_data = NULL) %>% 
+spatial_sign_rec |> 
+  prep() |> 
+  bake(new_data = NULL) |> 
   ggplot(aes(x = A, y = B, col = Class)) + 
   geom_point(alpha = 0.3, cex = 2) +
   coord_fixed()
@@ -91,8 +91,8 @@ Another workflow is created for this method:
 
 ```{r spatial-sign}
 spatial_sign_wflow <- 
-  workflow() %>% 
-  add_recipe(spatial_sign_rec) %>% 
+  workflow() |> 
+  add_recipe(spatial_sign_rec) |> 
   add_model(logistic_spec)
 ```
 
@@ -107,9 +107,9 @@ compute_roc <- function(split, wflow) {
   # Predict the other 10%
   pred <- predict(mod, new_data = assessment(split), type = "prob")
   # Compute the area under the ROC curve
-  pred %>% 
-    bind_cols(assessment(split)) %>% 
-    roc_auc(Class, .pred_Class1) %>% 
+  pred |> 
+    bind_cols(assessment(split)) |> 
+    roc_auc(Class, .pred_Class1) |> 
     pull(.estimate)
 }
 ```
@@ -118,7 +118,7 @@ For our `rsample` object `cv_folds`, let's create two columns of ROC statistics 
 
 ```{r roc-values}
 roc_values <- 
-  cv_folds %>% 
+  cv_folds |> 
   mutate(
     spatial_sign = map_dbl(splits, compute_roc, spatial_sign_wflow),
     splines      = map_dbl(splits, compute_roc, spline_wflow)
@@ -213,7 +213,7 @@ The summary and plot methods have optional arguments called `size.` The `summary
 
 ```{r preproc-rope}
 #| fig-alt: "Line chart. Differences in ROC (spatial sign - splines) along the x-axis, posterior along the y-axis. the highpoint of the density is at around -0.02. Full range is -0.05 to 0.02. dotted vertical lines have been placed at -0.02 and 0.02."
-summary(preproc_diff, size = 0.02) %>% 
+summary(preproc_diff, size = 0.02) |> 
   select(contrast, starts_with("pract"))
 autoplot(preproc_diff, size = 0.02)
 ```
@@ -233,14 +233,14 @@ As a simple (and approximate) example/diagnostics, suppose we used a simple ANOV
 ```{r roc_dist}
 #| fig-alt: "Scatter chart. x along the x-axis, y along the y-axis. A dashed line goes at a diagonal, with all the points located around it."
 roc_longer <- 
-  roc_values %>% 
-  select(-splits) %>% 
+  roc_values |> 
+  select(-splits) |> 
   pivot_longer(cols = c(-id), names_to = "preprocessor", values_to = "roc")
 
 roc_fit <- lm(roc ~ preprocessor, roc_longer)
 
-roc_fit %>% 
-  augment() %>% 
+roc_fit |> 
+  augment() |> 
   ggplot(aes(sample = .resid)) + 
   geom_qq() + 
   geom_qq_line(lty = 2) +
@@ -265,7 +265,7 @@ The previous spline recipe is altered so that the degrees of freedom parameter d
 
 ```{r tune-rec}
 spline_rec <- 
-  recipe(Class ~ ., data = two_class_dat) %>% 
+  recipe(Class ~ ., data = two_class_dat) |> 
   step_ns(A, B, deg_free = tune())
 ```
 
@@ -273,7 +273,7 @@ The `tune` package function `tune_grid()` is used to evaluate several values of 
 
 ```{r tune-grid}
 spline_tune <-
-  logistic_spec %>%
+  logistic_spec |>
   tune_grid(
     spline_rec,
     resamples = cv_folds,
@@ -281,7 +281,7 @@ spline_tune <-
     metrics = metric_set(roc_auc),
     control = control_grid(save_workflow = TRUE)
   )
-collect_metrics(spline_tune) %>% 
+collect_metrics(spline_tune) |> 
   arrange(desc(mean))
 ```
 
@@ -351,12 +351,12 @@ The `object` volumn contains the workflows that are created by the combinations 
 
 ```{r wflow-set-resample}
 logistic_res <- 
-  logistic_set %>% 
+  logistic_set |> 
   workflow_map("fit_resamples", seed = 3, resamples = cv_folds, 
                metrics = metric_set(roc_auc)) 
 logistic_res
 
-collect_metrics(logistic_res) %>% 
+collect_metrics(logistic_res) |> 
   filter(.metric == "roc_auc")
 ```
 
@@ -364,7 +364,7 @@ We can also add the previously tuned spline results by first converting them to 
 
 ```{r wflow-set-appned}
 logistic_res <- 
-  logistic_res %>% 
+  logistic_res |> 
   bind_rows(
     as_workflow_set(splines = spline_tune)
   )
@@ -375,7 +375,7 @@ There are some convenience functions to take an initial look at the results:
 
 ```{r wflow-res}
 #| fig-alt: "Error-bar chart. The x-axis is the workflow rank in the set (a value of one being the best) versus the performance metric(s) on the y-axis. All but two of the hower around a little under 0.9. with the last two being at 0.75 and 0.70."
-rank_results(logistic_res, rank_metric = "roc_auc") %>% 
+rank_results(logistic_res, rank_metric = "roc_auc") |> 
   filter(.metric == "roc_auc")
 autoplot(logistic_res, metric = "roc_auc")
 ```

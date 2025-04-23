@@ -176,12 +176,12 @@ simple two-class problem:
 We can define two different models (for simplicity, with no tuning parameters).
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{   logistic_reg_glm_spec <-
-     logistic_reg() \%>\%
+     logistic_reg() |>
      set_engine('glm')
 
    mars_earth_spec <-
-     mars(prod_degree = 1) \%>\%
-     set_engine('earth') \%>\%
+     mars(prod_degree = 1) |>
+     set_engine('earth') |>
      set_mode('classification')
 }\if{html}{\out{</div>}}
 
@@ -191,11 +191,11 @@ performance for each model/resample:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{   rs_ctrl <- control_resamples(save_workflow = TRUE)
 
    logistic_reg_glm_res <-
-     logistic_reg_glm_spec \%>\%
+     logistic_reg_glm_spec |>
      fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 
    mars_earth_res <-
-     mars_earth_spec \%>\%
+     mars_earth_spec |>
      fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 }\if{html}{\out{</div>}}
 
@@ -210,13 +210,13 @@ For the model results above, \code{\link[tune:collect_predictions]{tune::collect
 basic data manipulation steps:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{   logistic_roc <-
-     collect_metrics(logistic_reg_glm_res, summarize = FALSE) \%>\%
-     dplyr::filter(.metric == "roc_auc") \%>\%
+     collect_metrics(logistic_reg_glm_res, summarize = FALSE) |>
+     dplyr::filter(.metric == "roc_auc") |>
      dplyr::select(id, logistic = .estimate)
 
    mars_roc <-
-     collect_metrics(mars_earth_res, summarize = FALSE) \%>\%
-     dplyr::filter(.metric == "roc_auc") \%>\%
+     collect_metrics(mars_earth_res, summarize = FALSE) |>
+     dplyr::filter(.metric == "roc_auc") |>
      dplyr::select(id, mars = .estimate)
 
    resamples_df <- full_join(logistic_roc, mars_roc, by = "id")
@@ -239,7 +239,7 @@ We can then give this directly to \code{perf_mod()}:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{   set.seed(101)
    roc_model_via_df <- perf_mod(resamples_df, refresh = 0)
-   tidy(roc_model_via_df) \%>\% summary()
+   tidy(roc_model_via_df) |> summary()
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{   ## # A tibble: 2 x 4
@@ -257,12 +257,12 @@ object. The up-side to using this method is that \code{perf_mod()} will know exa
 which model formula to use for the Bayesian model:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{   resamples_rset <-
-     full_join(folds, logistic_roc, by = "id") \%>\%
+     full_join(folds, logistic_roc, by = "id") |>
      full_join(mars_roc, by = "id")
 
    set.seed(101)
    roc_model_via_rset <- perf_mod(resamples_rset, refresh = 0)
-   tidy(roc_model_via_rset) \%>\% summary()
+   tidy(roc_model_via_rset) |> summary()
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{   ## # A tibble: 2 x 4
@@ -284,7 +284,7 @@ the existing example results then pass that to \code{perf_mod()}:
 
    set.seed(101)
    roc_model_via_wflowset <- perf_mod(example_wset, refresh = 0)
-   tidy(roc_model_via_rset) \%>\% summary()
+   tidy(roc_model_via_rset) |> summary()
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{   ## # A tibble: 2 x 4
@@ -322,7 +322,7 @@ This can also be given to \code{perf_mod()}:
 
    set.seed(101)
    roc_model_via_caret <- perf_mod(caret_resamples, refresh = 0)
-   tidy(roc_model_via_caret) \%>\% summary()
+   tidy(roc_model_via_caret) |> summary()
 }\if{html}{\out{</div>}}
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{   ## # A tibble: 2 x 4

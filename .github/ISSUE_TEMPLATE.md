@@ -31,9 +31,8 @@ library(dplyr)
 
 data(precise_example)
 
-accuracy <- precise_example %>%
-   select(id, contains("Accuracy")) %>%
-   setNames(tolower(gsub("_Accuracy$", "", names(.)))) 
+accuracy <- precise_example |> select(id, contains("Accuracy"))
+accuracy <- setNames(accuracy, tolower(gsub("_Accuracy$", "", names(accuracy)))) 
 accuracy
 
 acc_model <- perf_mod(accuracy, seed = 13311, verbose = FALSE)   

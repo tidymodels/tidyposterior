@@ -66,12 +66,12 @@ We can define two different models (for simplicity, with no tuning parameters).
 
 ```{r model-specs}
 logistic_reg_glm_spec <-
-  logistic_reg() %>%
+  logistic_reg() |>
   set_engine('glm')
 
 mars_earth_spec <-
-  mars(prod_degree = 1) %>%
-  set_engine('earth') %>%
+  mars(prod_degree = 1) |>
+  set_engine('earth') |>
   set_mode('classification')
 ```
 
@@ -81,11 +81,11 @@ For tidymodels, the [tune::fit_resamples()] function can be used to estimate per
 rs_ctrl <- control_resamples(save_workflow = TRUE)
 
 logistic_reg_glm_res <- 
-  logistic_reg_glm_spec %>% 
+  logistic_reg_glm_spec |> 
   fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 
 mars_earth_res <- 
-  mars_earth_spec %>% 
+  mars_earth_spec |> 
   fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 ```
 
@@ -95,13 +95,13 @@ For the model results above, [tune::collect_metrics()] can be used along with so
 
 ```{r df-results}
 logistic_roc <- 
-  collect_metrics(logistic_reg_glm_res, summarize = FALSE) %>% 
-  dplyr::filter(.metric == "roc_auc") %>% 
+  collect_metrics(logistic_reg_glm_res, summarize = FALSE) |> 
+  dplyr::filter(.metric == "roc_auc") |> 
   dplyr::select(id, logistic = .estimate)
 
 mars_roc <- 
-  collect_metrics(mars_earth_res, summarize = FALSE) %>% 
-  dplyr::filter(.metric == "roc_auc") %>% 
+  collect_metrics(mars_earth_res, summarize = FALSE) |> 
+  dplyr::filter(.metric == "roc_auc") |> 
   dplyr::select(id, mars = .estimate)
 
 resamples_df <- full_join(logistic_roc, mars_roc, by = "id")
@@ -119,8 +119,8 @@ From this, the posterior distributions for each model can be obtained from the `
 
 ```{r post}
 #| fig-alt: "Faceted histogram chart. Area Under the ROC Curve along the x-axis, count along the y-axis. The two facets are logistic and mars. Both histogram looks fairly normally distributed, with a mean of 0.89 for logistic and 0.88 for mars. The full range is 0.84 to 0.93."
-roc_model_via_df %>% 
-  tidy() %>% 
+roc_model_via_df |> 
+  tidy() |> 
   ggplot(aes(x = posterior)) + 
   geom_histogram(bins = 40, col = "blue", fill = "blue", alpha = .4) + 
   facet_wrap(~ model, ncol = 1) + 
