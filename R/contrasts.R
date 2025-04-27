@@ -15,16 +15,19 @@
 #' @details If a transformation was used when `x` was created, the inverse is
 #'  applied _before_ the difference is computed.
 #' @export
-contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
-                            seed = sample.int(10000, 1)) {
+contrast_models <- function(
+  x,
+  list_1 = NULL,
+  list_2 = NULL,
+  seed = sample.int(10000, 1)
+) {
   if (is.null(list_1) & is.null(list_2)) {
     combos <- combn(x$names, 2)
     list_1 <- combos[1, ]
     list_2 <- combos[2, ]
   } else {
     if (length(list_1) != length(list_2)) {
-      rlang::abort("`list_1` and `list_2` should be the same length."
-      )
+      rlang::abort("`list_1` and `list_2` should be the same length.")
     }
   }
 
@@ -150,7 +153,6 @@ autoplot.posterior_diff <-
     }
     out
   }
-
 
 
 make_df <- function(a, b, id_vals = NULL) {

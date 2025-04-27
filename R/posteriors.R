@@ -20,9 +20,11 @@ tidy.perf_mod <- function(x, seed = sample.int(10000, 1), ...) {
   post_dat <- get_post(x, seed = seed)
   post_dat <-
     post_dat |>
-    tidyr::pivot_longer(c(dplyr::everything()),
-                        names_to = "model",
-                        values_to = "posterior") |>
+    tidyr::pivot_longer(
+      c(dplyr::everything()),
+      names_to = "model",
+      values_to = "posterior"
+    ) |>
     dplyr::mutate(posterior = x$transform$inv(posterior))
   post_dat <- as_tibble(post_dat)
   class(post_dat) <- c("posterior", class(post_dat))
@@ -53,8 +55,12 @@ print.posterior <- function(x, ...) {
 #'
 #' summary(posterior_samples)
 #' @export
-summary.posterior <- function(object, prob = 0.90,
-                              seed = sample.int(10000, 1), ...) {
+summary.posterior <- function(
+  object,
+  prob = 0.90,
+  seed = sample.int(10000, 1),
+  ...
+) {
   post_int <- object |>
     dplyr::group_by(model) |>
     dplyr::do(postint.data.frame(., prob = prob, seed = seed))
@@ -87,8 +93,12 @@ postint <- function(object, ...) UseMethod("postint")
 
 
 #' @export
-postint.numeric <- function(object, prob = 0.90,
-                            seed = sample.int(10000, 1), ...) {
+postint.numeric <- function(
+  object,
+  prob = 0.90,
+  seed = sample.int(10000, 1),
+  ...
+) {
   object <- matrix(object, ncol = 1)
   res <- rstanarm::posterior_interval(object, prob = prob, seed = seed)
   res <- as.data.frame(res)
@@ -97,11 +107,14 @@ postint.numeric <- function(object, prob = 0.90,
 }
 
 #' @export
-postint.data.frame <- function(object, prob = 0.90,
-                               seed = sample.int(10000, 1), ...) {
+postint.data.frame <- function(
+  object,
+  prob = 0.90,
+  seed = sample.int(10000, 1),
+  ...
+) {
   postint(getElement(object, "posterior"), prob = prob, seed = seed)
 }
-
 
 
 #' Visualize the Posterior Distributions of Model Statistics
@@ -125,7 +138,10 @@ postint.data.frame <- function(object, prob = 0.90,
 #' @export
 autoplot.posterior <-
   function(object, ...) {
-    ggplot2::ggplot(as.data.frame(object), ggplot2::aes(x = posterior, col = model)) +
+    ggplot2::ggplot(
+      as.data.frame(object),
+      ggplot2::aes(x = posterior, col = model)
+    ) +
       ggplot2::geom_line(stat = "density", ...)
   }
 
@@ -143,7 +159,13 @@ autoplot.perf_mod <- function(object, ...) {
 
 #' @rdname autoplot.posterior
 #' @export
-autoplot.perf_mod_workflow_set <- function(object, type = "intervals", prob = 0.9, size = NULL, ...) {
+autoplot.perf_mod_workflow_set <- function(
+  object,
+  type = "intervals",
+  prob = 0.9,
+  size = NULL,
+  ...
+) {
   type <- match.arg(type, c("intervals", "posteriors", "ROPE"))
   if (type == "intervals") {
     res <- plot_wset_intervals(object, prob, ...)
@@ -174,9 +196,13 @@ plot_wset_intervals <- function(object, prob, ...) {
   } else {
     rlang::abort("Don't know how to rank metric")
   }
-  ggplot2::ggplot(plot_data, ggplot2::aes(x = rank, y = .estimate, col = workflow)) +
+  ggplot2::ggplot(
+    plot_data,
+    ggplot2::aes(x = rank, y = .estimate, col = workflow)
+  ) +
     ggplot2::geom_point() +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = .lower, ymax = .upper),
+    ggplot2::geom_errorbar(
+      ggplot2::aes(ymin = .lower, ymax = .upper),
       width = diff(range(plot_data$rank)) / 75
     ) +
     ggplot2::labs(x = "Workflow Rank", y = object$metric$name)
@@ -184,7 +210,9 @@ plot_wset_intervals <- function(object, prob, ...) {
 
 plot_rope_probs <- function(object, size, ...) {
   if (is.null(size)) {
-    rlang::abort("Please supply a practical effect size via the `size` argument. ")
+    rlang::abort(
+      "Please supply a practical effect size via the `size` argument. "
+    )
   }
   posteriors <-
     tidy(object) |>
@@ -220,6 +248,9 @@ plot_rope_probs <- function(object, size, ...) {
   ggplot2::ggplot(plot_data, ggplot2::aes(x = rank, y = pract_equiv)) +
     ggplot2::geom_line(alpha = .2) +
     ggplot2::geom_point(ggplot2::aes(col = workflow)) +
-    ggplot2::labs(x = "Workflow Rank", y = "Probability of Practical Equivalence") +
+    ggplot2::labs(
+      x = "Workflow Rank",
+      y = "Probability of Practical Equivalence"
+    ) +
     ggplot2::ylim(0:1)
 }

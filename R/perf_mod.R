@@ -323,7 +323,13 @@ perf_mod.default <- function(object, ...) {
 #' @export
 
 perf_mod.rset <-
-  function(object, transform = no_trans, hetero_var = FALSE, formula = NULL, ...) {
+  function(
+    object,
+    transform = no_trans,
+    hetero_var = FALSE,
+    formula = NULL,
+    ...
+  ) {
     check_trans(transform)
     rset_type <- try(pretty(object), silent = TRUE)
     if (inherits(rset_type, "try-error")) {
@@ -341,7 +347,8 @@ perf_mod.rset <-
       object$splits <- NULL
     }
     resamples <-
-      tidyr::pivot_longer(object,
+      tidyr::pivot_longer(
+        object,
         cols = c(-dplyr::matches("(^id$)|(^id[0-9])")),
         names_to = "model",
         values_to = "statistic"
@@ -390,7 +397,8 @@ make_formula <- function(ids, hetero_var, formula) {
         f <- as.formula(f_chr)
       }
       msg <- paste0(
-        msg, rlang::expr_label(f),
+        msg,
+        rlang::expr_label(f),
         " The `formula` arg can be used to change this value."
       )
       rlang::warn(msg)
@@ -430,16 +438,15 @@ summary.perf_mod <- function(object, ...) {
 #' @param metric A single character value for the statistic from
 #'  the `resamples` object that should be analyzed.
 perf_mod.resamples <-
-  function(object,
-           transform = no_trans,
-           hetero_var = FALSE,
-           metric = object$metrics[1],
-           ...) {
+  function(
+    object,
+    transform = no_trans,
+    hetero_var = FALSE,
+    metric = object$metrics[1],
+    ...
+  ) {
     suffix <- paste0("~", metric, "$")
-    metric_cols <- grep(suffix,
-      names(object$values),
-      value = TRUE
-    )
+    metric_cols <- grep(suffix, names(object$values), value = TRUE)
     object$values <- object$values |>
       dplyr::select(Resample, !!metric_cols)
 
@@ -467,8 +474,12 @@ perf_mod.resamples <-
       class(object$values) <- c("rset", class(object$values))
     }
 
-
-    res <- perf_mod(object$values, transform = transform, hetero_var = hetero_var, ...)
+    res <- perf_mod(
+      object$values,
+      transform = transform,
+      hetero_var = hetero_var,
+      ...
+    )
     res$metric <- list(name = metric_cols[1], direction = NA_character_)
     res
   }
@@ -476,11 +487,13 @@ perf_mod.resamples <-
 #' @export
 #' @rdname perf_mod
 perf_mod.data.frame <-
-  function(object,
-           transform = no_trans,
-           hetero_var = FALSE,
-           formula = NULL,
-           ...) {
+  function(
+    object,
+    transform = no_trans,
+    hetero_var = FALSE,
+    formula = NULL,
+    ...
+  ) {
     id_cols <- grep("(^id)|(^id[1-9]$)", names(object), value = TRUE)
     if (length(id_cols) == 0) {
       rlang::abort("One or more `id` columns are required.")
@@ -488,9 +501,12 @@ perf_mod.data.frame <-
 
     class(object) <- c("rset", class(object))
 
-    res <- perf_mod(object,
-      transform = transform, hetero_var = hetero_var,
-      formula = formula, ...
+    res <- perf_mod(
+      object,
+      transform = transform,
+      hetero_var = hetero_var,
+      formula = formula,
+      ...
     )
     res$metric <- list(name = NA_character_, direction = NA_character_)
     res
@@ -500,8 +516,15 @@ perf_mod.data.frame <-
 #' @export
 #' @rdname perf_mod
 perf_mod.tune_results <-
-  function(object, metric = NULL, transform = no_trans,
-           hetero_var = FALSE, formula = NULL, filter = NULL, ...) {
+  function(
+    object,
+    metric = NULL,
+    transform = no_trans,
+    hetero_var = FALSE,
+    formula = NULL,
+    filter = NULL,
+    ...
+  ) {
     metric_info <- tune::.get_tune_metrics(object)
     metric_info <- tune::metrics_info(metric_info)
     if (!is.null(metric)) {
@@ -519,7 +542,6 @@ perf_mod.tune_results <-
     }
     metric_dir <- metric_info$direction[metric_info$.metric == metric]
 
-
     dat <- tune::collect_metrics(object, summarize = FALSE)
     dat <- dplyr::filter(dat, .metric == metric)
 
@@ -535,15 +557,23 @@ perf_mod.tune_results <-
     }
     dat <- dplyr::select(dat, dplyr::all_of(keep_vars))
 
-    dat <- tidyr::pivot_wider(dat,
+    dat <- tidyr::pivot_wider(
+      dat,
       id_cols = dplyr::all_of(id_vars),
-      names_from = ".config", values_from = ".estimate"
+      names_from = ".config",
+      values_from = ".estimate"
     )
 
     rset_info <- attributes(object)$rset_info$att
     rset_info$class <- c(rset_info$class, class(dplyr::tibble()))
     dat <- rlang::exec("structure", .Data = dat, !!!rset_info)
-    res <- perf_mod(dat, transform = transform, hetero_var = hetero_var, formula = formula, ...)
+    res <- perf_mod(
+      dat,
+      transform = transform,
+      hetero_var = hetero_var,
+      formula = formula,
+      ...
+    )
     res$metric <- list(name = metric, direction = metric_dir)
     res
   }
@@ -551,7 +581,14 @@ perf_mod.tune_results <-
 #' @export
 #' @rdname perf_mod
 perf_mod.workflow_set <-
-  function(object, metric = NULL, transform = no_trans, hetero_var = FALSE, formula = NULL, ...) {
+  function(
+    object,
+    metric = NULL,
+    transform = no_trans,
+    hetero_var = FALSE,
+    formula = NULL,
+    ...
+  ) {
     check_trans(transform)
     metric_info <- tune::.get_tune_metrics(object$result[[1]])
     metric_info <- tune::metrics_info(metric_info)
@@ -575,19 +612,36 @@ perf_mod.workflow_set <-
       dplyr::filter(.metric == metric & id != "Apparent")
 
     ranked <-
-      workflowsets::rank_results(object, rank_metric = metric, select_best = TRUE) |>
+      workflowsets::rank_results(
+        object,
+        rank_metric = metric,
+        select_best = TRUE
+      ) |>
       dplyr::select(wflow_id, .config)
-    resamples <- dplyr::inner_join(resamples, ranked, by = c("wflow_id", ".config"))
+    resamples <- dplyr::inner_join(
+      resamples,
+      ranked,
+      by = c("wflow_id", ".config")
+    )
 
     if (any(names(resamples) == ".iter")) {
-      resamples$sub_model <- paste(resamples$.config, resamples$.iter, sep = "_")
+      resamples$sub_model <- paste(
+        resamples$.config,
+        resamples$.iter,
+        sep = "_"
+      )
     } else {
       resamples$sub_model <- resamples$.config
     }
 
     resamples <-
       resamples |>
-      dplyr::select(model = wflow_id, sub_model, dplyr::starts_with("id"), statistic = .estimate)
+      dplyr::select(
+        model = wflow_id,
+        sub_model,
+        dplyr::starts_with("id"),
+        statistic = .estimate
+      )
 
     ## Make a formula based on resampling type (repeatedcv, rof),
     ## This could be done with more specific classes
