@@ -90,11 +90,17 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
 # ------------------------------------------------------------------------------
 
 test_that("bad arguments", {
-  expect_error(perf_mod(test_bt, transform = NULL))
-  expect_error(perf_mod(test_bt, transform = no_trans[1]))
-  expect_error(perf_mod(test_bt, transform = list(not = 1, right = 2)))
-  expect_error(perf_mod(test_bt, transform = list(func = 1, inc = 2)))
-  expect_error(perf_mod(1:10))
+  expect_snapshot(error = TRUE, perf_mod(test_bt, transform = NULL))
+  expect_snapshot(error = TRUE, perf_mod(test_bt, transform = no_trans[1]))
+  expect_snapshot(
+    error = TRUE,
+    perf_mod(test_bt, transform = list(not = 1, right = 2))
+  )
+  expect_snapshot(
+    error = TRUE,
+    perf_mod(test_bt, transform = list(func = 1, inc = 2))
+  )
+  expect_snapshot(error = TRUE, perf_mod(1:10))
 })
 
 # ------------------------------------------------------------------------------
@@ -292,9 +298,8 @@ test_that("workflow sets", {
     ) |>
     workflow_map("fit_resamples", resamples = bt, seed = 1)
 
-  expect_error(
-    rsq_mod <- perf_mod(wset, seed = 3, refresh = 0, metric = "rsq"),
-    regex = NA
+  expect_no_error(
+    rsq_mod <- perf_mod(wset, seed = 3, refresh = 0, metric = "rsq")
   )
   expect_equal(
     colnames(coef(rsq_mod$stan)$id),

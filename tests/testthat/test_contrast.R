@@ -17,7 +17,10 @@ contr_obj <- contrast_models(fit_bt, seed = 3666)
 # ------------------------------------------------------------------------------
 
 test_that("bad args", {
-  expect_error(contrast_models(fit_bt, "one", c("two", "three")))
+  expect_snapshot(
+    error = TRUE,
+    contrast_models(fit_bt, "one", c("two", "three"))
+  )
 })
 
 test_that("basics", {
