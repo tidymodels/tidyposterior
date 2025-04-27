@@ -36,7 +36,7 @@ contrast_models <- function(x, list_1 = NULL, list_2 = NULL,
       obj = x$stan,
       trans = x$transform,
       seed = seed
-    ) %>%
+    ) |>
     dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs. "))
   diffs <- tibble::as_tibble(diffs)
   class(diffs) <- c("posterior_diff", class(diffs))
@@ -81,22 +81,22 @@ print.posterior_diff <- function(x, ...) {
 #' summary(contrast_samples)
 #' summary(contrast_samples, size = 0.025)
 summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
-  object <- object %>%
-    dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs ")) %>%
+  object <- object |>
+    dplyr::mutate(contrast = paste(model_1, model_2, sep = " vs ")) |>
     dplyr::rename(posterior = difference)
-  post_int <- object %>%
-    dplyr::group_by(contrast) %>%
+  post_int <- object |>
+    dplyr::group_by(contrast) |>
     dplyr::do(postint.data.frame(., prob = prob))
-  post_stats <- object %>%
-    dplyr::group_by(contrast) %>%
+  post_stats <- object |>
+    dplyr::group_by(contrast) |>
     dplyr::summarise(
       probability = mean(posterior > 0),
       mean = mean(posterior)
-    ) %>%
+    ) |>
     dplyr::full_join(post_int, by = c("contrast"))
   if (size != 0) {
-    rope_stats <- object %>%
-      dplyr::group_by(contrast) %>%
+    rope_stats <- object |>
+      dplyr::group_by(contrast) |>
       dplyr::summarise(
         size = size,
         pract_neg = mean(posterior < -size),
@@ -104,8 +104,8 @@ summary.posterior_diff <- function(object, prob = 0.90, size = 0, ...) {
         pract_pos = mean(posterior > size)
       )
   } else {
-    rope_stats <- object %>%
-      dplyr::group_by(contrast) %>%
+    rope_stats <- object |>
+      dplyr::group_by(contrast) |>
       dplyr::summarise(
         size = size,
         pract_neg = na_dbl,
@@ -155,7 +155,7 @@ autoplot.posterior_diff <-
 
 make_df <- function(a, b, id_vals = NULL) {
   new_dat <- data.frame(model = c(a, b))
-  as.data.frame(lapply(id_vals, function(x) rep(x[1], nrow(new_dat)))) %>%
+  as.data.frame(lapply(id_vals, function(x) rep(x[1], nrow(new_dat)))) |>
     dplyr::bind_cols(new_dat)
 }
 

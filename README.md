@@ -90,12 +90,12 @@ parameters).
 
 ``` r
 logistic_reg_glm_spec <-
-  logistic_reg() %>%
+  logistic_reg() |>
   set_engine('glm')
 
 mars_earth_spec <-
-  mars(prod_degree = 1) %>%
-  set_engine('earth') %>%
+  mars(prod_degree = 1) |>
+  set_engine('earth') |>
   set_mode('classification')
 ```
 
@@ -106,11 +106,11 @@ estimate performance for each model/resample:
 rs_ctrl <- control_resamples(save_workflow = TRUE)
 
 logistic_reg_glm_res <- 
-  logistic_reg_glm_spec %>% 
+  logistic_reg_glm_spec |> 
   fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 
 mars_earth_res <- 
-  mars_earth_spec %>% 
+  mars_earth_spec |> 
   fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 ```
 
@@ -124,13 +124,13 @@ along with some basic data manipulation steps:
 
 ``` r
 logistic_roc <- 
-  collect_metrics(logistic_reg_glm_res, summarize = FALSE) %>% 
-  dplyr::filter(.metric == "roc_auc") %>% 
+  collect_metrics(logistic_reg_glm_res, summarize = FALSE) |> 
+  dplyr::filter(.metric == "roc_auc") |> 
   dplyr::select(id, logistic = .estimate)
 
 mars_roc <- 
-  collect_metrics(mars_earth_res, summarize = FALSE) %>% 
-  dplyr::filter(.metric == "roc_auc") %>% 
+  collect_metrics(mars_earth_res, summarize = FALSE) |> 
+  dplyr::filter(.metric == "roc_auc") |> 
   dplyr::select(id, mars = .estimate)
 
 resamples_df <- full_join(logistic_roc, mars_roc, by = "id")
@@ -261,8 +261,8 @@ From this, the posterior distributions for each model can be obtained
 from the `tidy()` method:
 
 ``` r
-roc_model_via_df %>% 
-  tidy() %>% 
+roc_model_via_df |> 
+  tidy() |> 
   ggplot(aes(x = posterior)) + 
   geom_histogram(bins = 40, col = "blue", fill = "blue", alpha = .4) + 
   facet_wrap(~ model, ncol = 1) + 

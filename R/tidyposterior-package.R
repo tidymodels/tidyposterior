@@ -2,7 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom dplyr %>%
 #' @importFrom dplyr bind_cols
 #' @importFrom purrr map
 #' @importFrom purrr map_chr

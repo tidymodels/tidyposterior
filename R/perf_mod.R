@@ -121,12 +121,12 @@
 #'
 #' ```r
 #'    logistic_reg_glm_spec <-
-#'      logistic_reg() %>%
+#'      logistic_reg() |>
 #'      set_engine('glm')
 #'
 #'    mars_earth_spec <-
-#'      mars(prod_degree = 1) %>%
-#'      set_engine('earth') %>%
+#'      mars(prod_degree = 1) |>
+#'      set_engine('earth') |>
 #'      set_mode('classification')
 #' ```
 #'
@@ -138,11 +138,11 @@
 #'    rs_ctrl <- control_resamples(save_workflow = TRUE)
 #'
 #'    logistic_reg_glm_res <-
-#'      logistic_reg_glm_spec %>%
+#'      logistic_reg_glm_spec |>
 #'      fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 #'
 #'    mars_earth_res <-
-#'      mars_earth_spec %>%
+#'      mars_earth_spec |>
 #'      fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 #' ```
 #'
@@ -160,13 +160,13 @@
 #'
 #' ```r
 #'    logistic_roc <-
-#'      collect_metrics(logistic_reg_glm_res, summarize = FALSE) %>%
-#'      dplyr::filter(.metric == "roc_auc") %>%
+#'      collect_metrics(logistic_reg_glm_res, summarize = FALSE) |>
+#'      dplyr::filter(.metric == "roc_auc") |>
 #'      dplyr::select(id, logistic = .estimate)
 #'
 #'    mars_roc <-
-#'      collect_metrics(mars_earth_res, summarize = FALSE) %>%
-#'      dplyr::filter(.metric == "roc_auc") %>%
+#'      collect_metrics(mars_earth_res, summarize = FALSE) |>
+#'      dplyr::filter(.metric == "roc_auc") |>
 #'      dplyr::select(id, mars = .estimate)
 #'
 #'    resamples_df <- full_join(logistic_roc, mars_roc, by = "id")
@@ -192,7 +192,7 @@
 #' ```r
 #'    set.seed(101)
 #'    roc_model_via_df <- perf_mod(resamples_df, refresh = 0)
-#'    tidy(roc_model_via_df) %>% summary()
+#'    tidy(roc_model_via_df) |> summary()
 #' ```
 #'
 #' ```
@@ -212,12 +212,12 @@
 #'
 #' ```r
 #'    resamples_rset <-
-#'      full_join(folds, logistic_roc, by = "id") %>%
+#'      full_join(folds, logistic_roc, by = "id") |>
 #'      full_join(mars_roc, by = "id")
 #'
 #'    set.seed(101)
 #'    roc_model_via_rset <- perf_mod(resamples_rset, refresh = 0)
-#'    tidy(roc_model_via_rset) %>% summary()
+#'    tidy(roc_model_via_rset) |> summary()
 #' ```
 #'
 #' ```
@@ -241,7 +241,7 @@
 #'
 #'    set.seed(101)
 #'    roc_model_via_wflowset <- perf_mod(example_wset, refresh = 0)
-#'    tidy(roc_model_via_rset) %>% summary()
+#'    tidy(roc_model_via_rset) |> summary()
 #' ```
 #'
 #' ```
@@ -284,7 +284,7 @@
 #'
 #'    set.seed(101)
 #'    roc_model_via_caret <- perf_mod(caret_resamples, refresh = 0)
-#'    tidy(roc_model_via_caret) %>% summary()
+#'    tidy(roc_model_via_caret) |> summary()
 #' ```
 #'
 #' ```
@@ -333,7 +333,7 @@ perf_mod.rset <-
     ## dplyr::filter (and `[` !) drops the other classes =[
     if (inherits(object, "bootstraps")) {
       oc <- class(object)
-      object <- object %>% dplyr::filter(id != "Apparent")
+      object <- object |> dplyr::filter(id != "Apparent")
       class(object) <- oc
     }
 
@@ -345,7 +345,7 @@ perf_mod.rset <-
         cols = c(-dplyr::matches("(^id$)|(^id[0-9])")),
         names_to = "model",
         values_to = "statistic"
-      ) %>%
+      ) |>
       dplyr::mutate(statistic = transform$func(statistic))
 
     ## Make a formula based on resampling type (repeatedcv, rof),
@@ -440,17 +440,19 @@ perf_mod.resamples <-
       names(object$values),
       value = TRUE
     )
-    object$values <- object$values %>%
-      dplyr::select(Resample, !!metric_cols) %>%
-      setNames(gsub(suffix, "", names(.)))
+    object$values <- object$values |>
+      dplyr::select(Resample, !!metric_cols)
+
+    object$values <-
+      setNames(object$values, gsub(suffix, "", names(object$values)))
 
     if (is_repeated_cv(object)) {
       split_up <- strsplit(as.character(object$values$Resample), "\\.")
-      object$values <- object$values %>%
+      object$values <- object$values |>
         dplyr::mutate(
           id = map_chr(split_up, function(x) x[2]),
           id2 = map_chr(split_up, function(x) x[1])
-        ) %>%
+        ) |>
         dplyr::select(-Resample)
       class(object$values) <- c("vfold_cv", "rset", class(object$values))
       cv_att <- list(
@@ -460,7 +462,7 @@ perf_mod.resamples <-
       )
       for (i in names(cv_att)) attr(object$values, i) <- cv_att[[i]]
     } else {
-      object$values <- object$values %>%
+      object$values <- object$values |>
         dplyr::rename(id = Resample)
       class(object$values) <- c("rset", class(object$values))
     }
@@ -569,11 +571,11 @@ perf_mod.workflow_set <-
     metric_dir <- metric_info$direction[metric_info$.metric == metric]
 
     resamples <-
-      tune::collect_metrics(object, summarize = FALSE) %>%
+      tune::collect_metrics(object, summarize = FALSE) |>
       dplyr::filter(.metric == metric & id != "Apparent")
 
     ranked <-
-      workflowsets::rank_results(object, rank_metric = metric, select_best = TRUE) %>%
+      workflowsets::rank_results(object, rank_metric = metric, select_best = TRUE) |>
       dplyr::select(wflow_id, .config)
     resamples <- dplyr::inner_join(resamples, ranked, by = c("wflow_id", ".config"))
 
@@ -584,7 +586,7 @@ perf_mod.workflow_set <-
     }
 
     resamples <-
-      resamples %>%
+      resamples |>
       dplyr::select(model = wflow_id, sub_model, dplyr::starts_with("id"), statistic = .estimate)
 
     ## Make a formula based on resampling type (repeatedcv, rof),

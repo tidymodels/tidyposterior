@@ -34,7 +34,7 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
 
   obj_1 <- perf_mod(test_bt,
                     seed = 781,
-                    chains = 2, iter = 50,
+                    chains = 2, iter = 1000,
                     refresh = 0,
                     verbose = FALSE
   )
@@ -43,13 +43,13 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
   obj_2 <- perf_mod(test_df,
                     seed = 781,
                     refresh = 0,
-                    chains = 2, iter = 50,
+                    chains = 2, iter = 1000,
                     verbose = FALSE
   )
 
   obj_3 <- perf_mod(test_bt,
                     seed = 781,
-                    chains = 2, iter = 50,
+                    chains = 2, iter = 1000,
                     refresh = 0,
                     verbose = FALSE,
                     hetero_var = TRUE
@@ -57,20 +57,20 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
 
   obj_4 <- perf_mod(rs_obj,
                     seed = 781,
-                    chains = 2, iter = 50,
+                    chains = 2, iter = 1000,
                     refresh = 0,
                     verbose = FALSE
   )
 
   obj_5 <- perf_mod(rs_rcv,
                     seed = 781,
-                    chains = 2, iter = 50,
+                    chains = 2, iter = 1000,
                     verbose = FALSE
   )
 
   obj_6 <- perf_mod(test_rcv,
                     seed = 781,
-                    chains = 2, iter = 50,
+                    chains = 2, iter = 1000,
                     refresh = 0,
                     verbose = FALSE
   )
@@ -247,7 +247,7 @@ test_that("workflow sets", {
   skip_if_not_installed(c("parsnip"))
   skip_if_not_installed(c("yardstick"))
 
-  lm_spec <- linear_reg() %>% set_engine("lm")
+  lm_spec <- linear_reg() |> set_engine("lm")
   set.seed(10)
   bt <- bootstraps(mtcars, times = 10)
   wset <-
@@ -258,7 +258,7 @@ test_that("workflow sets", {
         all = mpg ~ .
       ),
       list(lm = lm_spec)
-    ) %>%
+    ) |>
     workflow_map("fit_resamples", resamples = bt, seed = 1)
 
   expect_error(

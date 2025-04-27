@@ -21,12 +21,12 @@
 #' 
 #' ```r
 #'    logistic_reg_glm_spec <-
-#'      logistic_reg() %>%
+#'      logistic_reg() |>
 #'      set_engine('glm')
 #'    
 #'    mars_earth_spec <-
-#'      mars(prod_degree = 1) %>%
-#'      set_engine('earth') %>%
+#'      mars(prod_degree = 1) |>
+#'      set_engine('earth') |>
 #'      set_mode('classification')
 #' ```
 #' 
@@ -37,11 +37,11 @@
 #'    rs_ctrl <- control_resamples(save_workflow = TRUE)
 #'    
 #'    logistic_reg_glm_res <- 
-#'      logistic_reg_glm_spec %>% 
+#'      logistic_reg_glm_spec |> 
 #'      fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 #'    
 #'    mars_earth_res <- 
-#'      mars_earth_spec %>% 
+#'      mars_earth_spec |> 
 #'      fit_resamples(Class ~ ., resamples = folds, control = rs_ctrl)
 #' ```
 #' 
@@ -56,13 +56,13 @@
 #' 
 #' ```r
 #'    logistic_roc <- 
-#'      collect_metrics(logistic_reg_glm_res, summarize = FALSE) %>% 
-#'      dplyr::filter(.metric == "roc_auc") %>% 
+#'      collect_metrics(logistic_reg_glm_res, summarize = FALSE) |> 
+#'      dplyr::filter(.metric == "roc_auc") |> 
 #'      dplyr::select(id, logistic = .estimate)
 #'    
 #'    mars_roc <- 
-#'      collect_metrics(mars_earth_res, summarize = FALSE) %>% 
-#'      dplyr::filter(.metric == "roc_auc") %>% 
+#'      collect_metrics(mars_earth_res, summarize = FALSE) |> 
+#'      dplyr::filter(.metric == "roc_auc") |> 
 #'      dplyr::select(id, mars = .estimate)
 #'    
 #'    resamples_df <- full_join(logistic_roc, mars_roc, by = "id")
@@ -88,7 +88,7 @@
 #' ```r
 #'    set.seed(101)
 #'    roc_model_via_df <- perf_mod(resamples_df, refresh = 0)
-#'    tidy(roc_model_via_df) %>% summary()
+#'    tidy(roc_model_via_df) |> summary()
 #' ```
 #' 
 #' ```
@@ -106,12 +106,12 @@
 #' 
 #' ```r
 #'    resamples_rset <- 
-#'      full_join(folds, logistic_roc, by = "id") %>% 
+#'      full_join(folds, logistic_roc, by = "id") |> 
 #'      full_join(mars_roc, by = "id")
 #'    
 #'    set.seed(101)
 #'    roc_model_via_rset <- perf_mod(resamples_rset, refresh = 0)
-#'    tidy(roc_model_via_rset) %>% summary()
+#'    tidy(roc_model_via_rset) |> summary()
 #' ```
 #' 
 #' ```
@@ -133,7 +133,7 @@
 #'    
 #'    set.seed(101)
 #'    roc_model_via_wflowset <- perf_mod(example_wset, refresh = 0)
-#'    tidy(roc_model_via_rset) %>% summary()
+#'    tidy(roc_model_via_rset) |> summary()
 #' ```
 #' 
 #' ```
@@ -173,7 +173,7 @@
 #'    
 #'    set.seed(101)
 #'    roc_model_via_caret <- perf_mod(caret_resamples, refresh = 0)
-#'    tidy(roc_model_via_caret) %>% summary()
+#'    tidy(roc_model_via_caret) |> summary()
 #' ```
 #' 
 #' ```
