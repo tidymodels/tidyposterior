@@ -15,3 +15,5 @@ tidyposterior_hex.png
 ^CODE_OF_CONDUCT\.md$
 ^LICENSE\.md$
 ^README\.Rmd$
+^[\.]?air\.toml$
+^\.vscode$

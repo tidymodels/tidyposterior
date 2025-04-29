@@ -21,7 +21,7 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
 
   rs_obj <- list(
     methods = c(one = "lm", two = "rpart"),
-    values =  as.data.frame(test_bt[, -1]),
+    values = as.data.frame(test_bt[, -1]),
     metrics = "blah"
   )
   colnames(rs_obj$values) <- c("Resample", "one~blah", "two~blah")
@@ -32,58 +32,75 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
   rs_rcv$values$Resample <-
     paste0("Fold", rep(1:5, 2), ".", "Rep", rep(1:2, each = 5))
 
-  obj_1 <- perf_mod(test_bt,
-                    seed = 781,
-                    chains = 2, iter = 1000,
-                    refresh = 0,
-                    verbose = FALSE
+  obj_1 <- perf_mod(
+    test_bt,
+    seed = 781,
+    chains = 2,
+    iter = 1000,
+    refresh = 0,
+    verbose = FALSE
   )
 
   test_df <- as.data.frame(test_bt[, -1])
-  obj_2 <- perf_mod(test_df,
-                    seed = 781,
-                    refresh = 0,
-                    chains = 2, iter = 1000,
-                    verbose = FALSE
+  obj_2 <- perf_mod(
+    test_df,
+    seed = 781,
+    refresh = 0,
+    chains = 2,
+    iter = 1000,
+    verbose = FALSE
   )
 
-  obj_3 <- perf_mod(test_bt,
-                    seed = 781,
-                    chains = 2, iter = 1000,
-                    refresh = 0,
-                    verbose = FALSE,
-                    hetero_var = TRUE
+  obj_3 <- perf_mod(
+    test_bt,
+    seed = 781,
+    chains = 2,
+    iter = 1000,
+    refresh = 0,
+    verbose = FALSE,
+    hetero_var = TRUE
   )
 
-  obj_4 <- perf_mod(rs_obj,
-                    seed = 781,
-                    chains = 2, iter = 1000,
-                    refresh = 0,
-                    verbose = FALSE
+  obj_4 <- perf_mod(
+    rs_obj,
+    seed = 781,
+    chains = 2,
+    iter = 1000,
+    refresh = 0,
+    verbose = FALSE
   )
 
-  obj_5 <- perf_mod(rs_rcv,
-                    seed = 781,
-                    chains = 2, iter = 1000,
-                    verbose = FALSE
+  obj_5 <- perf_mod(
+    rs_rcv,
+    seed = 781,
+    chains = 2,
+    iter = 1000,
+    verbose = FALSE
   )
 
-  obj_6 <- perf_mod(test_rcv,
-                    seed = 781,
-                    chains = 2, iter = 1000,
-                    refresh = 0,
-                    verbose = FALSE
+  obj_6 <- perf_mod(
+    test_rcv,
+    seed = 781,
+    chains = 2,
+    iter = 1000,
+    refresh = 0,
+    verbose = FALSE
   )
-
 }
 # ------------------------------------------------------------------------------
 
 test_that("bad arguments", {
-  expect_error(perf_mod(test_bt, transform = NULL))
-  expect_error(perf_mod(test_bt, transform = no_trans[1]))
-  expect_error(perf_mod(test_bt, transform = list(not = 1, right = 2)))
-  expect_error(perf_mod(test_bt, transform = list(func = 1, inc = 2)))
-  expect_error(perf_mod(1:10))
+  expect_snapshot(error = TRUE, perf_mod(test_bt, transform = NULL))
+  expect_snapshot(error = TRUE, perf_mod(test_bt, transform = no_trans[1]))
+  expect_snapshot(
+    error = TRUE,
+    perf_mod(test_bt, transform = list(not = 1, right = 2))
+  )
+  expect_snapshot(
+    error = TRUE,
+    perf_mod(test_bt, transform = list(func = 1, inc = 2))
+  )
+  expect_snapshot(error = TRUE, perf_mod(1:10))
 })
 
 # ------------------------------------------------------------------------------
@@ -93,10 +110,17 @@ test_that("basic usage", {
   skip_if_not_installed(c("yardstick"))
 
   expect_equal(obj_1$names, c("one", "two"))
-  expect_equal(obj_1$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
+  expect_equal(
+    obj_1$ids,
+    list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10"))
+  )
   expect_equal(obj_1$rset_type, "Bootstrap sampling")
   expect_equal(class(obj_1$stan), c("stanreg", "glm", "lm", "lmerMod"))
-  expect_equal(formula(obj_1$stan), as.formula(statistic ~ model + (1 | id)), ignore_formula_env = TRUE)
+  expect_equal(
+    formula(obj_1$stan),
+    as.formula(statistic ~ model + (1 | id)),
+    ignore_formula_env = TRUE
+  )
   expect_snapshot(print(obj_1))
   expect_equal(summary(obj_1), summary(obj_1$stan))
 })
@@ -108,10 +132,17 @@ test_that("data frame method", {
   skip_if_not_installed(c("yardstick"))
 
   expect_equal(obj_2$names, c("one", "two"))
-  expect_equal(obj_2$ids, list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10")))
+  expect_equal(
+    obj_2$ids,
+    list(id = c(paste0("Bootstrap0", 1:9), "Bootstrap10"))
+  )
   expect_equal(obj_2$rset_type, NA)
   expect_equal(class(obj_2$stan), c("stanreg", "glm", "lm", "lmerMod"))
-  expect_equal(formula(obj_2$stan), as.formula(statistic ~ model + (1 | id)), ignore_formula_env = TRUE)
+  expect_equal(
+    formula(obj_2$stan),
+    as.formula(statistic ~ model + (1 | id)),
+    ignore_formula_env = TRUE
+  )
   expect_snapshot(print(obj_2))
   expect_equal(summary(obj_2), summary(obj_2$stan))
 })
@@ -122,7 +153,11 @@ test_that("model-specifc variance", {
   skip_if_not_installed(c("parsnip"))
   skip_if_not_installed(c("yardstick"))
 
-  expect_equal(formula(obj_3$stan), as.formula(statistic ~ model + (model + 0 | id)), ignore_formula_env = TRUE)
+  expect_equal(
+    formula(obj_3$stan),
+    as.formula(statistic ~ model + (model + 0 | id)),
+    ignore_formula_env = TRUE
+  )
 })
 
 # ------------------------------------------------------------------------------
@@ -135,7 +170,11 @@ test_that("rsample method", {
   expect_equal(obj_4$ids, list(id = c(paste0("Fold0", 1:9), "Fold10")))
   expect_equal(obj_4$rset_type, NA)
   expect_equal(class(obj_4$stan), c("stanreg", "glm", "lm", "lmerMod"))
-  expect_equal(formula(obj_4$stan), as.formula(statistic ~ model + (1 | id)), ignore_formula_env = TRUE)
+  expect_equal(
+    formula(obj_4$stan),
+    as.formula(statistic ~ model + (1 | id)),
+    ignore_formula_env = TRUE
+  )
   expect_snapshot(print(obj_4))
   expect_equal(summary(obj_4), summary(obj_4$stan))
 })
@@ -185,7 +224,6 @@ test_that("repeated v_fold method", {
 
 # ------------------------------------------------------------------------------
 
-
 test_that("summary", {
   skip_if_not_installed(c("parsnip"))
   skip_if_not_installed(c("yardstick"))
@@ -226,7 +264,6 @@ test_that("autoplots", {
   expect_equal(as.character(p_1$labels$y), "density")
   expect_equal(as.character(p_1$labels$x), "posterior")
 
-
   p_2 <- autoplot(tidy(obj_1))
   expect_s3_class(p_2, "ggplot")
   expect_equal(
@@ -261,9 +298,8 @@ test_that("workflow sets", {
     ) |>
     workflow_map("fit_resamples", resamples = bt, seed = 1)
 
-  expect_error(
-    rsq_mod <- perf_mod(wset, seed = 3, refresh = 0, metric = "rsq"),
-    regex = NA
+  expect_no_error(
+    rsq_mod <- perf_mod(wset, seed = 3, refresh = 0, metric = "rsq")
   )
   expect_equal(
     colnames(coef(rsq_mod$stan)$id),
@@ -314,6 +350,9 @@ test_that("workflow sets", {
   expect_equal(rlang::get_expr(p_rope$mapping$y), rlang::expr(pract_equiv))
   expect_equal(as.list(p_tidy$facet$params), list())
   expect_equal(as.character(p_rope$labels$x), "Workflow Rank")
-  expect_equal(as.character(p_rope$labels$y), "Probability of Practical Equivalence")
+  expect_equal(
+    as.character(p_rope$labels$y),
+    "Probability of Practical Equivalence"
+  )
   expect_equal(as.character(p_rope$labels$colour), "workflow")
 })

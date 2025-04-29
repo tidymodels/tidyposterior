@@ -1,3 +1,43 @@
+# bad arguments
+
+    Code
+      perf_mod(test_bt, transform = NULL)
+    Condition
+      Error in `check_trans()`:
+      ! `transform` should have two functions: 'func' and 'inv'
+
+---
+
+    Code
+      perf_mod(test_bt, transform = no_trans[1])
+    Condition
+      Error in `check_trans()`:
+      ! `transform` should have two functions: 'func' and 'inv'
+
+---
+
+    Code
+      perf_mod(test_bt, transform = list(not = 1, right = 2))
+    Condition
+      Error in `check_trans()`:
+      ! `transform` should have two functions: 'func' and 'inv'
+
+---
+
+    Code
+      perf_mod(test_bt, transform = list(func = 1, inc = 2))
+    Condition
+      Error in `check_trans()`:
+      ! `transform` should have two functions: 'func' and 'inv'
+
+---
+
+    Code
+      perf_mod(1:10)
+    Condition
+      Error in `error_cnd()`:
+      ! Conditions must have named data fields
+
 # basic usage
 
     Code

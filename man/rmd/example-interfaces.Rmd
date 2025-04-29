@@ -1,4 +1,6 @@
-```{r quiet-startup, include = FALSE}
+```{r}
+#| label: quiet-startup
+#| include: false
 library(tidymodels)
 library(tidyposterior)
 library(workflowsets)
@@ -17,7 +19,8 @@ knitr::opts_chunk$set(comment = "   ##", prompt = TRUE)
 
 There are several ways to give resampling results to the `perf_mod()` function. To illustrate, here are some example objects using 10-fold cross-validation for a simple two-class problem: 
 
-```{r setup}
+```{r}
+#| label: setup
 library(tidymodels)
 library(tidyposterior)
 library(workflowsets)
@@ -30,7 +33,8 @@ folds <- vfold_cv(two_class_dat)
 
 We can define two different models (for simplicity, with no tuning parameters).
 
-```{r model-specs}
+```{r}
+#| label: model-specs
 logistic_reg_glm_spec <-
   logistic_reg() |>
   set_engine('glm')
@@ -43,7 +47,8 @@ mars_earth_spec <-
 
 For tidymodels, the [tune::fit_resamples()] function can be used to estimate performance for each model/resample:
 
-```{r tm-resamples}
+```{r}
+#| label: tm-resamples
 rs_ctrl <- control_resamples(save_workflow = TRUE)
 
 logistic_reg_glm_res <- 
@@ -63,7 +68,8 @@ The most general approach is to have a data frame with the resampling labels (i.
 
 For the model results above, [tune::collect_metrics()] can be used along with some basic data manipulation steps: 
 
-```{r df-results}
+```{r}
+#| label: df-results
 logistic_roc <- 
   collect_metrics(logistic_reg_glm_res, summarize = FALSE) |> 
   dplyr::filter(.metric == "roc_auc") |> 
@@ -80,7 +86,8 @@ resamples_df
 
 We can then give this directly to `perf_mod()`: 
 
-```{r df-mod}
+```{r}
+#| label: df-mod
 set.seed(101)
 roc_model_via_df <- perf_mod(resamples_df, refresh = 0)
 tidy(roc_model_via_df) |> summary()
@@ -90,7 +97,8 @@ tidy(roc_model_via_df) |> summary()
 
 Alternatively, the result columns can be merged back into the original `rsample` object. The up-side to using this method is that `perf_mod()` will know exactly which model formula to use for the Bayesian model:
 
-```{r rset-results}
+```{r}
+#| label: rset-results
 resamples_rset <- 
   full_join(folds, logistic_roc, by = "id") |> 
   full_join(mars_roc, by = "id")
@@ -104,7 +112,8 @@ tidy(roc_model_via_rset) |> summary()
 
 Finally, for tidymodels, a workflow set object can be used. This is a collection of models/preprocessing combinations in one object. We can emulate a workflow set using the existing example results then pass that to `perf_mod()`: 
 
-```{r wflowset-results}
+```{r}
+#| label: wflowset-results
 example_wset <-
   as_workflow_set(logistic = logistic_reg_glm_res, mars = mars_earth_res)
 
@@ -117,10 +126,13 @@ tidy(roc_model_via_rset) |> summary()
 
 The `caret` package can also be used. An equivalent set of models are created:
 
-```{r quiet-caret, include = FALSE}
+```{r}
+#| label: quiet-caret
+#| include: false
 library(caret)
 ```
-```{r caret}
+```{r}
+#| label: caret
 library(caret)
 
 set.seed(102)
@@ -137,7 +149,8 @@ Note that these two models use the same resamples as one another due to setting 
 
 `caret` has a `resamples()` function that can collect and collate the resamples. This can also be given to `perf_mod()`: 
 
-```{r caret-resamples}
+```{r}
+#| label: caret-resamples
 caret_resamples <- resamples(list(logistic = logistic_caret, mars = mars_caret))
 
 set.seed(101)

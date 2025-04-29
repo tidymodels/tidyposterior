@@ -5,7 +5,8 @@
 ## https://github.com/tidyverse/googledrive/commit/95455812d2e0d6bdf92b5f6728e3265bf65d8467#diff-ba61d4f2ccd992868e27305a9ab68a3c
 
 ## function is called in .onLoad()
-register_s3_method <- function(pkg, generic, class, fun = NULL) { # nocov start
+register_s3_method <- function(pkg, generic, class, fun = NULL) {
+  # nocov start
   stopifnot(is_string(pkg))
   envir <- asNamespace(pkg)
 

@@ -74,7 +74,13 @@ vec_proxy.posterior_diff <- function(x, ...) {
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_ptype2.posterior_diff.posterior_diff <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.posterior_diff.posterior_diff <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   tibble::tibble(
     difference = numeric(0),
     model_1 = character(0),
@@ -85,60 +91,132 @@ vec_ptype2.posterior_diff.posterior_diff <- function(x, y, ..., x_arg = "", y_ar
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_ptype2.posterior_diff.tbl_df <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.posterior_diff.tbl_df <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   vctrs::tib_ptype2(x, y, ..., x_arg = x_arg, y_arg = y_arg)
 }
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_ptype2.tbl_df.posterior_diff <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.tbl_df.posterior_diff <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   vctrs::tib_ptype2(x, y, ..., x_arg = x_arg, y_arg = y_arg)
 }
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_ptype2.posterior_diff.data.frame <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.posterior_diff.data.frame <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   vctrs::tib_ptype2(x, y, ..., x_arg = x_arg, y_arg = y_arg)
 }
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_ptype2.data.frame.posterior_diff <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.data.frame.posterior_diff <- function(
+  x,
+  y,
+  ...,
+  x_arg = "",
+  y_arg = ""
+) {
   vctrs::tib_ptype2(x, y, ..., x_arg = x_arg, y_arg = y_arg)
 }
 
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_cast.posterior_diff.posterior_diff <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.posterior_diff.posterior_diff <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   x
 }
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_cast.posterior_diff.tbl_df <- function(x, to, ..., x_arg = "", to_arg = "") {
-  stop_incompatible_cast_posterior_diff(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+vec_cast.posterior_diff.tbl_df <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
+  stop_incompatible_cast_posterior_diff(
+    x,
+    to,
+    ...,
+    x_arg = x_arg,
+    to_arg = to_arg
+  )
 }
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_cast.tbl_df.posterior_diff <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.tbl_df.posterior_diff <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   vctrs::tib_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_cast.posterior_diff.data.frame <- function(x, to, ..., x_arg = "", to_arg = "") {
-  stop_incompatible_cast_posterior_diff(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+vec_cast.posterior_diff.data.frame <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
+  stop_incompatible_cast_posterior_diff(
+    x,
+    to,
+    ...,
+    x_arg = x_arg,
+    to_arg = to_arg
+  )
 }
 #' @export
 #' @rdname vctrs_methods_posterior_diff
 #' @keywords internal
-vec_cast.data.frame.posterior_diff <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.data.frame.posterior_diff <- function(
+  x,
+  to,
+  ...,
+  x_arg = "",
+  to_arg = ""
+) {
   vctrs::df_cast(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }
 
 stop_incompatible_cast_posterior_diff <- function(x, to, ..., x_arg, to_arg) {
   details <- "Can't cast to a <posterior_diff> because columns names and types are likely incompatible."
-  vctrs::stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg, details = details)
+  vctrs::stop_incompatible_cast(
+    x,
+    to,
+    x_arg = x_arg,
+    to_arg = to_arg,
+    details = details
+  )
 }

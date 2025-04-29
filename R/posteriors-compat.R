@@ -172,5 +172,11 @@ vec_cast.data.frame.posterior <- function(x, to, ..., x_arg = "", to_arg = "") {
 
 stop_incompatible_cast_posterior <- function(x, to, ..., x_arg, to_arg) {
   details <- "Can't cast to a <posterior> because columns names and types are likely incompatible."
-  vctrs::stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg, details = details)
+  vctrs::stop_incompatible_cast(
+    x,
+    to,
+    x_arg = x_arg,
+    to_arg = to_arg,
+    details = details
+  )
 }

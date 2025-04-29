@@ -4,7 +4,8 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -52,7 +53,9 @@ pak::pak("tidymodels/tidyposterior")
 
 To illustrate, here are some example objects using 10-fold cross-validation for a simple two-class problem: 
 
-```{r setup, results = "hide"}
+```{r}
+#| label: setup
+#| results: hide
 library(tidymodels)
 library(tidyposterior)
 
@@ -64,7 +67,8 @@ folds <- vfold_cv(two_class_dat)
 
 We can define two different models (for simplicity, with no tuning parameters).
 
-```{r model-specs}
+```{r}
+#| label: model-specs
 logistic_reg_glm_spec <-
   logistic_reg() |>
   set_engine('glm')
@@ -77,7 +81,8 @@ mars_earth_spec <-
 
 For tidymodels, the [tune::fit_resamples()] function can be used to estimate performance for each model/resample:
 
-```{r tm-resamples}
+```{r}
+#| label: tm-resamples
 rs_ctrl <- control_resamples(save_workflow = TRUE)
 
 logistic_reg_glm_res <- 
@@ -93,7 +98,8 @@ From these, there are several ways to pass the results to the `perf_mod()` funct
 
 For the model results above, [tune::collect_metrics()] can be used along with some basic data manipulation steps: 
 
-```{r df-results}
+```{r}
+#| label: df-results
 logistic_roc <- 
   collect_metrics(logistic_reg_glm_res, summarize = FALSE) |> 
   dplyr::filter(.metric == "roc_auc") |> 
@@ -110,14 +116,16 @@ resamples_df
 
 We can then give this directly to `perf_mod()`: 
 
-```{r df-mod}
+```{r}
+#| label: df-mod
 set.seed(101)
 roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
 ```
 
 From this, the posterior distributions for each model can be obtained from the `tidy()` method: 
 
-```{r post}
+```{r}
+#| label: post
 #| fig-alt: "Faceted histogram chart. Area Under the ROC Curve along the x-axis, count along the y-axis. The two facets are logistic and mars. Both histogram looks fairly normally distributed, with a mean of 0.89 for logistic and 0.88 for mars. The full range is 0.84 to 0.93."
 roc_model_via_df |> 
   tidy() |> 
