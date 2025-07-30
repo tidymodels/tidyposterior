@@ -261,8 +261,7 @@ test_that("autoplots", {
   expect_equal(rlang::get_expr(p_1$mapping$y), NULL)
   expect_equal(rlang::get_expr(p_1$mapping$colour), rlang::expr(model))
   expect_equal(as.list(p_1$facet)$params, list())
-  expect_equal(as.character(p_1$labels$y), "density")
-  expect_equal(as.character(p_1$labels$x), "posterior")
+  expect_snapshot(ggplot2::get_labs(p_1))
 
   p_2 <- autoplot(tidy(obj_1))
   expect_s3_class(p_2, "ggplot")
@@ -274,8 +273,7 @@ test_that("autoplots", {
   expect_equal(rlang::get_expr(p_2$mapping$y), NULL)
   expect_equal(rlang::get_expr(p_2$mapping$colour), rlang::expr(model))
   expect_equal(as.list(p_2$facet)$params, list())
-  expect_equal(as.character(p_2$labels$y), "density")
-  expect_equal(as.character(p_2$labels$x), "posterior")
+  expect_snapshot(ggplot2::get_labs(p_2))
 })
 
 # ------------------------------------------------------------------------------
@@ -319,10 +317,7 @@ test_that("workflow sets", {
   expect_equal(rlang::get_expr(p_tidy$mapping$x), rlang::expr(posterior))
   expect_equal(rlang::get_expr(p_tidy$mapping$colour), rlang::expr(model))
   expect_equal(as.list(p_tidy$facet$params), list())
-  expect_equal(as.character(p_tidy$labels$x), "rsq")
-  expect_equal(as.character(p_tidy$labels$colour), "model")
-  expect_equal(as.character(p_tidy$labels$y), "density")
-  expect_equal(as.character(p_tidy$labels$fill), "fill")
+  expect_snapshot(ggplot2::get_labs(p_tidy))
 
   p_int <- autoplot(rsq_mod, type = "intervals")
   expect_s3_class(p_int, "ggplot")
@@ -334,11 +329,7 @@ test_that("workflow sets", {
   expect_equal(rlang::get_expr(p_int$mapping$y), rlang::expr(.estimate))
   expect_equal(rlang::get_expr(p_int$mapping$colour), rlang::expr(workflow))
   expect_equal(as.list(p_tidy$facet$params), list())
-  expect_equal(as.character(p_int$labels$x), "Workflow Rank")
-  expect_equal(as.character(p_int$labels$y), "rsq")
-  expect_equal(as.character(p_int$labels$colour), "workflow")
-  expect_equal(as.character(p_int$labels$ymin), ".lower")
-  expect_equal(as.character(p_int$labels$ymax), ".upper")
+  expect_snapshot(ggplot2::get_labs(p_int))
 
   p_rope <- autoplot(rsq_mod, type = "ROPE", size = .1)
   expect_s3_class(p_rope, "ggplot")
@@ -348,11 +339,6 @@ test_that("workflow sets", {
   )
   expect_equal(rlang::get_expr(p_rope$mapping$x), rlang::expr(rank))
   expect_equal(rlang::get_expr(p_rope$mapping$y), rlang::expr(pract_equiv))
-  expect_equal(as.list(p_tidy$facet$params), list())
-  expect_equal(as.character(p_rope$labels$x), "Workflow Rank")
-  expect_equal(
-    as.character(p_rope$labels$y),
-    "Probability of Practical Equivalence"
-  )
-  expect_equal(as.character(p_rope$labels$colour), "workflow")
+  expect_equal(as.list(p_rope$facet$params), list())
+  expect_snapshot(ggplot2::get_labs(p_rope))
 })
