@@ -1,5 +1,7 @@
 # tidyposterior (development version)
 
+* Maintenance release for an upcoming ggplot2 release (#74). 
+
 * Transition from the magrittr pipe to the base R pipe.
 
 # tidyposterior 1.0.1

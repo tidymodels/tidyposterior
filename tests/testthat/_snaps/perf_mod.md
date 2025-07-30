@@ -81,3 +81,165 @@
       Original data: 5-fold cross-validation repeated 2 times
       
 
+# autoplots
+
+    Code
+      ggplot2::get_labs(p_1)
+    Output
+      $colour
+      [1] "model"
+      
+      $x.sec
+      NULL
+      
+      $x
+      [1] "posterior"
+      
+      $y
+      [1] "density"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $y.sec
+      NULL
+      
+      $fill
+      [1] "fill"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $weight
+      [1] "weight"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $alt
+      [1] ""
+      
+
+---
+
+    Code
+      ggplot2::get_labs(p_2)
+    Output
+      $colour
+      [1] "model"
+      
+      $x.sec
+      NULL
+      
+      $x
+      [1] "posterior"
+      
+      $y
+      [1] "density"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $y.sec
+      NULL
+      
+      $fill
+      [1] "fill"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $weight
+      [1] "weight"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $alt
+      [1] ""
+      
+
+# workflow sets
+
+    Code
+      ggplot2::get_labs(p_tidy)
+    Output
+      $colour
+      [1] "model"
+      
+      $x.sec
+      NULL
+      
+      $x
+      [1] "rsq"
+      
+      $y
+      [1] "density"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $y.sec
+      NULL
+      
+      $fill
+      [1] "fill"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $weight
+      [1] "weight"
+      attr(,"fallback")
+      [1] TRUE
+      
+      $alt
+      [1] ""
+      
+
+---
+
+    Code
+      ggplot2::get_labs(p_int)
+    Output
+      $colour
+      [1] "workflow"
+      
+      $x.sec
+      NULL
+      
+      $x
+      [1] "Workflow Rank"
+      
+      $y
+      [1] "rsq"
+      
+      $y.sec
+      NULL
+      
+      $ymin
+      [1] ".lower"
+      
+      $ymax
+      [1] ".upper"
+      
+      $alt
+      [1] ""
+      
+
+---
+
+    Code
+      ggplot2::get_labs(p_rope)
+    Output
+      $colour
+      [1] "workflow"
+      
+      $x.sec
+      NULL
+      
+      $x
+      [1] "Workflow Rank"
+      
+      $y
+      [1] "Probability of Practical Equivalence"
+      
+      $y.sec
+      NULL
+      
+      $alt
+      [1] ""
+      
+

@@ -60,6 +60,5 @@ test_that("autoplot for contrasts", {
   expect_equal(rlang::get_expr(p_1$mapping$y), NULL)
   expect_true("model_1" %in% names(as.list(p_1$facet)$params$cols))
   expect_true("model_2" %in% names(as.list(p_1$facet)$params$rows))
-  expect_equal(as.character(p_1$labels$y), "Posterior Probability")
-  expect_equal(as.character(p_1$labels$x), "difference")
+  expect_snapshot(ggplot2::get_labs(p_1))
 })

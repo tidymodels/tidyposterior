@@ -25,7 +25,7 @@ Depends:
 Imports: 
     dplyr (> 1.0.0),
     generics,
-    ggplot2,
+    ggplot2 (>= 3.5.2),
     purrr,
     rlang,
     rsample (>= 0.0.2),
