@@ -1,6 +1,6 @@
 Package: tidyposterior
 Title: Bayesian Analysis to Compare Models using Resampling Statistics
-Version: 1.0.1.9000
+Version: 1.0.2
 Authors@R: c(
     person("Max", "Kuhn", , "max@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2402-136X")),
