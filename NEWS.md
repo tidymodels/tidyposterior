@@ -4,6 +4,8 @@
 
 * `perf_mod()` gains an `initialize` argument (default `FALSE`) that computes and applies these starting values automatically, reusing the sampler `seed` (when one is passed) so that the entire fit is reproducible.
 
+* Fixed a bug where `perf_mod()` duplicated the resampling statistics for workflow sets: when more than one metric had been collected, each statistic was included in the Bayesian model once per metric.
+
 # tidyposterior 1.0.2
 
 * Maintenance release for an upcoming ggplot2 release (#74). 

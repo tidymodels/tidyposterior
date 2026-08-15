@@ -633,7 +633,11 @@ perf_mod.workflow_set <-
         rank_metric = metric,
         select_best = TRUE
       ) |>
-      dplyr::select(wflow_id, .config)
+      dplyr::select(wflow_id, .config) |>
+      # rank_results() returns one row per workflow and metric; without
+      # deduplication the join below would repeat each resampling statistic
+      # once per metric
+      dplyr::distinct()
     resamples <- dplyr::inner_join(
       resamples,
       ranked,
