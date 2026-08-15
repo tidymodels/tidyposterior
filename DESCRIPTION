@@ -22,7 +22,7 @@ URL: https://tidyposterior.tidymodels.org,
 BugReports: https://github.com/tidymodels/tidyposterior/issues
 Depends:
     R (>= 4.1)
-Imports: 
+Imports:
     dplyr (> 1.0.0),
     generics,
     ggplot2 (>= 3.5.2),
@@ -37,11 +37,12 @@ Imports:
     utils,
     vctrs (>= 0.3.0),
     workflowsets
-Suggests: 
+Suggests:
     covr,
     knitr,
     parsnip,
     rmarkdown,
+    rstan,
     splines2,
     testthat (>= 3.0.0),
     yardstick
@@ -54,4 +55,4 @@ Config/usethis/last-upkeep: 2025-04-27
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0

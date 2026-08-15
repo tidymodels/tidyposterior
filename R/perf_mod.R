@@ -320,6 +320,13 @@ perf_mod.default <- function(object, ...) {
 #'  variances are estimated for each model group. Otherwise, the
 #'  same variance is used for each group. Estimating heterogeneous
 #'  variances may slow or prevent convergence.
+#' @param initialize A single logical: should [stan_glmer_inits()] be used
+#'  to compute data-based starting values for the Bayesian model? This can
+#'  shorten warm-up for models that are slow to converge (e.g., when
+#'  `hetero_var = TRUE`). It requires the default Gaussian model with an
+#'  identity link and cannot be combined with an `init` value in `...`.
+#'  When a `seed` is passed in `...`, it is also used for the starting
+#'  values so that the entire fit is reproducible.
 #' @export
 
 perf_mod.rset <-
@@ -328,6 +335,7 @@ perf_mod.rset <-
     transform = no_trans,
     hetero_var = FALSE,
     formula = NULL,
+    initialize = FALSE,
     ...
   ) {
     check_trans(transform)
@@ -362,7 +370,12 @@ perf_mod.rset <-
 
     model_names <- unique(as.character(resamples$model))
 
-    mod <- stan_glmer(formula, data = resamples, ...)
+    init <- perf_mod_inits(initialize, formula, resamples, list(...))
+    if (is.null(init)) {
+      mod <- stan_glmer(formula, data = resamples, ...)
+    } else {
+      mod <- stan_glmer(formula, data = resamples, init = init, ...)
+    }
 
     res <- list(
       stan = mod,
@@ -467,7 +480,9 @@ perf_mod.resamples <-
         repeats = length(unique(object$values$id)),
         strata = FALSE
       )
-      for (i in names(cv_att)) attr(object$values, i) <- cv_att[[i]]
+      for (i in names(cv_att)) {
+        attr(object$values, i) <- cv_att[[i]]
+      }
     } else {
       object$values <- object$values |>
         dplyr::rename(id = Resample)
@@ -587,6 +602,7 @@ perf_mod.workflow_set <-
     transform = no_trans,
     hetero_var = FALSE,
     formula = NULL,
+    initialize = FALSE,
     ...
   ) {
     check_trans(transform)
@@ -650,7 +666,12 @@ perf_mod.workflow_set <-
 
     model_names <- unique(as.character(resamples$model))
 
-    mod <- rstanarm::stan_glmer(formula, data = resamples, ...)
+    init <- perf_mod_inits(initialize, formula, resamples, list(...))
+    if (is.null(init)) {
+      mod <- rstanarm::stan_glmer(formula, data = resamples, ...)
+    } else {
+      mod <- rstanarm::stan_glmer(formula, data = resamples, init = init, ...)
+    }
 
     res <- list(
       stan = mod,

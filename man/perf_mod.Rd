@@ -11,7 +11,14 @@
 \usage{
 perf_mod(object, ...)
 
-\method{perf_mod}{rset}(object, transform = no_trans, hetero_var = FALSE, formula = NULL, ...)
+\method{perf_mod}{rset}(
+  object,
+  transform = no_trans,
+  hetero_var = FALSE,
+  formula = NULL,
+  initialize = FALSE,
+  ...
+)
 
 \method{perf_mod}{resamples}(
   object,
@@ -39,6 +46,7 @@ perf_mod(object, ...)
   transform = no_trans,
   hetero_var = FALSE,
   formula = NULL,
+  initialize = FALSE,
   ...
 )
 }
@@ -70,6 +78,14 @@ variances may slow or prevent convergence.}
 
 \item{formula}{An optional model formula to use for the Bayesian hierarchical model
 (see Details below).}
+
+\item{initialize}{A single logical: should \code{\link[=stan_glmer_inits]{stan_glmer_inits()}} be used
+to compute data-based starting values for the Bayesian model? This can
+shorten warm-up for models that are slow to converge (e.g., when
+\code{hetero_var = TRUE}). It requires the default Gaussian model with an
+identity link and cannot be combined with an \code{init} value in \code{...}.
+When a \code{seed} is passed in \code{...}, it is also used for the starting
+values so that the entire fit is reproducible.}
 
 \item{metric}{A single character value for the statistic from
 the \code{resamples} object that should be analyzed.}
@@ -206,7 +222,7 @@ The most general approach is to have a data frame with the resampling labels (i.
 one or more id columns) as well as columns for each model that you would like to
 compare.
 
-For the model results above, \code{\link[tune:collect_predictions]{tune::collect_metrics()}} can be used along with some
+For the model results above, \code{\link[tune:collect_metrics]{tune::collect_metrics()}} can be used along with some
 basic data manipulation steps:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{   logistic_roc <-
