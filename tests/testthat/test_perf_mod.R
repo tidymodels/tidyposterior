@@ -32,26 +32,26 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
   rs_rcv$values$Resample <-
     paste0("Fold", rep(1:5, 2), ".", "Rep", rep(1:2, each = 5))
 
-  obj_1 <- perf_mod(
+  obj_1 <- suppressWarnings(perf_mod(
     test_bt,
     seed = 781,
     chains = 2,
     iter = 1000,
     refresh = 0,
     verbose = FALSE
-  )
+  ))
 
   test_df <- as.data.frame(test_bt[, -1])
-  obj_2 <- perf_mod(
+  obj_2 <- suppressWarnings(perf_mod(
     test_df,
     seed = 781,
     refresh = 0,
     chains = 2,
     iter = 1000,
     verbose = FALSE
-  )
+  ))
 
-  obj_3 <- perf_mod(
+  obj_3 <- suppressWarnings(perf_mod(
     test_bt,
     seed = 781,
     chains = 2,
@@ -59,33 +59,36 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
     refresh = 0,
     verbose = FALSE,
     hetero_var = TRUE
-  )
+  ))
 
-  obj_4 <- perf_mod(
+  obj_4 <- suppressWarnings(perf_mod(
     rs_obj,
     seed = 781,
     chains = 2,
     iter = 1000,
     refresh = 0,
     verbose = FALSE
-  )
+  ))
 
-  obj_5 <- perf_mod(
+  ## the multiple-id-column warning from these two fits is snapshot-tested
+  ## below via make_formula()
+  obj_5 <- suppressWarnings(perf_mod(
     rs_rcv,
     seed = 781,
     chains = 2,
     iter = 1000,
+    refresh = 0,
     verbose = FALSE
-  )
+  ))
 
-  obj_6 <- perf_mod(
+  obj_6 <- suppressWarnings(perf_mod(
     test_rcv,
     seed = 781,
     chains = 2,
     iter = 1000,
     refresh = 0,
     verbose = FALSE
-  )
+  ))
 }
 # ------------------------------------------------------------------------------
 
@@ -101,6 +104,12 @@ test_that("bad arguments", {
     perf_mod(test_bt, transform = list(func = 1, inc = 2))
   )
   expect_snapshot(error = TRUE, perf_mod(1:10))
+})
+
+# ------------------------------------------------------------------------------
+
+test_that("multiple id columns produce a warning about the formula", {
+  expect_snapshot(tidyposterior:::make_formula(c("id", "id2"), FALSE, NULL))
 })
 
 # ------------------------------------------------------------------------------
@@ -297,7 +306,9 @@ test_that("workflow sets", {
     workflow_map("fit_resamples", resamples = bt, seed = 1)
 
   expect_no_error(
-    rsq_mod <- perf_mod(wset, seed = 3, refresh = 0, metric = "rsq")
+    rsq_mod <- suppressWarnings(
+      perf_mod(wset, seed = 3, refresh = 0, metric = "rsq")
+    )
   )
   expect_equal(
     colnames(coef(rsq_mod$stan)$id),

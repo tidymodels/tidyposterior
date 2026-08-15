@@ -38,6 +38,17 @@
       Error in `error_cnd()`:
       ! Conditions must have named data fields
 
+# multiple id columns produce a warning about the formula
+
+    Code
+      tidyposterior:::make_formula(c("id", "id2"), FALSE, NULL)
+    Condition
+      Warning:
+      There were multiple resample ID columns in the data. It is unclear what the model formula should be for the hierarchical model. This analysis used the formula: `statistic ~ model + (1 | id2/id)` The `formula` arg can be used to change this value.
+    Output
+      statistic ~ model + (1 | id2/id)
+      <environment: base>
+
 # basic usage
 
     Code
