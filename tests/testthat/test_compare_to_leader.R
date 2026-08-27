@@ -98,13 +98,15 @@ test_that("the leader can be set explicitly", {
   expect_equal(res$leader, c(FALSE, TRUE, FALSE))
   # the ranking is still by performance, not by the leader
   expect_equal(as.character(res$model), c("three", "two", "one"))
-  # `three` beats the named leader
-  expect_equal(res$pr_worse[1], 0)
+  # `three` beats the named leader. It is not the leader itself, so this is a
+  # Monte Carlo estimate rather than an assigned value.
+  expect_equal(res$pr_worse[1], 0, tolerance = 0.01)
 })
 
 # ------------------------------------------------------------------------------
 
 test_that("the leader row holds the degenerate comparison against itself", {
+  # these are assigned rather than estimated, so they are exact
   expect_equal(res_max$mean_diff[1], 0)
   expect_equal(res_max$lower_diff[1], 0)
   expect_equal(res_max$upper_diff[1], 0)
@@ -145,9 +147,11 @@ test_that("`pr_worse` accounts for the metric direction", {
       )]
     )
   )
-  # every model is clearly separated in this example
-  expect_equal(res_max$pr_worse, c(0, 1, 1))
-  expect_equal(res_min$pr_worse, c(0, 1, 1))
+  # Every model is clearly separated in this example. The leader's 0 is
+  # assigned, but the other two are proportions of the posterior draws, so a
+  # single draw landing the other way makes them 0.999 rather than 1.
+  expect_equal(res_max$pr_worse, c(0, 1, 1), tolerance = 0.01)
+  expect_equal(res_min$pr_worse, c(0, 1, 1), tolerance = 0.01)
 })
 
 # ------------------------------------------------------------------------------
@@ -378,12 +382,14 @@ test_that("the y-axis runs from the worst at the top to the leader at the bottom
 })
 
 test_that("`zero_bar` keeps zero-probability models visible", {
-  # the leader always has a `pr_worse` of exactly zero
-  expect_equal(res_max$pr_worse, c(0, 1, 1))
+  # the leader always has a `pr_worse` of exactly zero; the rest are estimates
+  expect_equal(res_max$pr_worse[1], 0)
+  expect_equal(res_max$pr_worse, c(0, 1, 1), tolerance = 0.01)
 
   bars <- ggplot2::ggplot_build(autoplot(res_max)[[2]])$data[[1]]
+  # the floor is applied to the leader's exact zero
   expect_equal(min(bars$xmax), 0.01)
-  expect_equal(max(bars$xmax), 1)
+  expect_equal(max(bars$xmax), 1, tolerance = 0.01)
 
   # only the floored bar is outlined; the others are left clean
   expect_equal(bars$colour, c("grey30", NA, NA))
@@ -393,7 +399,7 @@ test_that("`zero_bar` keeps zero-probability models visible", {
 
   # `zero_bar = 0` draws the probabilities exactly and outlines nothing
   exact <- ggplot2::ggplot_build(autoplot(res_max, zero_bar = 0)[[2]])
-  expect_equal(exact$data[[1]]$xmax, c(0, 1, 1))
+  expect_equal(exact$data[[1]]$xmax, c(0, 1, 1), tolerance = 0.01)
   expect_true(all(is.na(exact$data[[1]]$colour)))
 
   # flooring the bar never changes the returned data
