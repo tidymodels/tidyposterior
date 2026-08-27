@@ -311,7 +311,6 @@ There is a `perf_mod()` method for this type of object. The computations are con
 
 ```{r}
 #| label: tune-grid-bayes
-#| fig-alt: "Line chart. roc_auc along the x-axis, density along the y-axis. The density lines are colored according to the preprocessor. There is a fair amount of overlap. With Preprocessor4 having the lowest values."
 grid_mod <- perf_mod(spline_tune, seed = 6, iter = 5000, chains = 5, refresh = 0)
 autoplot(grid_mod)
 ```
@@ -350,7 +349,7 @@ The ROPE analysis is more definitive; there is no sense of practical differences
 
 ```{r}
 #| label: tune-grid-rope
-#| fig-alt: "Faceted line chart. Difference along the x-axis, posterior probability along the y-axis. Each density corresponds to the difference between preprocessor1 and the other 2 preprocessors.
+#| fig-alt: "Faceted line chart. difference along the x-axis, posterior probability along the y-axis. Each density corresponds to the difference between preprocessor1 and the other 3 preprocessors. preprocessor2 looks to have a mean around 0, preprocessor3 looks to have a mean around 0.0025, and preprocessor4 looks to have a mean around 0.005. Range is from -0.015 to 0.02. vertical dashed lines placed at -0.02 and 0.02."
 autoplot(grid_diff, size = 0.02)
 ```
 
