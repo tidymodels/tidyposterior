@@ -281,13 +281,13 @@ The previous example was a between-model comparison (where "model" really means 
 
 For our spline analysis, we assumed that three degrees of freedom were appropriate. However, we might tune the model over that parameter to see what the best degrees of freedom should be. 
 
-The previous spline recipe is altered so that the degrees of freedom parameter doesn't have an actual value. Instead, using a value of `tune()` will mark this parameter for optimization. There are a few different approaches for tuning this parameter; we'll use simpe grid search. 
+The previous spline recipe is altered so that the degrees of freedom parameter doesn't have an actual value. Instead, using a value of `tune()` will mark this parameter for optimization. There are a few different approaches for tuning this parameter; we'll use simple grid search. 
 
 ```{r}
 #| label: tune-rec
 spline_rec <- 
   recipe(Class ~ ., data = two_class_dat) |> 
-  step_ns(A, B, deg_free = tune())
+  step_spline_natural(A, B, deg_free = tune())
 ```
 
 The `tune` package function `tune_grid()` is used to evaluate several values of the parameter. For each value, the resampled area under the ROC curve is computed.  
@@ -299,7 +299,7 @@ spline_tune <-
   tune_grid(
     spline_rec,
     resamples = cv_folds,
-    grid = tibble(deg_free = c(1, 3, 5, 10)),
+    grid = tibble(deg_free = c(3, 5, 10)),
     metrics = metric_set(roc_auc),
     control = control_grid(save_workflow = TRUE)
   )
@@ -307,7 +307,7 @@ collect_metrics(spline_tune) |>
   arrange(desc(mean))
 ```
 
-There is a `perf_mod()` method for this type of object. The computations are conducted in the same manner but, in this instance, four sub-models are compared. 
+There is a `perf_mod()` method for this type of object. The computations are conducted in the same manner but, in this instance, three sub-models are compared. 
 
 ```{r}
 #| label: tune-grid-bayes
@@ -327,11 +327,10 @@ The contrast_model function can take two lists of model identifiers and compute 
 grid_diff <-
   contrast_models(
     grid_mod,
-    list_1 = rep("Preprocessor1_Model1", 3),
+    list_1 = rep("pre1_mod0_post0", 2),
     list_2 = c(
-      "Preprocessor2_Model1", # <-  3 df spline
-      "Preprocessor3_Model1", # <-  5 df spline
-      "Preprocessor4_Model1"  # <- 10 df spline
+      "pre2_mod0_post0", # <-  5 df spline
+      "pre3_mod0_post0"  # <- 10 df spline
     ),
     seed = 7
   )
@@ -351,7 +350,7 @@ The ROPE analysis is more definitive; there is no sense of practical differences
 
 ```{r}
 #| label: tune-grid-rope
-#| fig-alt: "Faceted line chart. difference along the x-axis, posterior probability along the y-axis. Each density corresponds to the difference between preprocessor1 and the other 3 preprocessors. preprocessor2 looks to have a mean around 0, preprocessor3 looks to have a mean around 0.0025, and preprocessor4 looks to have a mean around 0.005. Range is from -0.015 to 0.02. vertical dashed lines placed at -0.02 and 0.02."
+#| fig-alt: "Faceted line chart. Difference along the x-axis, posterior probability along the y-axis. Each density corresponds to the difference between preprocessor1 and the other 2 preprocessors.
 autoplot(grid_diff, size = 0.02)
 ```
 

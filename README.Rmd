@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/tidymodels/tidyposterior/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyposterior?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/tidymodels/tidyposterior/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyposterior)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
@@ -119,7 +119,7 @@ We can then give this directly to `perf_mod()`:
 ```{r}
 #| label: df-mod
 set.seed(101)
-roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
+roc_model_via_df <- perf_mod(resamples_df, iter = 2000, refresh = 0)
 ```
 
 From this, the posterior distributions for each model can be obtained from the `tidy()` method: 
