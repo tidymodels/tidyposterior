@@ -69,11 +69,11 @@
 #'
 #'    # Repeated CV (id = repeat, id2 = fold within repeat)
 #'    # with a common variance:
-#'      statistic ~ model + (model | id2/id)
+#'      statistic ~ model + (model | id/id2)
 #'
 #'    # Repeated CV (id = repeat, id2 = fold within repeat)
 #'    # with a heterogeneous variance:
-#'      statistic ~ model + (model + 0| id2/id)
+#'      statistic ~ model + (model + 0| id/id2)
 #'
 #'    # Default for unknown resampling method and
 #'    # multiple ID fields:
