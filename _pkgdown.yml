@@ -34,8 +34,8 @@ reference:
       - inv_trans
       - Fisher_trans
 
-- title: Data
-  contents:
-  - precise_example
-  - noisy_example
-  - concrete_example
+  - title: Data
+    contents:
+      - precise_example
+      - noisy_example
+      - concrete_example
