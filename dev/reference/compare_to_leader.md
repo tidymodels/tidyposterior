@@ -169,9 +169,9 @@ compare_to_leader(mpg_post, seed = 2)
 #> # A tibble: 3 × 14
 #>   model     label   rank leader median lower upper mean_diff lower_diff
 #>   <fct>     <fct>  <int> <lgl>   <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1 medium_lm mediu…     1 TRUE     2.70  2.00  3.42     0          0    
-#> 2 small_lm  small…     2 FALSE    3.18  2.45  3.89     0.472     -0.452
-#> 3 large_lm  large…     3 FALSE    4.43  3.72  5.12     1.72       0.761
+#> 1 medium_lm mediu…     1 TRUE     2.67  1.94  3.39     0          0    
+#> 2 small_lm  small…     2 FALSE    3.15  2.44  3.85     0.477     -0.449
+#> 3 large_lm  large…     3 FALSE    4.41  3.73  5.15     1.74       0.807
 #> # ℹ 5 more variables: upper_diff <dbl>, pr_worse <dbl>, size <dbl>,
 #> #   pract_equiv <dbl>, pract_worse <dbl>
 
@@ -181,9 +181,9 @@ compare_to_leader(mpg_post, size = 0.5, seed = 2)
 #> # A tibble: 3 × 14
 #>   model     label   rank leader median lower upper mean_diff lower_diff
 #>   <fct>     <fct>  <int> <lgl>   <dbl> <dbl> <dbl>     <dbl>      <dbl>
-#> 1 medium_lm mediu…     1 TRUE     2.70  2.00  3.42     0          0    
-#> 2 small_lm  small…     2 FALSE    3.18  2.45  3.89     0.472     -0.452
-#> 3 large_lm  large…     3 FALSE    4.43  3.72  5.12     1.72       0.761
+#> 1 medium_lm mediu…     1 TRUE     2.67  1.94  3.39     0          0    
+#> 2 small_lm  small…     2 FALSE    3.15  2.44  3.85     0.477     -0.449
+#> 3 large_lm  large…     3 FALSE    4.41  3.73  5.15     1.74       0.807
 #> # ℹ 5 more variables: upper_diff <dbl>, pr_worse <dbl>, size <dbl>,
 #> #   pract_equiv <dbl>, pract_worse <dbl>
 # }

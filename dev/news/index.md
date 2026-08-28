@@ -3,6 +3,27 @@
 ## tidyposterior (development version)
 
 - New
+  [`stan_glmer_inits()`](https://tidyposterior.tidymodels.org/dev/reference/stan_glmer_inits.md)
+  computes data-based starting values for the Bayesian models used by
+  [`perf_mod()`](https://tidyposterior.tidymodels.org/dev/reference/perf_mod.md).
+  The results can be passed to
+  [`rstanarm::stan_glmer()`](https://mc-stan.org/rstanarm/reference/stan_glmer.html)
+  (directly or via `perf_mod(..., init = )`) and can shorten warmup for
+  models that are slow to converge, such as those with heterogeneous
+  variances.
+
+- [`perf_mod()`](https://tidyposterior.tidymodels.org/dev/reference/perf_mod.md)
+  gains an `initialize` argument (default `FALSE`) that computes and
+  applies these starting values automatically, reusing the sampler
+  `seed` (when one is passed) so that the entire fit is reproducible.
+
+- Fixed a bug where
+  [`perf_mod()`](https://tidyposterior.tidymodels.org/dev/reference/perf_mod.md)
+  duplicated the resampling statistics for workflow sets: when more than
+  one metric had been collected, each statistic was included in the
+  Bayesian model once per metric.
+
+- New
   [`compare_to_leader()`](https://tidyposterior.tidymodels.org/dev/reference/compare_to_leader.md)
   contrasts every model in a
   [`perf_mod()`](https://tidyposterior.tidymodels.org/dev/reference/perf_mod.md)

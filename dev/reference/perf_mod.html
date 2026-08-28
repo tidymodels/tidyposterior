@@ -61,7 +61,14 @@ performance and make statistical (and practical) comparisons between models.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'rset'</span></span>
-<span><span class="fu">perf_mod</span><span class="op">(</span><span class="va">object</span>, transform <span class="op">=</span> <span class="va">no_trans</span>, hetero_var <span class="op">=</span> <span class="cn">FALSE</span>, formula <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu">perf_mod</span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  transform <span class="op">=</span> <span class="va">no_trans</span>,</span>
+<span>  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  initialize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'resamples'</span></span>
 <span><span class="fu">perf_mod</span><span class="op">(</span></span>
@@ -93,6 +100,7 @@ performance and make statistical (and practical) comparisons between models.</p>
 <span>  transform <span class="op">=</span> <span class="va">no_trans</span>,</span>
 <span>  hetero_var <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  formula <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  initialize <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  select_best <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -136,6 +144,16 @@ variances may slow or prevent convergence.</p></dd>
 <dt id="arg-formula">formula<a class="anchor" aria-label="anchor" href="#arg-formula"></a></dt>
 <dd><p>An optional model formula to use for the Bayesian hierarchical model
 (see Details below).</p></dd>
+
+
+<dt id="arg-initialize">initialize<a class="anchor" aria-label="anchor" href="#arg-initialize"></a></dt>
+<dd><p>A single logical: should <code><a href="stan_glmer_inits.html">stan_glmer_inits()</a></code> be used
+to compute data-based starting values for the Bayesian model? This can
+shorten warm-up for models that are slow to converge (e.g., when
+<code>hetero_var = TRUE</code>). It requires the default Gaussian model with an
+identity link and cannot be combined with an <code>init</code> value in <code>...</code>.
+When a <code>seed</code> is passed in <code>...</code>, it is also used for the starting
+values so that the entire fit is reproducible.</p></dd>
 
 
 <dt id="arg-metric">metric<a class="anchor" aria-label="anchor" href="#arg-metric"></a></dt>

@@ -14,7 +14,14 @@ comparisons between models.
 perf_mod(object, ...)
 
 # S3 method for class 'rset'
-perf_mod(object, transform = no_trans, hetero_var = FALSE, formula = NULL, ...)
+perf_mod(
+  object,
+  transform = no_trans,
+  hetero_var = FALSE,
+  formula = NULL,
+  initialize = FALSE,
+  ...
+)
 
 # S3 method for class 'resamples'
 perf_mod(
@@ -46,6 +53,7 @@ perf_mod(
   transform = no_trans,
   hetero_var = FALSE,
   formula = NULL,
+  initialize = FALSE,
   select_best = FALSE,
   ...
 )
@@ -98,6 +106,17 @@ perf_mod(
 
   An optional model formula to use for the Bayesian hierarchical model
   (see Details below).
+
+- initialize:
+
+  A single logical: should
+  [`stan_glmer_inits()`](https://tidyposterior.tidymodels.org/dev/reference/stan_glmer_inits.md)
+  be used to compute data-based starting values for the Bayesian model?
+  This can shorten warm-up for models that are slow to converge (e.g.,
+  when `hetero_var = TRUE`). It requires the default Gaussian model with
+  an identity link and cannot be combined with an `init` value in `...`.
+  When a `seed` is passed in `...`, it is also used for the starting
+  values so that the entire fit is reproducible.
 
 - metric:
 
