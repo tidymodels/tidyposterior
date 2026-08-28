@@ -7,7 +7,7 @@
 
 [![R-CMD-check](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/tidyposterior/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidymodels/tidyposterior/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyposterior?branch=main)
+coverage](https://codecov.io/gh/tidymodels/tidyposterior/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/tidyposterior)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 [![Downloads](http://cranlogs.r-pkg.org/badges/tidyposterior)](https://CRAN.r-project.org/package=tidyposterior)
 ![](https://img.shields.io/badge/lifecycle-maturing-blue.svg)
@@ -62,15 +62,17 @@ cross-validation for a simple two-class problem:
 
 ``` r
 library(tidymodels)
-#> ── Attaching packages ────────────────────────────────────── tidymodels 1.3.0 ──
-#> ✔ broom        1.0.9.9000     ✔ recipes      1.3.1.9000
-#> ✔ dials        1.4.1.9000     ✔ rsample      1.3.1.9000
-#> ✔ dplyr        1.1.4.9000     ✔ tibble       3.3.0.9002
-#> ✔ ggplot2      3.5.2.9002     ✔ tidyr        1.3.1.9000
-#> ✔ infer        1.0.9.9000     ✔ tune         1.3.0.9005
-#> ✔ modeldata    1.4.0.9000     ✔ workflows    1.2.0.9000
-#> ✔ parsnip      1.3.2.9000     ✔ workflowsets 1.1.1.9000
-#> ✔ purrr        1.1.0.9000     ✔ yardstick    1.3.2.9000
+#> ── Attaching packages ────────────────────────────────────── tidymodels 1.5.0 ──
+#> ✔ broom        1.0.13     ✔ recipes      1.3.3 
+#> ✔ dials        1.4.4      ✔ rsample      1.3.2 
+#> ✔ dplyr        1.2.1      ✔ tailor       0.1.0 
+#> ✔ ggplot2      4.0.3      ✔ tidyr        1.3.2 
+#> ✔ infer        1.1.0      ✔ tune         2.1.0 
+#> ✔ modeldata    1.6.0      ✔ workflows    1.3.0 
+#> ✔ parsnip      1.6.0      ✔ workflowsets 1.1.1 
+#> ✔ purrr        1.2.2      ✔ yardstick    1.4.0
+#> Warning: package 'dials' was built under R version 4.6.1
+#> Warning: package 'modeldata' was built under R version 4.6.1
 #> ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 #> ✖ purrr::discard() masks scales::discard()
 #> ✖ dplyr::filter()  masks stats::filter()
@@ -158,107 +160,7 @@ We can then give this directly to `perf_mod()`:
 
 ``` r
 set.seed(101)
-roc_model_via_df <- perf_mod(resamples_df, iter = 2000)
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 1).
-#> Chain 1: 
-#> Chain 1: Gradient evaluation took 4.6e-05 seconds
-#> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0.46 seconds.
-#> Chain 1: Adjust your expectations accordingly!
-#> Chain 1: 
-#> Chain 1: 
-#> Chain 1: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 1: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 1: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 1: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 1: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 1: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 1: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 1: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 1: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 1: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 1: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 1: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 1: 
-#> Chain 1:  Elapsed Time: 0.355 seconds (Warm-up)
-#> Chain 1:                0.121 seconds (Sampling)
-#> Chain 1:                0.476 seconds (Total)
-#> Chain 1: 
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 2).
-#> Chain 2: 
-#> Chain 2: Gradient evaluation took 1e-05 seconds
-#> Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.
-#> Chain 2: Adjust your expectations accordingly!
-#> Chain 2: 
-#> Chain 2: 
-#> Chain 2: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 2: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 2: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 2: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 2: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 2: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 2: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 2: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 2: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 2: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 2: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 2: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 2: 
-#> Chain 2:  Elapsed Time: 0.357 seconds (Warm-up)
-#> Chain 2:                0.137 seconds (Sampling)
-#> Chain 2:                0.494 seconds (Total)
-#> Chain 2: 
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 3).
-#> Chain 3: 
-#> Chain 3: Gradient evaluation took 1e-05 seconds
-#> Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 0.1 seconds.
-#> Chain 3: Adjust your expectations accordingly!
-#> Chain 3: 
-#> Chain 3: 
-#> Chain 3: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 3: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 3: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 3: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 3: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 3: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 3: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 3: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 3: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 3: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 3: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 3: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 3: 
-#> Chain 3:  Elapsed Time: 0.275 seconds (Warm-up)
-#> Chain 3:                0.146 seconds (Sampling)
-#> Chain 3:                0.421 seconds (Total)
-#> Chain 3: 
-#> 
-#> SAMPLING FOR MODEL 'continuous' NOW (CHAIN 4).
-#> Chain 4: 
-#> Chain 4: Gradient evaluation took 9e-06 seconds
-#> Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 0.09 seconds.
-#> Chain 4: Adjust your expectations accordingly!
-#> Chain 4: 
-#> Chain 4: 
-#> Chain 4: Iteration:    1 / 2000 [  0%]  (Warmup)
-#> Chain 4: Iteration:  200 / 2000 [ 10%]  (Warmup)
-#> Chain 4: Iteration:  400 / 2000 [ 20%]  (Warmup)
-#> Chain 4: Iteration:  600 / 2000 [ 30%]  (Warmup)
-#> Chain 4: Iteration:  800 / 2000 [ 40%]  (Warmup)
-#> Chain 4: Iteration: 1000 / 2000 [ 50%]  (Warmup)
-#> Chain 4: Iteration: 1001 / 2000 [ 50%]  (Sampling)
-#> Chain 4: Iteration: 1200 / 2000 [ 60%]  (Sampling)
-#> Chain 4: Iteration: 1400 / 2000 [ 70%]  (Sampling)
-#> Chain 4: Iteration: 1600 / 2000 [ 80%]  (Sampling)
-#> Chain 4: Iteration: 1800 / 2000 [ 90%]  (Sampling)
-#> Chain 4: Iteration: 2000 / 2000 [100%]  (Sampling)
-#> Chain 4: 
-#> Chain 4:  Elapsed Time: 0.297 seconds (Warm-up)
-#> Chain 4:                0.112 seconds (Sampling)
-#> Chain 4:                0.409 seconds (Total)
-#> Chain 4:
+roc_model_via_df <- perf_mod(resamples_df, iter = 2000, refresh = 0)
 ```
 
 From this, the posterior distributions for each model can be obtained

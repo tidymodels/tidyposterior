@@ -26,6 +26,7 @@ Imports:
     dplyr (> 1.0.0),
     generics,
     ggplot2 (>= 3.5.2),
+    patchwork,
     purrr,
     rlang,
     rsample (>= 0.0.2),

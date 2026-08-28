@@ -254,3 +254,19 @@
       [1] ""
       
 
+# `select_best` must be a single logical
+
+    Code
+      perf_mod(unfitted, select_best = "yes")
+    Condition
+      Error in `perf_mod()`:
+      ! `select_best` should be a single `TRUE` or `FALSE`.
+
+---
+
+    Code
+      perf_mod(unfitted, select_best = c(TRUE, TRUE))
+    Condition
+      Error in `perf_mod()`:
+      ! `select_best` should be a single `TRUE` or `FALSE`.
+
