@@ -11,6 +11,7 @@
     method = posterior_diff_reconstruct
   )
 
+  vctrs::s3_register("ggplot2::autoplot", "compare_to_leader")
   vctrs::s3_register("ggplot2::autoplot", "perf_mod")
   vctrs::s3_register("ggplot2::autoplot", "perf_mod_workflow_set")
   vctrs::s3_register("ggplot2::autoplot", "posterior")

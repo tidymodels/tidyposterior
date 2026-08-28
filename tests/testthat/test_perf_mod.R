@@ -32,26 +32,26 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
   rs_rcv$values$Resample <-
     paste0("Fold", rep(1:5, 2), ".", "Rep", rep(1:2, each = 5))
 
-  obj_1 <- perf_mod(
+  obj_1 <- suppressWarnings(perf_mod(
     test_bt,
     seed = 781,
     chains = 2,
     iter = 1000,
     refresh = 0,
     verbose = FALSE
-  )
+  ))
 
   test_df <- as.data.frame(test_bt[, -1])
-  obj_2 <- perf_mod(
+  obj_2 <- suppressWarnings(perf_mod(
     test_df,
     seed = 781,
     refresh = 0,
     chains = 2,
     iter = 1000,
     verbose = FALSE
-  )
+  ))
 
-  obj_3 <- perf_mod(
+  obj_3 <- suppressWarnings(perf_mod(
     test_bt,
     seed = 781,
     chains = 2,
@@ -59,33 +59,36 @@ if (rlang::is_installed(c("parsnip", "yardstick"))) {
     refresh = 0,
     verbose = FALSE,
     hetero_var = TRUE
-  )
+  ))
 
-  obj_4 <- perf_mod(
+  obj_4 <- suppressWarnings(perf_mod(
     rs_obj,
     seed = 781,
     chains = 2,
     iter = 1000,
     refresh = 0,
     verbose = FALSE
-  )
+  ))
 
-  obj_5 <- perf_mod(
+  ## the multiple-id-column warning from these two fits is snapshot-tested
+  ## below via make_formula()
+  obj_5 <- suppressWarnings(perf_mod(
     rs_rcv,
     seed = 781,
     chains = 2,
     iter = 1000,
+    refresh = 0,
     verbose = FALSE
-  )
+  ))
 
-  obj_6 <- perf_mod(
+  obj_6 <- suppressWarnings(perf_mod(
     test_rcv,
     seed = 781,
     chains = 2,
     iter = 1000,
     refresh = 0,
     verbose = FALSE
-  )
+  ))
 }
 # ------------------------------------------------------------------------------
 
@@ -297,7 +300,9 @@ test_that("workflow sets", {
     workflow_map("fit_resamples", resamples = bt, seed = 1)
 
   expect_no_error(
-    rsq_mod <- perf_mod(wset, seed = 3, refresh = 0, metric = "rsq")
+    rsq_mod <- suppressWarnings(
+      perf_mod(wset, seed = 3, refresh = 0, metric = "rsq")
+    )
   )
   expect_equal(
     colnames(coef(rsq_mod$stan)$id),
@@ -341,4 +346,116 @@ test_that("workflow sets", {
   expect_equal(rlang::get_expr(p_rope$mapping$y), rlang::expr(pract_equiv))
   expect_equal(as.list(p_rope$facet$params), list())
   expect_snapshot(ggplot2::get_labs(p_rope))
+})
+
+# ------------------------------------------------------------------------------
+
+## Two preprocessors crossed with two model types, so each model type/engine
+## combination is represented by two workflows. An unfitted workflow set is
+## enough to test the grouping since `best_by_engine()` is handed the ranks.
+two_engine_wset <- function() {
+  workflowsets::workflow_set(
+    preproc = list(a = mpg ~ ., b = mpg ~ disp + hp),
+    models = list(lm = linear_reg(), null = null_model(mode = "regression"))
+  )
+}
+
+test_that("`best_by_engine()` keeps the best workflow per model type/engine", {
+  skip_if_not_installed(c("parsnip"))
+
+  wset <- two_engine_wset()
+  # a_lm, a_null, b_lm, b_null
+  ranks <- tibble::tibble(wflow_id = wset$wflow_id, mean = c(10, 3, 20, 4))
+
+  expect_equal(
+    sort(tidyposterior:::best_by_engine(wset, ranks, "minimize")),
+    c("a_lm", "a_null")
+  )
+  expect_equal(
+    sort(tidyposterior:::best_by_engine(wset, ranks, "maximize")),
+    c("b_lm", "b_null")
+  )
+})
+
+test_that("`best_by_engine()` keeps every workflow when none share an engine", {
+  skip_if_not_installed(c("parsnip"))
+
+  wset <- workflowsets::workflow_set(
+    preproc = list(a = mpg ~ .),
+    models = list(lm = linear_reg(), null = null_model(mode = "regression"))
+  )
+  ranks <- tibble::tibble(wflow_id = wset$wflow_id, mean = c(1, 2))
+  expect_equal(
+    sort(tidyposterior:::best_by_engine(wset, ranks, "minimize")),
+    sort(wset$wflow_id)
+  )
+})
+
+test_that("`select_best` controls which workflows compete", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
+  set.seed(1)
+  folds <- vfold_cv(mtcars, v = 5)
+  # The null model predicts a constant, so asking for R squared would warn
+  # about a zero-variance estimate. Only RMSE is needed here.
+  fitted_wset <- workflow_map(
+    two_engine_wset(),
+    "fit_resamples",
+    resamples = folds,
+    metrics = yardstick::metric_set(yardstick::rmse),
+    verbose = FALSE,
+    seed = 3
+  )
+
+  # `b_lm` is the better of the two linear regressions for RMSE
+  ranks <-
+    workflowsets::rank_results(
+      fitted_wset,
+      rank_metric = "rmse",
+      select_best = TRUE
+    ) |>
+    dplyr::filter(.metric == "rmse")
+  expect_equal(ranks$wflow_id[1], "b_lm")
+
+  all_wflows <- suppressWarnings(
+    perf_mod(
+      fitted_wset,
+      metric = "rmse",
+      refresh = 0,
+      chains = 2,
+      iter = 500,
+      seed = 5
+    )
+  )
+  expect_equal(sort(all_wflows$names), c("a_lm", "a_null", "b_lm", "b_null"))
+
+  best_wflows <- suppressWarnings(
+    perf_mod(
+      fitted_wset,
+      metric = "rmse",
+      refresh = 0,
+      chains = 2,
+      iter = 500,
+      seed = 5,
+      select_best = TRUE
+    )
+  )
+  # One linear regression and one null model, each the best of its pair. The
+  # two null models predict the training mean, so they tie exactly and either
+  # may win the tie-break; the linear regressions are well separated.
+  expect_length(best_wflows$names, 2)
+  expect_true("b_lm" %in% best_wflows$names)
+  expect_true(any(grepl("_null$", best_wflows$names)))
+  expect_s3_class(best_wflows, "perf_mod_workflow_set")
+  expect_equal(best_wflows$metric, list(name = "rmse", direction = "minimize"))
+})
+
+test_that("`select_best` must be a single logical", {
+  skip_if_not_installed(c("parsnip"))
+
+  # the check runs before any results are touched, so an unfitted set is fine
+  unfitted <- two_engine_wset()
+  expect_snapshot(error = TRUE, perf_mod(unfitted, select_best = "yes"))
+  expect_snapshot(error = TRUE, perf_mod(unfitted, select_best = c(TRUE, TRUE)))
 })

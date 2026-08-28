@@ -320,6 +320,13 @@ perf_mod.default <- function(object, ...) {
 #'  variances are estimated for each model group. Otherwise, the
 #'  same variance is used for each group. Estimating heterogeneous
 #'  variances may slow or prevent convergence.
+#' @param select_best A single logical for workflow sets. Workflows are always
+#'  reduced to their own best tuning parameter candidate. This argument
+#'  controls whether the workflows themselves are also reduced: when `TRUE`,
+#'  workflows that fit the same type of model with the same engine are
+#'  collapsed down to the best-performing one, so that each model type/engine
+#'  combination competes once. When `FALSE` (the default), every `wflow_id`
+#'  competes on its own.
 #' @export
 
 perf_mod.rset <-
@@ -376,6 +383,39 @@ perf_mod.rset <-
     class(res) <- "perf_mod"
     res
   }
+
+# Workflow sets often contain several workflows that fit the same type of model
+# with the same engine and differ only in their preprocessor. This returns the
+# `wflow_id` of the best of each such group so that a model type competes once.
+best_by_engine <- function(object, ranked, direction) {
+  specs <-
+    object$wflow_id |>
+    map(function(.x) workflowsets::extract_workflow(object, id = .x)) |>
+    map(tune::extract_spec_parsnip)
+
+  combos <- purrr::map_dfr(
+    specs,
+    function(.x) {
+      dplyr::tibble(
+        model_type = class(.x)[1],
+        engine = .x$engine %||% NA_character_
+      )
+    }
+  )
+  combos$wflow_id <- object$wflow_id
+
+  combos <- dplyr::inner_join(
+    combos,
+    dplyr::distinct(ranked, wflow_id, mean),
+    by = "wflow_id"
+  )
+  if (direction == "maximize") {
+    combos <- dplyr::arrange(combos, dplyr::desc(mean))
+  } else {
+    combos <- dplyr::arrange(combos, mean)
+  }
+  dplyr::slice(combos, 1, .by = c(model_type, engine))$wflow_id
+}
 
 make_formula <- function(ids, hetero_var, formula) {
   if (is.null(formula)) {
@@ -467,7 +507,9 @@ perf_mod.resamples <-
         repeats = length(unique(object$values$id)),
         strata = FALSE
       )
-      for (i in names(cv_att)) attr(object$values, i) <- cv_att[[i]]
+      for (i in names(cv_att)) {
+        attr(object$values, i) <- cv_att[[i]]
+      }
     } else {
       object$values <- object$values |>
         dplyr::rename(id = Resample)
@@ -587,9 +629,13 @@ perf_mod.workflow_set <-
     transform = no_trans,
     hetero_var = FALSE,
     formula = NULL,
+    select_best = FALSE,
     ...
   ) {
     check_trans(transform)
+    if (!rlang::is_bool(select_best)) {
+      rlang::abort("`select_best` should be a single `TRUE` or `FALSE`.")
+    }
     metric_info <- tune::.get_tune_metrics(object$result[[1]])
     metric_info <- tune::metrics_info(metric_info)
     if (!is.null(metric)) {
@@ -611,28 +657,31 @@ perf_mod.workflow_set <-
       tune::collect_metrics(object, summarize = FALSE) |>
       dplyr::filter(.metric == metric & id != "Apparent")
 
+    ## Note that `rank_results(select_best = TRUE)` reduces each workflow to its
+    ## own best tuning candidate. That always happens and is separate from the
+    ## `select_best` argument, which reduces the _workflows_ themselves.
     ranked <-
       workflowsets::rank_results(
         object,
         rank_metric = metric,
         select_best = TRUE
       ) |>
-      dplyr::select(wflow_id, .config)
+      dplyr::filter(.metric == metric)
+
+    if (select_best) {
+      ranked <- dplyr::filter(
+        ranked,
+        wflow_id %in% best_by_engine(object, ranked, metric_dir)
+      )
+    }
+
     resamples <- dplyr::inner_join(
       resamples,
-      ranked,
+      dplyr::distinct(ranked, wflow_id, .config),
       by = c("wflow_id", ".config")
     )
 
-    if (any(names(resamples) == ".iter")) {
-      resamples$sub_model <- paste(
-        resamples$.config,
-        resamples$.iter,
-        sep = "_"
-      )
-    } else {
-      resamples$sub_model <- resamples$.config
-    }
+    resamples$sub_model <- resamples$.config
 
     resamples <-
       resamples |>

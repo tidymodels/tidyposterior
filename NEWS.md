@@ -1,5 +1,11 @@
 # tidyposterior (development version)
 
+* New `compare_to_leader()` contrasts every model in a `perf_mod()` object against the best model in the set and returns a data frame of probability statements about how much each candidate gives up relative to that leader. `autoplot()` on the result draws the posterior metric intervals alongside those probabilities.
+
+* New `initialize_keys()` builds a template of model labels to edit and pass to the `key` argument of `compare_to_leader()`.
+
+* `perf_mod()` gains a `select_best` argument for workflow sets. Workflows are always reduced to their own best tuning parameter candidate; `select_best = TRUE` additionally collapses workflows that fit the same type of model with the same engine down to the best of each group, so that each model type/engine combination competes once. The default, `FALSE`, keeps the existing behavior of one competitor per `wflow_id`.
+
 # tidyposterior 1.0.2
 
 * Maintenance release for an upcoming ggplot2 release (#74). 

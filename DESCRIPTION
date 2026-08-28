@@ -26,6 +26,7 @@ Imports:
     dplyr (> 1.0.0),
     generics,
     ggplot2 (>= 3.5.2),
+    patchwork,
     purrr,
     rlang,
     rsample (>= 0.0.2),
@@ -54,4 +55,4 @@ Config/usethis/last-upkeep: 2025-04-27
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0

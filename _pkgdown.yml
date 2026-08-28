@@ -19,21 +19,23 @@ figures:
   fig.height: 5.75
 
 reference:
-- title: Bayesian analysis of resampling results
-  contents:
-  - perf_mod
-  - tidy.perf_mod
-  - contrast_models
-  - matches("summary")
-  - matches("autoplot")
-  - no_trans
-  - logit_trans
-  - ln_trans
-  - inv_trans
-  - Fisher_trans
+  - title: Bayesian analysis of resampling results
+    contents:
+      - perf_mod
+      - tidy.perf_mod
+      - contrast_models
+      - compare_to_leader
+      - initialize_keys
+      - matches("summary")
+      - matches("autoplot")
+      - no_trans
+      - logit_trans
+      - ln_trans
+      - inv_trans
+      - Fisher_trans
 
-- title: Data
-  contents:
-  - precise_example
-  - noisy_example
-  - concrete_example
+  - title: Data
+    contents:
+      - precise_example
+      - noisy_example
+      - concrete_example
