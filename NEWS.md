@@ -1,5 +1,11 @@
 # tidyposterior (development version)
 
+* New `stan_glmer_inits()` computes data-based starting values for the Bayesian models used by `perf_mod()`. The results can be passed to `rstanarm::stan_glmer()` (directly or via `perf_mod(..., init = )`) and can shorten warmup for models that are slow to converge, such as those with heterogeneous variances.
+
+* `perf_mod()` gains an `initialize` argument (default `FALSE`) that computes and applies these starting values automatically, reusing the sampler `seed` (when one is passed) so that the entire fit is reproducible.
+
+* Fixed a bug where `perf_mod()` duplicated the resampling statistics for workflow sets: when more than one metric had been collected, each statistic was included in the Bayesian model once per metric.
+
 * New `compare_to_leader()` contrasts every model in a `perf_mod()` object against the best model in the set and returns a data frame of probability statements about how much each candidate gives up relative to that leader. `autoplot()` on the result draws the posterior metric intervals alongside those probabilities.
 
 * New `initialize_keys()` builds a template of model labels to edit and pass to the `key` argument of `compare_to_leader()`.

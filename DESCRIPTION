@@ -22,7 +22,7 @@ URL: https://tidyposterior.tidymodels.org,
 BugReports: https://github.com/tidymodels/tidyposterior/issues
 Depends:
     R (>= 4.1)
-Imports: 
+Imports:
     dplyr (> 1.0.0),
     generics,
     ggplot2 (>= 3.5.2),
@@ -38,11 +38,12 @@ Imports:
     utils,
     vctrs (>= 0.3.0),
     workflowsets
-Suggests: 
+Suggests:
     covr,
     knitr,
     parsnip,
     rmarkdown,
+    rstan,
     splines2,
     testthat (>= 3.0.0),
     yardstick

@@ -108,6 +108,12 @@ test_that("bad arguments", {
 
 # ------------------------------------------------------------------------------
 
+test_that("multiple id columns produce a warning about the formula", {
+  expect_snapshot(tidyposterior:::make_formula(c("id", "id2"), FALSE, NULL))
+})
+
+# ------------------------------------------------------------------------------
+
 test_that("basic usage", {
   skip_if_not_installed(c("parsnip"))
   skip_if_not_installed(c("yardstick"))

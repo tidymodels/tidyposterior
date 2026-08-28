@@ -320,6 +320,13 @@ perf_mod.default <- function(object, ...) {
 #'  variances are estimated for each model group. Otherwise, the
 #'  same variance is used for each group. Estimating heterogeneous
 #'  variances may slow or prevent convergence.
+#' @param initialize A single logical: should [stan_glmer_inits()] be used
+#'  to compute data-based starting values for the Bayesian model? This can
+#'  shorten warm-up for models that are slow to converge (e.g., when
+#'  `hetero_var = TRUE`). It requires the default Gaussian model with an
+#'  identity link and cannot be combined with an `init` value in `...`.
+#'  When a `seed` is passed in `...`, it is also used for the starting
+#'  values so that the entire fit is reproducible.
 #' @param select_best A single logical for workflow sets. Workflows are always
 #'  reduced to their own best tuning parameter candidate. This argument
 #'  controls whether the workflows themselves are also reduced: when `TRUE`,
@@ -335,6 +342,7 @@ perf_mod.rset <-
     transform = no_trans,
     hetero_var = FALSE,
     formula = NULL,
+    initialize = FALSE,
     ...
   ) {
     check_trans(transform)
@@ -369,7 +377,12 @@ perf_mod.rset <-
 
     model_names <- unique(as.character(resamples$model))
 
-    mod <- stan_glmer(formula, data = resamples, ...)
+    init <- perf_mod_inits(initialize, formula, resamples, list(...))
+    if (is.null(init)) {
+      mod <- stan_glmer(formula, data = resamples, ...)
+    } else {
+      mod <- stan_glmer(formula, data = resamples, init = init, ...)
+    }
 
     res <- list(
       stan = mod,
@@ -629,6 +642,7 @@ perf_mod.workflow_set <-
     transform = no_trans,
     hetero_var = FALSE,
     formula = NULL,
+    initialize = FALSE,
     select_best = FALSE,
     ...
   ) {
@@ -660,6 +674,9 @@ perf_mod.workflow_set <-
     ## Note that `rank_results(select_best = TRUE)` reduces each workflow to its
     ## own best tuning candidate. That always happens and is separate from the
     ## `select_best` argument, which reduces the _workflows_ themselves.
+    ## `rank_results()` returns one row per workflow *and metric*, so filtering
+    ## to the chosen metric is also what stops the join below from repeating
+    ## each resampling statistic once per metric.
     ranked <-
       workflowsets::rank_results(
         object,
@@ -699,7 +716,12 @@ perf_mod.workflow_set <-
 
     model_names <- unique(as.character(resamples$model))
 
-    mod <- rstanarm::stan_glmer(formula, data = resamples, ...)
+    init <- perf_mod_inits(initialize, formula, resamples, list(...))
+    if (is.null(init)) {
+      mod <- rstanarm::stan_glmer(formula, data = resamples, ...)
+    } else {
+      mod <- rstanarm::stan_glmer(formula, data = resamples, init = init, ...)
+    }
 
     res <- list(
       stan = mod,
