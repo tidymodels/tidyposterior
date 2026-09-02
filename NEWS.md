@@ -1,3 +1,5 @@
+# tidyposterior (development version)
+
 # tidyposterior 1.1.0
 
 * New `stan_glmer_inits()` computes data-based starting values for the Bayesian models used by `perf_mod()`. The results can be passed to `rstanarm::stan_glmer()` (directly or via `perf_mod(..., init = )`) and can shorten warmup for models that are slow to converge, such as those with heterogeneous variances.
