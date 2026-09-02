@@ -15,13 +15,13 @@ Source:
 [`DESCRIPTION`](https://github.com/tidymodels/tidyposterior/blob/main/DESCRIPTION)
 
 Kuhn M (2026). *tidyposterior: Bayesian Analysis to Compare Models using
-Resampling Statistics*. R package version 1.0.2.9000,
+Resampling Statistics*. R package version 1.1.0.9000,
 <https://tidyposterior.tidymodels.org>.
 
     @Manual{,
       title = {tidyposterior: Bayesian Analysis to Compare Models using Resampling Statistics},
       author = {Max Kuhn},
       year = {2026},
-      note = {R package version 1.0.2.9000},
+      note = {R package version 1.1.0.9000},
       url = {https://tidyposterior.tidymodels.org},
     }

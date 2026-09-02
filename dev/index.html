@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="index.html">tidyposterior</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +90,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidymodels.tidymodels.org" class="external-link">tidymodels</a></span><span class="op">)</span></span>
 <span><span class="co">#&gt; ── Attaching packages ────────────────────────────────────── tidymodels 1.5.0 ──</span></span>
-<span><span class="co">#&gt; ✔ broom        1.0.13     ✔ recipes      1.3.3 </span></span>
+<span><span class="co">#&gt; ✔ broom        1.0.13     ✔ recipes      1.4.0 </span></span>
 <span><span class="co">#&gt; ✔ dials        1.4.4      ✔ rsample      1.3.2 </span></span>
 <span><span class="co">#&gt; ✔ dplyr        1.2.1      ✔ tailor       0.1.0 </span></span>
 <span><span class="co">#&gt; ✔ ggplot2      4.0.3      ✔ tidyr        1.3.2 </span></span>
@@ -100,6 +100,7 @@
 <span><span class="co">#&gt; ✔ purrr        1.2.2      ✔ yardstick    1.4.0</span></span>
 <span><span class="co">#&gt; Warning: package 'dials' was built under R version 4.6.1</span></span>
 <span><span class="co">#&gt; Warning: package 'modeldata' was built under R version 4.6.1</span></span>
+<span><span class="co">#&gt; Warning: package 'recipes' was built under R version 4.6.1</span></span>
 <span><span class="co">#&gt; ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──</span></span>
 <span><span class="co">#&gt; ✖ purrr::discard() masks scales::discard()</span></span>
 <span><span class="co">#&gt; ✖ dplyr::filter()  masks stats::filter()</span></span>
@@ -136,7 +137,11 @@
 <span><span class="co">#&gt; Attaching package: 'plotrix'</span></span>
 <span><span class="co">#&gt; The following object is masked from 'package:scales':</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     rescale</span></span></code></pre></div>
+<span><span class="co">#&gt;     rescale</span></span>
+<span><span class="co">#&gt; → A | warning: package 'earth' was built under R version 4.6.1</span></span>
+<span><span class="co">#&gt; There were issues with some computations   A: x1</span></span>
+<span><span class="co">#&gt; There were issues with some computations   A: x1</span></span>
+<span><span class="co">#&gt; </span></span></code></pre></div>
 <p>From these, there are several ways to pass the results to the <code><a href="reference/perf_mod.html">perf_mod()</a></code> function. The most general approach is to have a data frame with the resampling labels (i.e., one or more id columns) as well as columns for each model that you would like to compare.</p>
 <p>For the model results above, [tune::collect_metrics()] can be used along with some basic data manipulation steps:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">

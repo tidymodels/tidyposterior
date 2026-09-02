@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tidyposterior</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +38,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="tidyposterior-development-version">tidyposterior (development version)<a class="anchor" aria-label="anchor" href="#tidyposterior-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="tidyposterior-110">tidyposterior 1.1.0<a class="anchor" aria-label="anchor" href="#tidyposterior-110"></a></h2>
 <ul><li><p>New <code><a href="../reference/stan_glmer_inits.html">stan_glmer_inits()</a></code> computes data-based starting values for the Bayesian models used by <code><a href="../reference/perf_mod.html">perf_mod()</a></code>. The results can be passed to <code><a href="https://mc-stan.org/rstanarm/reference/stan_glmer.html" class="external-link">rstanarm::stan_glmer()</a></code> (directly or via <code>perf_mod(..., init = )</code>) and can shorten warmup for models that are slow to converge, such as those with heterogeneous variances.</p></li>
 <li><p><code><a href="../reference/perf_mod.html">perf_mod()</a></code> gains an <code>initialize</code> argument (default <code>FALSE</code>) that computes and applies these starting values automatically, reusing the sampler <code>seed</code> (when one is passed) so that the entire fit is reproducible.</p></li>
 <li><p>Fixed a bug where <code><a href="../reference/perf_mod.html">perf_mod()</a></code> duplicated the resampling statistics for workflow sets: when more than one metric had been collected, each statistic was included in the Bayesian model once per metric.</p></li>

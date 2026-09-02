@@ -2,6 +2,8 @@
 
 ## tidyposterior (development version)
 
+## tidyposterior 1.1.0
+
 - New
   [`stan_glmer_inits()`](https://tidyposterior.tidymodels.org/dev/reference/stan_glmer_inits.md)
   computes data-based starting values for the Bayesian models used by

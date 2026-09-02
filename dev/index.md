@@ -52,7 +52,7 @@ cross-validation for a simple two-class problem:
 
 library(tidymodels)
 #> ── Attaching packages ────────────────────────────────────── tidymodels 1.5.0 ──
-#> ✔ broom        1.0.13     ✔ recipes      1.3.3 
+#> ✔ broom        1.0.13     ✔ recipes      1.4.0 
 #> ✔ dials        1.4.4      ✔ rsample      1.3.2 
 #> ✔ dplyr        1.2.1      ✔ tailor       0.1.0 
 #> ✔ ggplot2      4.0.3      ✔ tidyr        1.3.2 
@@ -62,6 +62,7 @@ library(tidymodels)
 #> ✔ purrr        1.2.2      ✔ yardstick    1.4.0
 #> Warning: package 'dials' was built under R version 4.6.1
 #> Warning: package 'modeldata' was built under R version 4.6.1
+#> Warning: package 'recipes' was built under R version 4.6.1
 #> ── Conflicts ───────────────────────────────────────── tidymodels_conflicts() ──
 #> ✖ purrr::discard() masks scales::discard()
 #> ✖ dplyr::filter()  masks stats::filter()
@@ -109,6 +110,10 @@ mars_earth_res <-
 #> The following object is masked from 'package:scales':
 #> 
 #>     rescale
+#> → A | warning: package 'earth' was built under R version 4.6.1
+#> There were issues with some computations   A: x1
+#> There were issues with some computations   A: x1
+#> 
 ```
 
 From these, there are several ways to pass the results to the
