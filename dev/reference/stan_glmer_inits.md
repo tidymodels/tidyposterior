@@ -180,7 +180,7 @@ fit <- rstanarm::stan_glmer(
   refresh = 0,
   seed = 2
 )
-#> Warning: There were 14 divergent transitions after warmup. See
+#> Warning: There were 11 divergent transitions after warmup. See
 #> https://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
 #> to find out why this is a problem and how to eliminate them.
 #> Warning: Examine the pairs() plot to diagnose sampling problems
