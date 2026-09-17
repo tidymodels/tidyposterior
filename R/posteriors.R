@@ -178,6 +178,9 @@ autoplot.perf_mod_workflow_set <- function(
 }
 
 plot_wset_intervals <- function(object, prob, ...) {
+  if (!object$metric$direction %in% c("minimize", "maximize")) {
+    rlang::abort("Don't know how to rank metric")
+  }
   plot_data <-
     tidy(object) |>
     dplyr::group_by(model) |>
@@ -188,24 +191,31 @@ plot_wset_intervals <- function(object, prob, ...) {
       .groups = "drop"
     ) |>
     dplyr::ungroup() |>
-    dplyr::rename(workflow = model)
-  if (object$metric$direction == "maximize") {
-    plot_data$rank <- rank(-plot_data$.estimate, ties.method = "random")
-  } else if (object$metric$direction == "minimize") {
-    plot_data$rank <- rank(plot_data$.estimate, ties.method = "random")
-  } else {
-    rlang::abort("Don't know how to rank metric")
-  }
+    dplyr::rename(workflow = model) |>
+    dplyr::mutate(
+      rank = rank(
+        switch(object$metric$direction, "maximize" = -1, "minimize" = 1) *
+          .estimate,
+        ties.method = "random"
+      ),
+      .before = 1
+    ) |>
+    dplyr::mutate(
+      workflow_label = paste0(rank, ". ", workflow) |>
+        factor() |>
+        reorder(-rank),
+      .after = "workflow"
+    )
   ggplot2::ggplot(
     plot_data,
-    ggplot2::aes(x = rank, y = .estimate, col = workflow)
+    ggplot2::aes(x = .estimate, y = workflow_label)
   ) +
     ggplot2::geom_point() +
     ggplot2::geom_errorbar(
-      ggplot2::aes(ymin = .lower, ymax = .upper),
-      width = diff(range(plot_data$rank)) / 75
+      ggplot2::aes(xmin = .lower, xmax = .upper),
+      width = diff(range(plot_data$rank)) / 10
     ) +
-    ggplot2::labs(x = "Workflow Rank", y = object$metric$name)
+    ggplot2::labs(x = object$metric$name, y = NULL)
 }
 
 plot_rope_probs <- function(object, size, ...) {

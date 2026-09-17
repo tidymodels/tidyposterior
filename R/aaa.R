@@ -23,7 +23,8 @@ utils::globalVariables(c(
   "pract_equiv",
   "sub_model",
   "wflow_id",
-  "workflow"
+  "workflow",
+  "workflow_label"
 ))
 
 # nocov end

@@ -334,11 +334,10 @@ test_that("workflow sets", {
   expect_s3_class(p_int, "ggplot")
   expect_equal(
     names(p_int$data),
-    c("workflow", ".lower", ".estimate", ".upper", "rank")
+    c("rank", "workflow", "workflow_label", ".lower", ".estimate", ".upper")
   )
-  expect_equal(rlang::get_expr(p_int$mapping$x), rlang::expr(rank))
-  expect_equal(rlang::get_expr(p_int$mapping$y), rlang::expr(.estimate))
-  expect_equal(rlang::get_expr(p_int$mapping$colour), rlang::expr(workflow))
+  expect_equal(rlang::get_expr(p_int$mapping$x), rlang::expr(.estimate))
+  expect_equal(rlang::get_expr(p_int$mapping$y), rlang::expr(workflow_label))
   expect_equal(as.list(p_tidy$facet$params), list())
   expect_snapshot(ggplot2::get_labs(p_int))
 

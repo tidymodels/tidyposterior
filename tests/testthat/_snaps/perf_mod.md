@@ -205,25 +205,22 @@
     Code
       ggplot2::get_labs(p_int)
     Output
-      $colour
-      [1] "workflow"
-      
       $x.sec
       NULL
       
       $x
-      [1] "Workflow Rank"
+      [1] "rsq"
       
       $y
-      [1] "rsq"
+      NULL
       
       $y.sec
       NULL
       
-      $ymin
+      $xmin
       [1] ".lower"
       
-      $ymax
+      $xmax
       [1] ".upper"
       
       $alt
