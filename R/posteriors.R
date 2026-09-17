@@ -201,7 +201,9 @@ plot_wset_intervals <- function(object, prob, ...) {
       .before = 1
     ) |>
     dplyr::mutate(
-      workflow_label = factor(paste0(rank, ". ", workflow)),
+      workflow_label = paste0(rank, ". ", workflow) |>
+        factor() |>
+        reorder(-rank),
       .after = "workflow"
     )
   ggplot2::ggplot(
@@ -213,7 +215,6 @@ plot_wset_intervals <- function(object, prob, ...) {
       ggplot2::aes(xmin = .lower, xmax = .upper),
       width = diff(range(plot_data$rank)) / 10
     ) +
-    ggplot2::scale_y_discrete(limits = rev) +
     ggplot2::labs(x = object$metric$name, y = NULL)
 }
 
