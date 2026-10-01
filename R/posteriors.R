@@ -244,7 +244,7 @@ plot_rope_probs <- function(object, size, ...) {
   l1 <- rep(posteriors$model[1], nrow(posteriors))
   l2 <- posteriors$model
 
-  model_diffs <- contrast_models(object, l1, l2, seed = sample.int(1, 1000))
+  model_diffs <- contrast_models(object, l1, l2, seed = sample.int(10000, 1))
   plot_data <- summary(model_diffs, size = size)
   rm_text <- paste0(posteriors$model[1], " vs ")
   plot_data$model <- gsub(rm_text, "", plot_data$contrast, fixed = TRUE)

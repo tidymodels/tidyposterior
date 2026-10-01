@@ -355,6 +355,39 @@ test_that("workflow sets", {
 
 # ------------------------------------------------------------------------------
 
+test_that("ROPE plot draws a valid seed for the contrasts", {
+  skip_if_not_installed(c("parsnip"))
+  skip_if_not_installed(c("yardstick"))
+
+  lm_spec <- linear_reg() |> set_engine("lm")
+  set.seed(10)
+  bt <- bootstraps(mtcars, times = 10)
+  wset <-
+    workflow_set(
+      list(one = mpg ~ I(1 / sqrt(disp)), all = mpg ~ .),
+      list(lm = lm_spec)
+    ) |>
+    workflow_map("fit_resamples", resamples = bt, seed = 1)
+  rsq_mod <- suppressWarnings(
+    perf_mod(wset, seed = 3, refresh = 0, metric = "rsq")
+  )
+
+  contrast_seed <- NULL
+  local_mocked_bindings(
+    contrast_models = function(x, list_1, list_2, seed) {
+      contrast_seed <<- seed
+      rlang::abort("seed captured")
+    }
+  )
+  expect_error(plot_rope_probs(rsq_mod, size = .1), "seed captured")
+  expect_type(contrast_seed, "integer")
+  expect_length(contrast_seed, 1)
+  expect_gte(contrast_seed, 1)
+  expect_lte(contrast_seed, 10000)
+})
+
+# ------------------------------------------------------------------------------
+
 ## Two preprocessors crossed with two model types, so each model type/engine
 ## combination is represented by two workflows. An unfitted workflow set is
 ## enough to test the grouping since `best_by_engine()` is handed the ranks.
